@@ -73,21 +73,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 40px;
-    min-height: 40px;
-    color: white;
+    min-width: 44px;
+    min-height: 44px;
+    background-color: white;
+    color: #1976d2;
     text-decoration: none;
     cursor: pointer;
+    box-shadow: 0 4px 10px rgba(12, 84, 161, 0.25);
 }
 
 .menu-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(12, 84, 161, 0.35);
 }
 
 .menu-item i {
     font-size: 1.1rem;
     margin-right: 0;
-    color: white;
+    color: #1976d2;
+}
+
+.notification-item .ant-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.notification-item .ant-badge-count {
+    box-shadow: none;
+    font-size: 0.65rem;
+    min-width: 16px;
+    height: 16px;
+    line-height: 16px;
+    background-color: #ff4d4f;
 }
 
 /* Hide text on mobile, show only icons */
@@ -99,11 +118,14 @@
     background-color: white;
     padding: 10px 12px;
     border-radius: 50%;
+    box-shadow: 0 6px 16px rgba(12, 84, 161, 0.45);
 }
 
-.active a,
-.active i {
-    color: #2196f3;
+.active,
+.active i,
+.active .menu-text {
+    color: #0d47a1;
+    font-weight: 600;
 }
 
 .header-content {
@@ -184,12 +206,13 @@
     .menu-item {
         margin: 15px 0;
         padding: 10px 15px;
-        border-radius: 0;
+        border-radius: 12px;
         min-width: auto;
         min-height: auto;
         font-size: 1rem;
         display: flex;
         justify-content: flex-start;
+        box-shadow: none;
     }
 
     .menu-item i {
@@ -203,8 +226,9 @@
     }
 
     .active {
-        padding: 10px;
-        border-radius: 0;
+        padding: 10px 15px;
+        border-radius: 12px;
+        box-shadow: inset 0 0 0 2px #0d47a1;
     }
 
     .header-content {

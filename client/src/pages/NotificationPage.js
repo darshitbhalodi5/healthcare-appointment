@@ -6,6 +6,7 @@ import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/NotificationPage.css";
+import { setUser } from "../redux/features/userSlice";
 
 const NotificationPage = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const NotificationPage = () => {
       );
       dispatch(hideLoading());
       if (res.data.success) {
+        dispatch(setUser(res.data.data));
         message.success(res.data.message);
       } else {
         message.error(res.data.message);
@@ -54,6 +56,7 @@ const NotificationPage = () => {
       );
       dispatch(hideLoading());
       if (res.data.success) {
+        dispatch(setUser(res.data.data));
         message.success(res.data.message);
       } else {
         message.error(res.data.message);
@@ -62,6 +65,32 @@ const NotificationPage = () => {
       dispatch(hideLoading());
       console.log(error);
       message.error("Somthing Went Wrong In Ntifications");
+    }
+  };
+
+  const handleSingleNotification = async (index, path) => {
+    try {
+      dispatch(showLoading());
+      const res = await axios.post(
+        "/api/v1/user/mark-notification-read",
+        { userId: user._id, notificationIndex: index },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      dispatch(hideLoading());
+      if (res.data.success) {
+        dispatch(setUser(res.data.data));
+        navigate(path);
+      } else {
+        message.error(res.data.message);
+      }
+    } catch (error) {
+      dispatch(hideLoading());
+      console.log(error);
+      message.error("Unable to open notification");
     }
   };
   return (
@@ -82,7 +111,9 @@ const NotificationPage = () => {
                 <div className="notification-card" key={index}>
                   <div
                     className="card-text"
-                    onClick={() => navigate(notificationMgs.onClickPath)}
+                    onClick={() =>
+                      handleSingleNotification(index, notificationMgs.onClickPath)
+                    }
                   >
                     {notificationMgs.message}
                   </div>

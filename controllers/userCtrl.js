@@ -240,7 +240,15 @@ const applyDoctorController = async (req, res) => {
     const newDoctor = await doctorModel({ ...req.body, status: "pending" });
     await newDoctor.save();
     const adminUser = await userModel.findOne({ isAdmin: true });
-    const notifcation = adminUser.notifcation;
+
+    if (!adminUser) {
+      return res.status(404).send({
+        success: false,
+        message: "Admin user not found",
+      });
+    }
+
+    const notifcation = adminUser.notifcation || [];
     notifcation.push({
       type: "apply-doctor-request",
       message: `${newDoctor.firstName} ${newDoctor.lastName} Has Applied For A Doctor Account`,
@@ -273,8 +281,9 @@ const getAllNotificationController = async (req, res) => {
     const notifcation = user.notifcation;
     seennotification.push(...notifcation);
     user.notifcation = [];
-    user.seennotification = notifcation;
+    user.seennotification = seennotification;
     const updatedUser = await user.save();
+    updatedUser.password = undefined;
     res.status(200).send({
       success: true,
       message: "all notification marked as read",
@@ -419,6 +428,39 @@ const userAppointmentsController = async (req, res) => {
   }
 };
 
+const markNotificationReadController = async (req, res) => {
+  try {
+    const { userId, notificationIndex } = req.body;
+    const user = await userModel.findOne({ _id: userId });
+    if (
+      notificationIndex === undefined ||
+      notificationIndex < 0 ||
+      notificationIndex >= user.notifcation.length
+    ) {
+      return res.status(400).send({
+        success: false,
+        message: "Invalid notification index",
+      });
+    }
+    const [notification] = user.notifcation.splice(notificationIndex, 1);
+    user.seennotification.push(notification);
+    const updatedUser = await user.save();
+    updatedUser.password = undefined;
+    res.status(200).send({
+      success: true,
+      message: "Notification marked as read",
+      data: updatedUser,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Unable to update notification",
+      error,
+    });
+  }
+};
+
 module.exports = {
   loginController,
   registerController,
@@ -428,6 +470,7 @@ module.exports = {
   applyDoctorController,
   getAllNotificationController,
   deleteAllNotificationController,
+  markNotificationReadController,
   getAllDocotrsController,
   bookeAppointmnetController,
   bookingAvailabilityController,

@@ -28,6 +28,11 @@ const Layout = ({ children }) => {
       path: "/doctor-appointments",
       icon: "fa-solid fa-list",
     },
+    {
+      name: "Notifications",
+      path: "/notification",
+      icon: "fa-solid fa-bell",
+    },
 
     {
       name: "Profile",
@@ -55,10 +60,26 @@ const Layout = ({ children }) => {
             <div className="menu">
               {SidebarMenu.map((menu) => {
                 const isActive = location.pathname === menu.path;
+                const isNotificationLink = menu.path === "/notification";
                 return (
                   <Tooltip title={menu.name} placement="right" key={menu.path}>
-                    <Link to={menu.path} className={`menu-item ${isActive && "active"}`}>
-                      <i className={menu.icon}></i>
+                    <Link
+                      to={menu.path}
+                      className={`menu-item ${isActive ? "active" : ""} ${
+                        isNotificationLink ? "notification-item" : ""
+                      }`}
+                    >
+                      {isNotificationLink ? (
+                        <Badge
+                          count={user?.notifcation?.length || 0}
+                          size="small"
+                          offset={[-4, 6]}
+                        >
+                          <i className={menu.icon}></i>
+                        </Badge>
+                      ) : (
+                        <i className={menu.icon}></i>
+                      )}
                       <span className="menu-text">{menu.name}</span>
                     </Link>
                   </Tooltip>
@@ -73,27 +94,6 @@ const Layout = ({ children }) => {
             </div>
           </div>
           <div className="content">
-            <div className="header">
-              <div className="header-content" style={{ cursor: "pointer" }}>
-                <Tooltip title="Notifications" placement="bottom">
-                  <Badge
-                    count={user && user.notifcation.length}
-                    onClick={() => {
-                      navigate("/notification");
-                    }}
-                  >
-                    <i className="fa-solid fa-bell"></i>
-                  </Badge>
-                </Tooltip>
-
-                <Tooltip title={user?.name || "Profile"} placement="bottom">
-                  <Link to="/profile" className="profile-link">
-                    <i className="fa-solid fa-user profile-icon"></i>
-                    <span className="profile-text">{user?.name}</span>
-                  </Link>
-                </Tooltip>
-              </div>
-            </div>
             <div className="body">{children}</div>
           </div>
         </div>

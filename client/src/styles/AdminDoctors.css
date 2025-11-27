@@ -1,0 +1,102 @@
+/* Mobile-first admin doctor cards */
+.doctor-card-grid,
+.admin-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.doctor-card {
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(28, 87, 164, 0.15);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.doctor-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.doctor-card-header h3 {
+  font-size: 1rem;
+  margin: 0;
+  color: #0d47a1;
+}
+
+.doctor-card-body p {
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.doctor-card-body strong {
+  color: #555;
+}
+
+.doctor-card-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.doctor-card-actions .btn {
+  flex: 1;
+  min-width: 120px;
+  font-size: 0.85rem;
+}
+
+.status-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+  background: #e3f2fd;
+  color: #0d47a1;
+  text-align: center;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .doctor-card-grid,
+  .admin-card-grid {
+    display: none;
+  }
+}
+
+.user-card .doctor-card-header h3 {
+  color: #0a2e61;
+}
+
+.user-card .status-badge.pending {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+.admin-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.admin-controls input,
+.admin-controls .ant-select {
+  flex: 1;
+  min-width: 200px;
+}
+
+.admin-controls.stacked {
+  flex-direction: column;
+}
+
+.admin-controls.stacked input,
+.admin-controls.stacked .ant-select {
+  width: 100%;
+}
+

@@ -15,6 +15,11 @@ export const userMenu = [
     icon: "fa-solid fa-user-doctor",
   },
   {
+    name: "Notifications",
+    path: "/notification",
+    icon: "fa-solid fa-bell",
+  },
+  {
     name: "Profile",
     path: "/profile",
     icon: "fa-solid fa-user",
@@ -40,8 +45,8 @@ export const adminMenu = [
     icon: "fa-solid fa-user",
   },
   {
-    name: "Profile",
-    path: "/profile",
-    icon: "fa-solid fa-user",
+    name: "Notifications",
+    path: "/notification",
+    icon: "fa-solid fa-bell",
   },
 ];

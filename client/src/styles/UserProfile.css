@@ -1,0 +1,264 @@
+/* Mobile-first Profile Page Styles */
+
+.profile-page {
+  padding: 15px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.profile-header h2 {
+  margin: 0;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.status-badge {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-approved {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-pending {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-rejected {
+  background-color: #f44336;
+  color: white;
+}
+
+.profile-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+}
+
+.section-title {
+  margin: 0 0 20px 0;
+  color: #1976d2;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e3f2fd;
+}
+
+.profile-fields-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+.profile-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.field-label {
+  font-weight: 600;
+  color: #424242;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.approval-badge {
+  font-size: 0.7rem;
+  background-color: #fff3e0;
+  color: #e65100;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.edit-icon-btn {
+  background: transparent;
+  border: 1px solid #2196f3;
+  color: #2196f3;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-icon-btn:hover {
+  background-color: #2196f3;
+  color: white;
+  transform: scale(1.05);
+}
+
+.edit-icon-btn i {
+  font-size: 0.85rem;
+}
+
+.field-content {
+  display: flex;
+  align-items: center;
+}
+
+.field-value {
+  color: #212121;
+  font-size: 1rem;
+  padding: 10px 12px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  width: 100%;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+.field-input,
+.field-input-time {
+  width: 100%;
+}
+
+.field-input input,
+.field-input-time input {
+  font-size: 1rem;
+}
+
+.update-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-update {
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-update:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+}
+
+.btn-update:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.update-info {
+  margin: 0;
+  text-align: center;
+}
+
+.info-text {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #666;
+  font-size: 0.9rem;
+  justify-content: center;
+}
+
+.info-text i {
+  color: #ff9800;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* Tablet and up (576px+) */
+@media screen and (min-width: 576px) {
+  .profile-fields-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .profile-header h2 {
+    font-size: 1.6rem;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+  }
+}
+
+/* Desktop (768px+) */
+@media screen and (min-width: 768px) {
+  .profile-page {
+    padding: 20px;
+  }
+
+  .profile-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
+  }
+
+  .update-section {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* Large Desktop (1024px+) */
+@media screen and (min-width: 1024px) {
+  .profile-fields-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .profile-page {
+    padding: 30px;
+  }
+}

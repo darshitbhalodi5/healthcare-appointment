@@ -8,6 +8,7 @@ const {
   applyDoctorController,
   getAllNotificationController,
   deleteAllNotificationController,
+  markNotificationReadController,
   getAllDocotrsController,
   bookeAppointmnetController,
   bookingAvailabilityController,
@@ -48,6 +49,12 @@ router.post(
   "/delete-all-notification",
   authMiddleware,
   deleteAllNotificationController
+);
+
+router.post(
+  "/mark-notification-read",
+  authMiddleware,
+  markNotificationReadController
 );
 
 //GET ALL DOC
