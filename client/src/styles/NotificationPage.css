@@ -8,10 +8,11 @@
 .notification-header {
     text-align: center;
     padding: 15px 10px;
-    background: linear-gradient(135deg, rgb(51, 1, 1) 0%, rgb(80, 10, 10) 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
     color: white;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
 .notification-header h4 {
@@ -42,21 +43,23 @@
 
 .notification-actions h4 {
     cursor: pointer;
-    color: rgb(51, 1, 1);
+    color: #2196f3;
     font-size: 0.9rem;
     margin: 0;
     padding: 8px 12px;
     border-radius: 5px;
-    background-color: #f8f9fa;
+    background-color: #e3f2fd;
     transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .notification-actions h4:hover {
-    background-color: #e9ecef;
+    background-color: #bbdefb;
+    color: #1976d2;
 }
 
 .notification-actions h4.text-primary {
-    color: #007bff !important;
+    color: #2196f3 !important;
 }
 
 /* Notification card */

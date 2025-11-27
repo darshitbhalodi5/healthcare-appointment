@@ -18,12 +18,13 @@
 }
 
 .doctor-card .card-header {
-    background: linear-gradient(135deg, rgb(51, 1, 1) 0%, rgb(80, 10, 10) 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
     color: white;
     padding: 12px 15px;
     font-size: 1rem;
     font-weight: 600;
     border-bottom: none;
+    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.2);
 }
 
 .doctor-card .card-body {
@@ -40,11 +41,12 @@
 }
 
 .doctor-card .card-body p b {
-    color: rgb(51, 1, 1);
+    color: #2196f3;
     margin-bottom: 4px;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    font-weight: 700;
 }
 
 /* Doctor list container */

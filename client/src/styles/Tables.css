@@ -14,10 +14,11 @@
 }
 
 .table-header h1 {
-    color: rgb(51, 1, 1);
+    color: #2196f3;
     font-size: 1.4rem;
     margin: 0;
     text-align: center;
+    font-weight: 700;
 }
 
 /* Ant Design table mobile overrides */
@@ -34,12 +35,12 @@
 }
 
 .ant-table-thead > tr > th {
-    background-color: rgb(51, 1, 1) !important;
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%) !important;
     color: white !important;
     font-weight: 600;
     padding: 10px 8px !important;
     font-size: 0.75rem;
-    border-bottom: 2px solid rgb(80, 10, 10) !important;
+    border-bottom: 2px solid #1565c0 !important;
 }
 
 .ant-table-tbody > tr > td {

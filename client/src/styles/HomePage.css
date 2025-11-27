@@ -4,10 +4,11 @@
 .home-page-header {
     padding: 15px 10px;
     text-align: center;
-    background: linear-gradient(135deg, rgb(51, 1, 1) 0%, rgb(80, 10, 10) 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
     color: white;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
 }
 
 .home-page-header h1 {

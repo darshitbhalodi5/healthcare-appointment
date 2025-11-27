@@ -171,6 +171,15 @@ h4 {
 
 .btn-primary {
     min-width: 100px;
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    transform: translateY(-2px);
 }
 
 .btn-success {
