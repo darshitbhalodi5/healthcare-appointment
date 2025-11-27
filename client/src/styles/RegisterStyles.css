@@ -1,0 +1,111 @@
+/* Mobile-first responsive design for forms */
+
+/* Base styles for mobile (default) */
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 15px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.register-form {
+    border: 1px solid #ddd;
+    padding: 20px;
+    width: 100%;
+    max-width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.register-form h3 {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+}
+
+.register-form .ant-form-item-label > label {
+    font-size: 0.9rem;
+}
+
+.register-form .ant-input {
+    font-size: 0.9rem;
+    padding: 8px 11px;
+}
+
+.register-form .btn {
+    width: 100%;
+    font-size: 1rem;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.register-form .m-2 {
+    display: block;
+    text-align: center;
+    margin: 15px 0;
+}
+
+/* Small tablets (576px and up) */
+@media screen and (min-width: 576px) {
+    .form-container {
+        padding: 20px;
+    }
+
+    .register-form {
+        padding: 25px;
+        width: 90%;
+        max-width: 500px;
+    }
+
+    .register-form h3 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Tablets (768px and up) */
+@media screen and (min-width: 768px) {
+    .form-container {
+        padding: 30px;
+    }
+
+    .register-form {
+        padding: 30px;
+        width: 60%;
+        max-width: 550px;
+    }
+
+    .register-form h3 {
+        font-size: 1.75rem;
+    }
+
+    .register-form .ant-form-item-label > label {
+        font-size: 1rem;
+    }
+
+    .register-form .ant-input {
+        font-size: 1rem;
+        padding: 10px 12px;
+    }
+}
+
+/* Desktop (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .register-form {
+        width: 40%;
+        max-width: 600px;
+    }
+}
+
+/* Large desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+    .register-form {
+        width: 30%;
+        padding: 35px;
+    }
+
+    .register-form h3 {
+        font-size: 2rem;
+    }
+}

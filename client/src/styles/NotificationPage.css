@@ -1,0 +1,221 @@
+/* Mobile-first responsive styles for Notification Page */
+
+/* Base styles for mobile (default) */
+.notification-page {
+    padding: 10px;
+}
+
+.notification-header {
+    text-align: center;
+    padding: 15px 10px;
+    background: linear-gradient(135deg, rgb(51, 1, 1) 0%, rgb(80, 10, 10) 100%);
+    color: white;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.notification-header h4 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+/* Tabs styling */
+.ant-tabs {
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ant-tabs-tab {
+    font-size: 0.9rem !important;
+    padding: 8px 12px !important;
+}
+
+/* Mark all read button */
+.notification-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.notification-actions h4 {
+    cursor: pointer;
+    color: rgb(51, 1, 1);
+    font-size: 0.9rem;
+    margin: 0;
+    padding: 8px 12px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.notification-actions h4:hover {
+    background-color: #e9ecef;
+}
+
+.notification-actions h4.text-primary {
+    color: #007bff !important;
+}
+
+/* Notification card */
+.notification-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.notification-card:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.notification-card .card-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Empty state */
+.notifications-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #999;
+}
+
+.notifications-empty p {
+    font-size: 0.9rem;
+}
+
+/* Small tablets (576px and up) */
+@media screen and (min-width: 576px) {
+    .notification-page {
+        padding: 15px;
+    }
+
+    .notification-header {
+        padding: 18px 15px;
+    }
+
+    .notification-header h4 {
+        font-size: 1.3rem;
+    }
+
+    .ant-tabs {
+        padding: 12px;
+    }
+
+    .ant-tabs-tab {
+        font-size: 1rem !important;
+        padding: 10px 16px !important;
+    }
+
+    .notification-actions h4 {
+        font-size: 1rem;
+        padding: 10px 16px;
+    }
+
+    .notification-card {
+        padding: 14px;
+        margin-bottom: 12px;
+    }
+
+    .notification-card .card-text {
+        font-size: 0.95rem;
+    }
+
+    .notifications-empty {
+        padding: 50px 30px;
+    }
+
+    .notifications-empty p {
+        font-size: 1rem;
+    }
+}
+
+/* Tablets (768px and up) */
+@media screen and (min-width: 768px) {
+    .notification-page {
+        padding: 20px;
+    }
+
+    .notification-header {
+        padding: 20px;
+    }
+
+    .notification-header h4 {
+        font-size: 1.5rem;
+    }
+
+    .ant-tabs {
+        padding: 15px;
+    }
+
+    .ant-tabs-tab {
+        font-size: 1.1rem !important;
+        padding: 12px 20px !important;
+    }
+
+    .notification-actions {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    .notification-actions h4 {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+    }
+
+    .notification-card {
+        padding: 16px 20px;
+        margin-bottom: 15px;
+    }
+
+    .notification-card .card-text {
+        font-size: 1rem;
+    }
+
+    .notifications-empty {
+        padding: 60px 40px;
+    }
+}
+
+/* Desktop (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .notification-page {
+        padding: 25px;
+    }
+
+    .notification-header h4 {
+        font-size: 1.75rem;
+    }
+
+    .ant-tabs {
+        padding: 20px;
+    }
+
+    .notification-card {
+        padding: 18px 24px;
+    }
+
+    .notifications-empty {
+        padding: 80px 50px;
+    }
+}
+
+/* Large desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+    .notification-header h4 {
+        font-size: 2rem;
+    }
+
+    .ant-tabs-tab {
+        font-size: 1.2rem !important;
+    }
+}

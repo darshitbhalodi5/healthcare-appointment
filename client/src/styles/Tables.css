@@ -1,0 +1,303 @@
+/* Mobile-first responsive styles for Tables */
+
+/* Base styles for mobile (default) */
+.table-container {
+    width: 100%;
+    padding: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-header {
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.table-header h1 {
+    color: rgb(51, 1, 1);
+    font-size: 1.4rem;
+    margin: 0;
+    text-align: center;
+}
+
+/* Ant Design table mobile overrides */
+.ant-table-wrapper {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.ant-table {
+    font-size: 0.8rem;
+    min-width: 600px;
+}
+
+.ant-table-thead > tr > th {
+    background-color: rgb(51, 1, 1) !important;
+    color: white !important;
+    font-weight: 600;
+    padding: 10px 8px !important;
+    font-size: 0.75rem;
+    border-bottom: 2px solid rgb(80, 10, 10) !important;
+}
+
+.ant-table-tbody > tr > td {
+    padding: 10px 8px !important;
+    font-size: 0.75rem;
+}
+
+.ant-table-tbody > tr:hover > td {
+    background-color: #f8f9fa !important;
+}
+
+.ant-table-tbody > tr {
+    transition: all 0.3s ease;
+}
+
+/* Action buttons in tables */
+.ant-table-tbody .d-flex {
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ant-table-tbody .btn {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    width: 100%;
+    min-width: auto;
+}
+
+/* Pagination mobile */
+.ant-pagination {
+    margin: 15px 0 !important;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ant-pagination-item,
+.ant-pagination-prev,
+.ant-pagination-next {
+    min-width: 28px !important;
+    height: 28px !important;
+    line-height: 28px !important;
+    font-size: 0.85rem !important;
+    margin: 2px !important;
+}
+
+/* Table scroll hint for mobile */
+.table-scroll-hint {
+    display: block;
+    text-align: center;
+    color: #666;
+    font-size: 0.75rem;
+    margin-top: 10px;
+    font-style: italic;
+}
+
+/* Small tablets (576px and up) */
+@media screen and (min-width: 576px) {
+    .table-container {
+        padding: 12px;
+    }
+
+    .table-header h1 {
+        font-size: 1.6rem;
+    }
+
+    .ant-table {
+        font-size: 0.85rem;
+    }
+
+    .ant-table-thead > tr > th {
+        padding: 12px 10px !important;
+        font-size: 0.85rem;
+    }
+
+    .ant-table-tbody > tr > td {
+        padding: 12px 10px !important;
+        font-size: 0.85rem;
+    }
+
+    .ant-table-tbody .btn {
+        font-size: 0.8rem;
+        padding: 7px 14px;
+    }
+
+    .ant-pagination-item,
+    .ant-pagination-prev,
+    .ant-pagination-next {
+        min-width: 30px !important;
+        height: 30px !important;
+        line-height: 30px !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Tablets (768px and up) */
+@media screen and (min-width: 768px) {
+    .table-container {
+        padding: 15px;
+    }
+
+    .table-header {
+        margin-bottom: 20px;
+        padding: 15px;
+    }
+
+    .table-header h1 {
+        font-size: 1.8rem;
+        text-align: left;
+    }
+
+    .ant-table {
+        font-size: 0.9rem;
+        min-width: 700px;
+    }
+
+    .ant-table-thead > tr > th {
+        padding: 14px 12px !important;
+        font-size: 0.9rem;
+    }
+
+    .ant-table-tbody > tr > td {
+        padding: 14px 12px !important;
+        font-size: 0.9rem;
+    }
+
+    .ant-table-tbody .d-flex {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .ant-table-tbody .btn {
+        font-size: 0.85rem;
+        padding: 8px 16px;
+        width: auto;
+        min-width: 80px;
+    }
+
+    .ant-pagination {
+        justify-content: flex-end;
+        margin: 20px 0 !important;
+    }
+
+    .ant-pagination-item,
+    .ant-pagination-prev,
+    .ant-pagination-next {
+        min-width: 32px !important;
+        height: 32px !important;
+        line-height: 32px !important;
+        font-size: 0.95rem !important;
+        margin: 0 4px !important;
+    }
+
+    .table-scroll-hint {
+        display: none;
+    }
+}
+
+/* Desktop (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .table-container {
+        padding: 20px;
+    }
+
+    .table-header h1 {
+        font-size: 2rem;
+    }
+
+    .ant-table {
+        font-size: 1rem;
+        min-width: 800px;
+    }
+
+    .ant-table-thead > tr > th {
+        padding: 16px 16px !important;
+        font-size: 1rem;
+    }
+
+    .ant-table-tbody > tr > td {
+        padding: 16px 16px !important;
+        font-size: 1rem;
+    }
+
+    .ant-table-tbody .btn {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+}
+
+/* Large desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+    .table-header h1 {
+        font-size: 2.25rem;
+    }
+
+    .ant-table {
+        min-width: 900px;
+    }
+
+    .ant-table-thead > tr > th {
+        font-size: 1.05rem;
+    }
+
+    .ant-table-tbody > tr > td {
+        font-size: 1.05rem;
+    }
+
+    .ant-table-tbody .btn {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Responsive table utilities */
+.table-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+@media screen and (max-width: 767px) {
+    .table-actions {
+        flex-direction: column;
+    }
+
+    .table-actions .btn {
+        width: 100%;
+    }
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+    text-transform: uppercase;
+}
+
+.status-badge.pending {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.status-badge.approved {
+    background-color: #28a745;
+    color: white;
+}
+
+.status-badge.rejected {
+    background-color: #dc3545;
+    color: white;
+}
+
+@media screen and (min-width: 768px) {
+    .status-badge {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}

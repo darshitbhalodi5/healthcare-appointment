@@ -1,0 +1,144 @@
+/* Mobile-first responsive styles for Doctor List */
+
+/* Base styles for mobile (default) */
+.doctor-card {
+    width: 100%;
+    margin: 10px 0;
+    cursor: pointer;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.doctor-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.doctor-card .card-header {
+    background: linear-gradient(135deg, rgb(51, 1, 1) 0%, rgb(80, 10, 10) 100%);
+    color: white;
+    padding: 12px 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-bottom: none;
+}
+
+.doctor-card .card-body {
+    padding: 15px;
+    background-color: white;
+}
+
+.doctor-card .card-body p {
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+}
+
+.doctor-card .card-body p b {
+    color: rgb(51, 1, 1);
+    margin-bottom: 4px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Doctor list container */
+.doctor-list-container {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Small tablets (576px and up) */
+@media screen and (min-width: 576px) {
+    .doctor-card {
+        margin: 10px 5px;
+    }
+
+    .doctor-card .card-header {
+        padding: 14px 18px;
+        font-size: 1.05rem;
+    }
+
+    .doctor-card .card-body {
+        padding: 16px 18px;
+    }
+
+    .doctor-card .card-body p {
+        font-size: 0.95rem;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .doctor-card .card-body p b {
+        margin-bottom: 0;
+        margin-right: 8px;
+        font-size: 0.9rem;
+        min-width: 140px;
+    }
+}
+
+/* Tablets (768px and up) */
+@media screen and (min-width: 768px) {
+    .doctor-card {
+        margin: 12px;
+    }
+
+    .doctor-card .card-header {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+
+    .doctor-card .card-body {
+        padding: 18px 20px;
+    }
+
+    .doctor-card .card-body p {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+
+    .doctor-card .card-body p b {
+        font-size: 0.95rem;
+        min-width: 160px;
+    }
+
+    .doctor-list-container {
+        padding: 15px;
+    }
+}
+
+/* Desktop (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .doctor-card .card-header {
+        padding: 16px 22px;
+        font-size: 1.15rem;
+    }
+
+    .doctor-card .card-body {
+        padding: 20px 22px;
+    }
+
+    .doctor-card .card-body p {
+        margin-bottom: 14px;
+    }
+
+    .doctor-list-container {
+        padding: 20px;
+    }
+}
+
+/* Large desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+    .doctor-card .card-header {
+        font-size: 1.2rem;
+    }
+
+    .doctor-card .card-body p b {
+        min-width: 180px;
+    }
+}

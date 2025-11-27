@@ -1,0 +1,204 @@
+/* Mobile-first responsive styles for Booking Page */
+
+/* Base styles for mobile (default) */
+.booking-container {
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+}
+
+.booking-info {
+    background: white;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.booking-info h3 {
+    color: rgb(51, 1, 1);
+    margin-bottom: 12px;
+    font-size: 1.3rem;
+    border-bottom: 2px solid rgb(51, 1, 1);
+    padding-bottom: 8px;
+}
+
+.booking-info h4 {
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.booking-form-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.booking-form-wrapper .ant-picker,
+.booking-form-wrapper .ant-picker-time-panel {
+    width: 100%;
+    font-size: 0.9rem;
+}
+
+.booking-form-wrapper .btn {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+.booking-form-wrapper .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.booking-form-wrapper .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.booking-form-wrapper .btn-dark {
+    background-color: rgb(51, 1, 1);
+    border-color: rgb(51, 1, 1);
+}
+
+.booking-form-wrapper .btn-dark:hover {
+    background-color: rgb(80, 10, 10);
+    border-color: rgb(80, 10, 10);
+}
+
+/* Doctor details section */
+.doctor-details {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.doctor-details h4 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.doctor-details h4 span {
+    color: rgb(51, 1, 1);
+    font-weight: 600;
+}
+
+/* Small tablets (576px and up) */
+@media screen and (min-width: 576px) {
+    .booking-container {
+        padding: 15px;
+    }
+
+    .booking-info {
+        padding: 20px;
+    }
+
+    .booking-info h3 {
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+    }
+
+    .booking-info h4 {
+        font-size: 1.05rem;
+    }
+
+    .booking-form-wrapper {
+        gap: 18px;
+    }
+
+    .booking-form-wrapper .ant-picker {
+        font-size: 1rem;
+    }
+
+    .doctor-details {
+        padding: 18px;
+    }
+}
+
+/* Tablets (768px and up) */
+@media screen and (min-width: 768px) {
+    .booking-container {
+        padding: 20px;
+    }
+
+    .booking-info {
+        padding: 25px;
+    }
+
+    .booking-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 18px;
+    }
+
+    .booking-info h4 {
+        font-size: 1.1rem;
+        margin-bottom: 12px;
+    }
+
+    .booking-form-wrapper {
+        width: 60%;
+        gap: 20px;
+    }
+
+    .booking-form-wrapper .btn {
+        width: auto;
+        min-width: 180px;
+        padding: 12px 24px;
+    }
+
+    .doctor-details {
+        padding: 20px;
+    }
+
+    .doctor-details h4 {
+        flex-direction: row;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+/* Desktop (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .booking-container {
+        padding: 25px;
+    }
+
+    .booking-info {
+        padding: 30px;
+    }
+
+    .booking-info h3 {
+        font-size: 1.75rem;
+    }
+
+    .booking-info h4 {
+        font-size: 1.2rem;
+    }
+
+    .booking-form-wrapper {
+        width: 50%;
+    }
+
+    .doctor-details {
+        padding: 25px;
+    }
+}
+
+/* Large desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+    .booking-info h3 {
+        font-size: 2rem;
+    }
+
+    .booking-info h4 {
+        font-size: 1.3rem;
+    }
+}
