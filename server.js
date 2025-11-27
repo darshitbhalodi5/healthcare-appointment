@@ -23,11 +23,11 @@ app.use("/api/v1/admin", require("./routes/adminRoutes"));
 app.use("/api/v1/doctor", require("./routes/doctorRoutes"));
 
 //port
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3051;
 //listen port
 app.listen(port, () => {
   console.log(
-    `Server Running in ${process.env.NODE_MODE} Mode on port ${process.env.PORT}`
-      .bgCyan.white
+    `Server Running in ${process.env.NODE_MODE} Mode on port ${port}`.bgCyan
+      .white
   );
 });
