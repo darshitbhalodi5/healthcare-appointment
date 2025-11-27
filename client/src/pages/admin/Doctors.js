@@ -112,10 +112,15 @@ const Doctors = () => {
               Block
             </button>
           )}
-          {record.status !== "pending" && record.status !== "approved" && (
-            <span className="status-pill table">
-              {record.status === "blocked" ? "Blocked" : record.status}
-            </span>
+          {record.status === "blocked" && (
+            <button className="btn btn-secondary" disabled>
+              Blocked
+            </button>
+          )}
+          {record.status === "rejected" && (
+            <button className="btn btn-secondary" disabled>
+              Rejected
+            </button>
           )}
         </div>
       ),

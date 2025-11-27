@@ -60,6 +60,15 @@
   color: #0d47a1;
   text-align: center;
   width: 100%;
+  display: inline-block;
+  line-height: 1.2;
+}
+
+.status-pill.table {
+  width: auto;
+  min-width: 75px;
+  padding: 4px 12px;
+  line-height: 1.2;
 }
 
 @media screen and (min-width: 768px) {
@@ -98,5 +107,72 @@
 .admin-controls.stacked input,
 .admin-controls.stacked .ant-select {
   width: 100%;
+}
+
+/* Desktop optimizations (1024px and up) - Ultra compact */
+@media screen and (min-width: 1024px) {
+  .admin-controls {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .admin-controls input,
+  .admin-controls .ant-select {
+    min-width: 250px;
+    max-width: 400px;
+  }
+
+  .admin-controls.stacked {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .admin-controls.stacked input {
+    flex: 2;
+    max-width: 450px;
+  }
+
+  .admin-controls.stacked .ant-select {
+    flex: 1;
+    max-width: 180px;
+  }
+
+  /* Better input styling for large screens - ultra compact */
+  .admin-controls input,
+  .admin-controls .ant-select-selector {
+    height: 34px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .admin-controls input::placeholder {
+    font-size: 0.8rem;
+  }
+}
+
+/* Large desktop (1440px and up) - Ultra compact */
+@media screen and (min-width: 1440px) {
+  .admin-controls {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .admin-controls input,
+  .admin-controls .ant-select {
+    min-width: 270px;
+  }
+
+  .admin-controls.stacked input {
+    max-width: 480px;
+  }
+
+  .admin-controls.stacked .ant-select {
+    max-width: 190px;
+  }
+
+  .admin-controls input,
+  .admin-controls .ant-select-selector {
+    height: 36px !important;
+    font-size: 0.88rem !important;
+  }
 }
 

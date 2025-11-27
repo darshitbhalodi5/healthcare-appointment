@@ -191,10 +191,17 @@
     }
 }
 
-/* Desktop (1024px and up) */
+/* Desktop (1024px and up) - Optimized layout */
 @media screen and (min-width: 1024px) {
     .notification-page {
-        padding: 25px;
+        padding: 25px 35px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .notification-header {
+        padding: 18px 24px;
+        margin-bottom: 25px;
     }
 
     .notification-header h4 {
@@ -202,25 +209,63 @@
     }
 
     .ant-tabs {
-        padding: 20px;
+        padding: 20px 28px;
+    }
+
+    .ant-tabs-tab {
+        font-size: 1rem !important;
+    }
+
+    .notification-actions {
+        padding: 15px 28px;
     }
 
     .notification-card {
-        padding: 18px 24px;
+        padding: 16px 24px;
+        margin-bottom: 12px;
+    }
+
+    .notification-card .card-text {
+        font-size: 0.95rem;
     }
 
     .notifications-empty {
-        padding: 80px 50px;
+        padding: 60px 50px;
     }
 }
 
 /* Large desktop (1440px and up) */
 @media screen and (min-width: 1440px) {
+    .notification-page {
+        padding: 30px 50px;
+        max-width: 1600px;
+    }
+
+    .notification-header {
+        padding: 20px 28px;
+    }
+
     .notification-header h4 {
-        font-size: 2rem;
+        font-size: 1.85rem;
+    }
+
+    .ant-tabs {
+        padding: 25px 35px;
     }
 
     .ant-tabs-tab {
-        font-size: 1.2rem !important;
+        font-size: 1.05rem !important;
+    }
+
+    .notification-actions {
+        padding: 18px 35px;
+    }
+
+    .notification-card {
+        padding: 18px 28px;
+    }
+
+    .notification-card .card-text {
+        font-size: 1rem;
     }
 }

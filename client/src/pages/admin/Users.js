@@ -63,6 +63,11 @@ const Users = () => {
       dataIndex: "email",
     },
     {
+      title: "Phone",
+      dataIndex: "phone",
+      render: (text, record) => <span>{record.phone || record.mobileNumber || "N/A"}</span>,
+    },
+    {
       title: "Doctor",
       dataIndex: "isDoctor",
       render: (text, record) => <span>{record.isDoctor ? "Yes" : "No"}</span>,

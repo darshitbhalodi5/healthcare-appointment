@@ -64,6 +64,7 @@
 .ant-table-tbody .d-flex {
     flex-direction: column;
     gap: 5px;
+    align-items: stretch;
 }
 
 .ant-table-tbody .btn {
@@ -71,6 +72,13 @@
     font-size: 0.75rem;
     width: 100%;
     min-width: auto;
+}
+
+.ant-table-tbody .status-pill {
+    display: inline-block;
+    text-align: center;
+    width: auto;
+    min-width: 80px;
 }
 
 /* Pagination mobile */
@@ -173,14 +181,23 @@
 
     .ant-table-tbody .d-flex {
         flex-direction: row;
-        gap: 8px;
+        gap: 10px;
+        justify-content: flex-start;
+        align-items: center;
     }
 
     .ant-table-tbody .btn {
         font-size: 0.85rem;
-        padding: 8px 16px;
+        padding: 8px 18px;
         width: auto;
-        min-width: 80px;
+        min-width: 90px;
+        white-space: nowrap;
+    }
+
+    .ant-table-tbody .status-pill {
+        padding: 8px 16px;
+        min-width: 90px;
+        font-size: 0.85rem;
     }
 
     .ant-pagination {
@@ -203,58 +220,140 @@
     }
 }
 
-/* Desktop (1024px and up) */
+/* Desktop (1024px and up) - Ultra compact layout */
 @media screen and (min-width: 1024px) {
     .table-container {
-        padding: 20px;
+        padding: 18px 35px;
+        max-width: 1600px;
+        margin: 0 auto;
+    }
+
+    .table-header {
+        padding: 8px 20px;
+        margin-bottom: 12px;
     }
 
     .table-header h1 {
-        font-size: 2rem;
+        font-size: 1.35rem;
+        font-weight: 600;
     }
 
     .ant-table {
-        font-size: 1rem;
-        min-width: 800px;
+        font-size: 0.85rem;
+        min-width: 100%;
     }
 
     .ant-table-thead > tr > th {
-        padding: 16px 16px !important;
-        font-size: 1rem;
+        padding: 8px 14px !important;
+        font-size: 0.85rem;
+        font-weight: 600;
     }
 
     .ant-table-tbody > tr > td {
-        padding: 16px 16px !important;
-        font-size: 1rem;
+        padding: 6px 14px !important;
+        font-size: 0.85rem;
+        line-height: 1.3;
+    }
+
+    /* Reduce row height */
+    .ant-table-tbody > tr {
+        height: auto;
+    }
+
+    .ant-table-tbody .d-flex {
+        gap: 8px;
     }
 
     .ant-table-tbody .btn {
-        font-size: 0.9rem;
-        padding: 8px 16px;
+        font-size: 0.8rem;
+        padding: 5px 14px;
+        min-width: 80px;
+        white-space: nowrap;
+        font-weight: 500;
+    }
+
+    .ant-table-tbody .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: #6c757d;
+        border-color: #6c757d;
+        color: white;
+    }
+
+    .ant-table-tbody .status-pill {
+        padding: 4px 12px;
+        min-width: 75px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        line-height: 1.2;
+        display: inline-block;
+    }
+
+    /* Better utilize table width */
+    .ant-table-wrapper {
+        width: 100%;
+    }
+
+    /* Actions column styling */
+    .ant-table-tbody td:last-child {
+        text-align: left;
     }
 }
 
-/* Large desktop (1440px and up) */
+/* Large desktop (1440px and up) - Ultra compact */
 @media screen and (min-width: 1440px) {
+    .table-container {
+        padding: 20px 50px;
+        max-width: 1800px;
+    }
+
+    .table-header {
+        padding: 10px 24px;
+    }
+
     .table-header h1 {
-        font-size: 2.25rem;
+        font-size: 1.45rem;
+        font-weight: 600;
     }
 
     .ant-table {
-        min-width: 900px;
+        font-size: 0.88rem;
     }
 
     .ant-table-thead > tr > th {
-        font-size: 1.05rem;
+        padding: 9px 16px !important;
+        font-size: 0.88rem;
+        font-weight: 600;
     }
 
     .ant-table-tbody > tr > td {
-        font-size: 1.05rem;
+        padding: 7px 16px !important;
+        font-size: 0.88rem;
+        line-height: 1.3;
+    }
+
+    .ant-table-tbody .d-flex {
+        gap: 10px;
     }
 
     .ant-table-tbody .btn {
-        font-size: 1rem;
-        padding: 10px 20px;
+        font-size: 0.85rem;
+        padding: 6px 16px;
+        min-width: 85px;
+        font-weight: 500;
+    }
+
+    .ant-table-tbody .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .ant-table-tbody .status-pill {
+        padding: 5px 14px;
+        min-width: 80px;
+        font-size: 0.85rem;
+        line-height: 1.2;
+        display: inline-block;
     }
 }
 
@@ -300,9 +399,28 @@
     color: white;
 }
 
+.status-badge.blocked {
+    background-color: #6c757d;
+    color: white;
+}
+
 @media screen and (min-width: 768px) {
     .status-badge {
         padding: 6px 12px;
         font-size: 0.85rem;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .status-badge {
+        padding: 7px 14px;
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (min-width: 1440px) {
+    .status-badge {
+        padding: 8px 16px;
+        font-size: 0.95rem;
     }
 }

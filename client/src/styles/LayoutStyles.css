@@ -94,19 +94,26 @@
 }
 
 .notification-item .ant-badge {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
 }
 
-.notification-item .ant-badge-count {
+.notification-item .ant-badge .ant-badge-count {
     box-shadow: none;
-    font-size: 0.65rem;
-    min-width: 16px;
-    height: 16px;
-    line-height: 16px;
+    font-size: 0.6rem;
+    min-width: 14px;
+    height: 14px;
+    line-height: 14px;
+    padding: 0 4px;
     background-color: #ff4d4f;
+    top: -2px;
+    right: -6px;
+}
+
+.notification-item .ant-badge i {
+    font-size: 1.1rem;
+    color: #1976d2;
 }
 
 /* Hide text on mobile, show only icons */
@@ -225,6 +232,24 @@
         display: inline;
     }
 
+    /* Notification badge alignment for desktop */
+    .notification-item .ant-badge {
+        margin-right: 12px;
+    }
+
+    .notification-item .ant-badge i {
+        margin-right: 0;
+    }
+
+    .notification-item .ant-badge .ant-badge-count {
+        font-size: 0.65rem;
+        min-width: 16px;
+        height: 16px;
+        line-height: 16px;
+        top: -4px;
+        right: -8px;
+    }
+
     .active {
         padding: 10px 15px;
         border-radius: 12px;
@@ -293,6 +318,22 @@
     .menu-item i {
         font-size: 1.2rem;
         margin-right: 15px;
+    }
+
+    /* Notification badge alignment for larger desktop */
+    .notification-item .ant-badge {
+        margin-right: 15px;
+    }
+
+    .notification-item .ant-badge i {
+        margin-right: 0;
+    }
+
+    .notification-item .ant-badge .ant-badge-count {
+        font-size: 0.7rem;
+        min-width: 18px;
+        height: 18px;
+        line-height: 18px;
     }
 
     .header-content .profile-link {

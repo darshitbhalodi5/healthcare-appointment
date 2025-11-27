@@ -32,21 +32,33 @@
     background-color: white;
 }
 
-.doctor-card .card-body p {
-    margin-bottom: 10px;
-    font-size: 0.9rem;
-    line-height: 1.5;
+/* Info item styles for new structure */
+.doctor-card .card-body .info-item {
+    margin-bottom: 12px;
     display: flex;
     flex-direction: column;
 }
 
-.doctor-card .card-body p b {
+.doctor-card .card-body .info-item:last-child {
+    margin-bottom: 0;
+}
+
+.doctor-card .card-body .info-label {
     color: #2196f3;
-    margin-bottom: 4px;
     font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 700;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.doctor-card .card-body .info-value {
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.5;
+    display: block;
 }
 
 /* Doctor list container */
@@ -70,17 +82,17 @@
         padding: 16px 18px;
     }
 
-    .doctor-card .card-body p {
-        font-size: 0.95rem;
-        flex-direction: row;
-        align-items: center;
+    .doctor-card .card-body .info-item {
+        margin-bottom: 14px;
     }
 
-    .doctor-card .card-body p b {
-        margin-bottom: 0;
-        margin-right: 8px;
-        font-size: 0.9rem;
-        min-width: 140px;
+    .doctor-card .card-body .info-label {
+        font-size: 0.88rem;
+        margin-bottom: 5px;
+    }
+
+    .doctor-card .card-body .info-value {
+        font-size: 0.95rem;
     }
 }
 
@@ -99,14 +111,17 @@
         padding: 18px 20px;
     }
 
-    .doctor-card .card-body p {
-        font-size: 1rem;
-        margin-bottom: 12px;
+    .doctor-card .card-body .info-item {
+        margin-bottom: 15px;
     }
 
-    .doctor-card .card-body p b {
-        font-size: 0.95rem;
-        min-width: 160px;
+    .doctor-card .card-body .info-label {
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+    }
+
+    .doctor-card .card-body .info-value {
+        font-size: 1rem;
     }
 
     .doctor-list-container {
@@ -114,19 +129,60 @@
     }
 }
 
-/* Desktop (1024px and up) */
+/* Desktop (1024px and up) - Optimized */
 @media screen and (min-width: 1024px) {
+    .doctor-card {
+        margin: 0;
+        max-width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #f0f0f0;
+    }
+
+    .doctor-card:hover {
+        box-shadow: 0 6px 24px rgba(33, 150, 243, 0.15);
+        transform: translateY(-4px);
+        border-color: #e3f2fd;
+    }
+
     .doctor-card .card-header {
-        padding: 16px 22px;
-        font-size: 1.15rem;
+        padding: 20px 26px;
+        font-size: 1.25rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
     }
 
     .doctor-card .card-body {
-        padding: 20px 22px;
+        padding: 24px 26px 20px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 24px;
+        background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
     }
 
-    .doctor-card .card-body p {
-        margin-bottom: 14px;
+    .doctor-card .card-body .info-item {
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 4px 0;
+    }
+
+    .doctor-card .card-body .info-label {
+        color: #1976d2;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        font-weight: 700;
+        margin-bottom: 0;
+        opacity: 0.9;
+    }
+
+    .doctor-card .card-body .info-value {
+        color: #212121;
+        font-size: 1.05rem;
+        font-weight: 600;
+        line-height: 1.4;
     }
 
     .doctor-list-container {
@@ -136,11 +192,31 @@
 
 /* Large desktop (1440px and up) */
 @media screen and (min-width: 1440px) {
-    .doctor-card .card-header {
-        font-size: 1.2rem;
+    .doctor-card {
+        max-width: 100%;
+        border-radius: 14px;
     }
 
-    .doctor-card .card-body p b {
-        min-width: 180px;
+    .doctor-card .card-header {
+        font-size: 1.3rem;
+        padding: 22px 28px;
+    }
+
+    .doctor-card .card-body {
+        padding: 28px 30px 24px;
+        gap: 24px 28px;
+    }
+
+    .doctor-card .card-body .info-item {
+        gap: 10px;
+        padding: 6px 0;
+    }
+
+    .doctor-card .card-body .info-label {
+        font-size: 0.78rem;
+    }
+
+    .doctor-card .card-body .info-value {
+        font-size: 1.1rem;
     }
 }
