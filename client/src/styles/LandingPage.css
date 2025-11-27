@@ -1,0 +1,274 @@
+/* Mobile-First Responsive Landing Page Styles */
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.landing-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* Prevent scrollbar */
+}
+
+/* ========== HERO SECTION - MOBILE FIRST ========== */
+.hero-section {
+  flex: 1;
+  background-image: url(../../public/images/bg01.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: scroll; /* Better performance on mobile */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  padding: 70px 15px 50px; /* Reduced padding for mobile */
+  overflow-y: auto; /* Allow scroll only within hero if needed */
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 10px;
+  animation: fadeInUp 0.8s ease-out;
+  width: 100%;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hero Text - Mobile */
+.hero-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 15px 0;
+  line-height: 1.2;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.hero-text {
+  margin: 15px 0 20px 0;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin: 0 0 10px 0;
+  font-weight: 500;
+  line-height: 1.4;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+.hero-description {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 6px 0;
+  line-height: 1.5;
+  font-weight: 300;
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* CTA Button - Mobile */
+.btn-appointment {
+  display: inline-block;
+  padding: 12px 28px;
+  background: #2196f3;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.5);
+  margin-top: 8px;
+}
+
+.btn-appointment:hover {
+  background: #1976d2;
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.7);
+  transform: translateY(-2px);
+}
+
+.btn-appointment:active {
+  transform: translateY(0);
+}
+
+
+/* ========== SMALL PHONES (360px and up) ========== */
+@media screen and (min-width: 360px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* ========== LARGE PHONES (480px and up) ========== */
+@media screen and (min-width: 480px) {
+  .hero-title {
+    font-size: 2rem;
+    margin-bottom: 18px;
+  }
+
+  .hero-text {
+    margin: 18px 0 25px 0;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+  }
+
+  .btn-appointment {
+    padding: 14px 36px;
+    font-size: 1rem;
+    margin-top: 10px;
+  }
+}
+
+/* ========== TABLETS (768px and up) ========== */
+@media screen and (min-width: 768px) {
+  .hero-section {
+    background-attachment: fixed; /* Parallax effect on larger screens */
+  }
+
+  .hero-content {
+    padding: 20px;
+  }
+
+  .hero-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+  }
+
+  .hero-text {
+    margin: 20px 0 30px 0;
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    margin-bottom: 12px;
+  }
+
+  .hero-description {
+    font-size: 1rem;
+    margin: 8px 0;
+  }
+
+  .btn-appointment {
+    padding: 15px 45px;
+    font-size: 1.05rem;
+    margin-top: 12px;
+  }
+}
+
+/* ========== DESKTOP (1024px and up) ========== */
+@media screen and (min-width: 1024px) {
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 25px;
+  }
+
+  .hero-text {
+    margin: 25px 0 35px 0;
+  }
+
+  .hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 15px;
+  }
+
+  .hero-description {
+    font-size: 1.05rem;
+    margin: 10px 0;
+  }
+
+  .btn-appointment {
+    padding: 16px 50px;
+    font-size: 1.1rem;
+  }
+}
+
+/* ========== LARGE DESKTOP (1440px and up) ========== */
+@media screen and (min-width: 1440px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.35rem;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  .btn-appointment {
+    padding: 18px 56px;
+    font-size: 1.15rem;
+  }
+}
+
+/* ========== ACCESSIBILITY & TOUCH IMPROVEMENTS ========== */
+@media (hover: none) and (pointer: coarse) {
+  /* Touch device optimizations */
+  .btn-appointment {
+    min-height: 44px; /* Apple's recommended touch target */
+    min-width: 44px;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .hero-content {
+    animation: none;
+  }
+
+  .btn-appointment {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .hero-overlay {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .btn-appointment {
+    border: 2px solid #fff;
+  }
+}

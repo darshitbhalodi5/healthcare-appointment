@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
+import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
 import RegisterNew from "./pages/RegisterNew";
 import { useSelector } from "react-redux";
@@ -102,11 +103,19 @@ function App() {
               }
             />
             <Route
-              path="/"
+              path="/home"
               element={
                 <ProtectedRoute>
                   <HomePage />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/"
+              element={
+                <PublicRoute>
+                  <LandingPage />
+                </PublicRoute>
               }
             />
           </Routes>

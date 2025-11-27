@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import "../styles/RegisterStyles.css";
 import { Form, Input, DatePicker, message } from "antd";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import moment from "moment";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import "../styles/Navbar.css";
+import "../styles/Footer.css";
+import "../styles/RegisterStyles.css";
 
 const RegisterNew = () => {
   const navigate = useNavigate();
@@ -24,10 +28,34 @@ const RegisterNew = () => {
     confirmPassword: "",
   });
   const [otp, setOtp] = useState("");
+  
+  // Form instances for each step
+  const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
 
   // Debug: Monitor step changes
   useEffect(() => {
     console.log("Current step:", step);
+  }, [step]);
+
+  // Update form values when step changes
+  useEffect(() => {
+    if (step === 1) {
+      form1.setFieldsValue({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        address: formData.address,
+        dateOfBirth: formData.dateOfBirth,
+      });
+    } else if (step === 2) {
+      form2.setFieldsValue({
+        email: formData.email,
+        mobileNumber: formData.mobileNumber,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [step]);
 
   // Step 1: Basic Details Handler
@@ -129,20 +157,30 @@ const RegisterNew = () => {
     }
   };
 
-  const handleReset = () => {
+  // Reset handler for Step 1 - clears only Step 1 fields
+  const handleResetStep1 = () => {
+    form1.resetFields();
     setFormData({
+      ...formData,
       firstName: "",
       lastName: "",
       address: "",
       dateOfBirth: null,
+    });
+  };
+
+  // Reset handler for Step 2 - clears only Step 2 fields
+  const handleResetStep2 = () => {
+    form2.resetFields();
+    setFormData({
+      ...formData,
       email: "",
       mobileNumber: "",
       password: "",
       confirmPassword: "",
     });
-    setOtp("");
-    setStep(1);
   };
+
 
   const handleResendOTP = async () => {
     try {
@@ -167,11 +205,14 @@ const RegisterNew = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="auth-page">
+      <Navbar />
+      <div className="form-container">
       {/* Step 1: Basic Details */}
       {step === 1 && (
         <Form
           key="step1"
+          form={form1}
           layout="vertical"
           onFinish={handleStep1Submit}
           className="register-form"
@@ -189,7 +230,7 @@ const RegisterNew = () => {
                 rules={[{ required: true, message: "First name is required" }]}
                 style={{ flex: 1, marginBottom: "24px" }}
               >
-                <Input placeholder="Darshit" />
+                <Input placeholder="First Name" />
               </Form.Item>
 
               <Form.Item
@@ -197,7 +238,7 @@ const RegisterNew = () => {
                 rules={[{ required: true, message: "Last name is required" }]}
                 style={{ flex: 1, marginBottom: "24px" }}
               >
-                <Input placeholder="Bhalodi" />
+                <Input placeholder="Last Name" />
               </Form.Item>
             </div>
           </Form.Item>
@@ -207,7 +248,7 @@ const RegisterNew = () => {
             name="address"
             rules={[{ required: true, message: "Address is required" }]}
           >
-            <Input placeholder="Where commands run" />
+            <Input placeholder="Your Address" />
           </Form.Item>
 
           <Form.Item
@@ -218,7 +259,7 @@ const RegisterNew = () => {
             <DatePicker
               format="DD/MM/YYYY"
               style={{ width: "100%" }}
-              placeholder="Select Date of Birth"
+              placeholder="Your Date of Birth"
             />
           </Form.Item>
 
@@ -227,18 +268,14 @@ const RegisterNew = () => {
               type="button"
               className="btn btn-secondary"
               style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
-              onClick={handleReset}
+              onClick={handleResetStep1}
             >
-              Reset
+              Reset Form
             </button>
             <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
               Next
             </button>
           </div>
-
-          <Link to="/login" className="m-2">
-            Already have an account? <strong>Login</strong>
-          </Link>
         </Form>
       )}
 
@@ -246,6 +283,7 @@ const RegisterNew = () => {
       {step === 2 && (
         <Form
           key="step2"
+          form={form2}
           layout="vertical"
           onFinish={handleStep2Submit}
           className="register-form"
@@ -293,7 +331,7 @@ const RegisterNew = () => {
           </Form.Item>
 
           <Form.Item
-            label="Conform Password"
+            label="Confirm Password"
             name="confirmPassword"
             dependencies={["password"]}
             rules={[
@@ -308,7 +346,7 @@ const RegisterNew = () => {
               }),
             ]}
           >
-            <Input.Password placeholder="Conform Password" />
+            <Input.Password placeholder="Confirm Password" />
           </Form.Item>
 
           <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
@@ -316,18 +354,14 @@ const RegisterNew = () => {
               type="button"
               className="btn btn-secondary"
               style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
-              onClick={handleReset}
+              onClick={handleResetStep2}
             >
-              Reset
+              Reset Form
             </button>
             <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
               Next
             </button>
           </div>
-
-          <Link to="/login" className="m-2">
-            Already have an account? <strong>Login</strong>
-          </Link>
         </Form>
       )}
 
@@ -344,7 +378,7 @@ const RegisterNew = () => {
               Enter OTP
             </label>
             <Input
-              placeholder="Enter 6-digit OTP"
+              placeholder="Enter OTP"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               maxLength={6}
@@ -372,7 +406,7 @@ const RegisterNew = () => {
               style={{ flex: 1 }}
               onClick={handleVerifyAndRegister}
             >
-              Sign Up
+              Register
             </button>
           </div>
 
@@ -380,10 +414,12 @@ const RegisterNew = () => {
             className="text-center"
             style={{ marginTop: "20px", color: "#999", fontSize: "0.85rem" }}
           >
-            Didn't receive the OTP? Check your spam folder or click Resend OTP
+            Didn't receive the OTP? Check your spam folder or Click <strong>Resend OTP</strong>
           </p>
         </div>
       )}
+      </div>
+      <Footer />
     </div>
   );
 };

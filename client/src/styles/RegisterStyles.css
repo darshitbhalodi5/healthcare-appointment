@@ -1,13 +1,39 @@
 /* Mobile-first responsive design for forms */
 
+/* Auth page wrapper with navbar and footer */
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-image: url(../../public/images/bg01.jpg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+}
+
+.auth-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 1;
+}
+
 /* Base styles for mobile (default) */
 .form-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
-    padding: 15px;
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    flex: 1;
+    padding: 80px 15px 60px; /* Top padding for navbar, bottom for footer */
+    position: relative;
+    z-index: 2;
 }
 
 .register-form {
@@ -50,7 +76,7 @@
 /* Small tablets (576px and up) */
 @media screen and (min-width: 576px) {
     .form-container {
-        padding: 20px;
+        padding: 90px 20px 70px;
     }
 
     .register-form {
@@ -66,8 +92,12 @@
 
 /* Tablets (768px and up) */
 @media screen and (min-width: 768px) {
+    .auth-page {
+        background-attachment: fixed; /* Parallax effect on larger screens */
+    }
+
     .form-container {
-        padding: 30px;
+        padding: 100px 30px 80px;
     }
 
     .register-form {
@@ -92,6 +122,10 @@
 
 /* Desktop (1024px and up) */
 @media screen and (min-width: 1024px) {
+    .form-container {
+        padding: 110px 40px 90px;
+    }
+
     .register-form {
         width: 40%;
         max-width: 600px;

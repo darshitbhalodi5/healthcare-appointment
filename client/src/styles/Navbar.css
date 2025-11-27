@@ -1,0 +1,222 @@
+/* ========== NAVBAR - MOBILE FIRST ========== */
+.landing-header {
+  background: transparent;
+  backdrop-filter: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 12px 0;
+  transition: background 0.3s ease;
+}
+
+.landing-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row; /* Horizontal layout for mobile - one line */
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Logo - Mobile */
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.logo h1 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Navigation Buttons - Mobile (Icons only) */
+.nav-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.btn-link {
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 40px;
+  min-height: 36px;
+}
+
+.btn-link i {
+  font-size: 0.9rem;
+  display: inline-block;
+}
+
+.btn-link .btn-text {
+  display: none; /* Hide text on mobile, show icon only */
+}
+
+.btn-link:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-register {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn-register:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* ========== SMALL PHONES (360px and up) ========== */
+@media screen and (min-width: 360px) {
+  .landing-container {
+    padding: 0 12px;
+    gap: 10px;
+  }
+
+  .logo h1 {
+    font-size: 1.3rem;
+  }
+
+  .btn-link {
+    padding: 8px 14px;
+    min-width: 44px;
+  }
+}
+
+/* ========== LARGE PHONES (480px and up) ========== */
+@media screen and (min-width: 480px) {
+  .landing-header {
+    padding: 15px 0;
+  }
+
+  .landing-container {
+    padding: 0 20px;
+    gap: 12px;
+  }
+
+  .logo h1 {
+    font-size: 1.5rem;
+  }
+
+  .btn-link {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    min-width: 50px;
+  }
+
+  .btn-link .btn-text {
+    display: inline; /* Show text on larger phones */
+  }
+}
+
+/* ========== TABLETS (768px and up) ========== */
+@media screen and (min-width: 768px) {
+  .landing-header {
+    padding: 18px 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+  }
+
+  .landing-container {
+    flex-direction: row; /* Horizontal layout for tablets+ */
+    justify-content: space-between;
+    padding: 0 30px;
+    gap: 20px;
+  }
+
+  .logo {
+    justify-content: flex-start;
+    width: auto;
+  }
+
+  .logo h1 {
+    font-size: 1.8rem;
+  }
+
+  .nav-buttons {
+    width: auto;
+    gap: 12px;
+  }
+
+  .btn-link {
+    padding: 12px 24px;
+    font-size: 0.95rem;
+    min-width: auto;
+  }
+
+  .btn-link .btn-text {
+    display: inline; /* Always show text on tablets+ */
+  }
+
+  .btn-link i {
+    font-size: 0.95rem;
+  }
+}
+
+/* ========== DESKTOP (1024px and up) ========== */
+@media screen and (min-width: 1024px) {
+  .landing-header {
+    padding: 20px 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .landing-container {
+    padding: 0 40px;
+    gap: 30px;
+  }
+
+  .logo h1 {
+    font-size: 2rem;
+  }
+
+  .btn-link {
+    padding: 12px 28px;
+    font-size: 1rem;
+    gap: 8px;
+  }
+
+  .btn-link i {
+    font-size: 1rem;
+  }
+}
+
+/* ========== ACCESSIBILITY & TOUCH IMPROVEMENTS ========== */
+@media (hover: none) and (pointer: coarse) {
+  /* Touch device optimizations */
+  .btn-link {
+    min-height: 44px; /* Apple's recommended touch target */
+    min-width: 44px;
+    padding: 10px 14px; /* Better touch target on mobile */
+  }
+}
+
