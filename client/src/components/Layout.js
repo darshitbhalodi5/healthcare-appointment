@@ -4,7 +4,7 @@ import { adminMenu, userMenu } from "./../Data/data";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Badge, message } from "antd";
+import { Badge, message, Tooltip } from "antd";
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
@@ -49,40 +49,53 @@ const Layout = ({ children }) => {
         <div className="layout">
           <div className="sidebar">
             <div className="logo">
-              <h6 className="text-light">DOC APP</h6>
+              <h6 className="text-light" style={{ textAlign: "center", width: "100%" }}>MedRescue</h6>
               <hr />
             </div>
             <div className="menu">
               {SidebarMenu.map((menu) => {
                 const isActive = location.pathname === menu.path;
                 return (
-                  <>
+                  <Tooltip title={menu.name} placement="right" key={menu.path}>
                     <div className={`menu-item ${isActive && "active"}`}>
                       <i className={menu.icon}></i>
-                      <Link to={menu.path}>{menu.name}</Link>
+                      <Link to={menu.path}>
+                        <span className="menu-text">{menu.name}</span>
+                      </Link>
                     </div>
-                  </>
+                  </Tooltip>
                 );
               })}
-              <div className={`menu-item `} onClick={handleLogout}>
-                <i className="fa-solid fa-right-from-bracket"></i>
-                <Link to="/login">Logout</Link>
-              </div>
+              <Tooltip title="Logout" placement="right">
+                <div className={`menu-item `} onClick={handleLogout}>
+                  <i className="fa-solid fa-right-from-bracket"></i>
+                  <Link to="/login">
+                    <span className="menu-text">Logout</span>
+                  </Link>
+                </div>
+              </Tooltip>
             </div>
           </div>
           <div className="content">
             <div className="header">
               <div className="header-content" style={{ cursor: "pointer" }}>
-                <Badge
-                  count={user && user.notifcation.length}
-                  onClick={() => {
-                    navigate("/notification");
-                  }}
-                >
-                  <i class="fa-solid fa-bell"></i>
-                </Badge>
+                <Tooltip title="Notifications" placement="bottom">
+                  <Badge
+                    count={user && user.notifcation.length}
+                    onClick={() => {
+                      navigate("/notification");
+                    }}
+                  >
+                    <i className="fa-solid fa-bell"></i>
+                  </Badge>
+                </Tooltip>
 
-                <Link to="/profile">{user?.name}</Link>
+                <Tooltip title={user?.name || "Profile"} placement="bottom">
+                  <Link to="/profile" className="profile-link">
+                    <i className="fa-solid fa-user profile-icon"></i>
+                    <span className="profile-text">{user?.name}</span>
+                  </Link>
+                </Tooltip>
               </div>
             </div>
             <div className="body">{children}</div>
