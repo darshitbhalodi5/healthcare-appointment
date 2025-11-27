@@ -28,6 +28,4 @@ yarn-error.log*
 client/build
 client/node_modules
 
-images
-
 node_modules
