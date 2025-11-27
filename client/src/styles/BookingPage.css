@@ -38,6 +38,25 @@
     gap: 15px;
 }
 
+.booking-form-wrapper .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.booking-form-wrapper .field-label {
+    font-weight: 600;
+    color: #424242;
+    font-size: 0.95rem;
+}
+
+.booking-form-wrapper .date-picker,
+.booking-form-wrapper .time-picker {
+    width: 100%;
+    font-size: 0.9rem;
+    border-radius: 8px;
+}
+
 .booking-form-wrapper .ant-picker,
 .booking-form-wrapper .ant-picker-time-panel {
     width: 100%;

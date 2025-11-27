@@ -62,11 +62,11 @@ const Profile = () => {
         }
       });
 
-      // Format timings if present
-      if (directUpdateFields.timings) {
+      // Format timings if present - TimePicker.RangePicker returns moment objects
+      if (directUpdateFields.timings && directUpdateFields.timings.length === 2) {
         directUpdateFields.timings = [
-          moment(directUpdateFields.timings[0]).format("HH:mm"),
-          moment(directUpdateFields.timings[1]).format("HH:mm"),
+          directUpdateFields.timings[0].format("HH:mm"),
+          directUpdateFields.timings[1].format("HH:mm"),
         ];
       }
 
@@ -227,7 +227,7 @@ const Profile = () => {
             {renderField("specialization", "text", "Specialization")}
             {renderField("experience", "text", "Experience")}
             {renderField("feesPerCunsaltation", "number", "Fees Per Consultation")}
-            {renderField("timings", "time-range", "Available Timings")}
+            {renderField("timings", "time-range", "Available Timings (UTC)")}
           </div>
         </div>
 

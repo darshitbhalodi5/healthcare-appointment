@@ -114,28 +114,40 @@ const BookingPage = () => {
                   <span>Fees:</span> ${doctors.feesPerCunsaltation}
                 </h4>
                 <h4>
-                  <span>Available Timings:</span>{" "}
+                  <span>Available Timings (UTC):</span>{" "}
                   {doctors.timings && doctors.timings[0]} -{" "}
                   {doctors.timings && doctors.timings[1]}
                 </h4>
               </div>
               <div className="booking-form-wrapper">
-                <DatePicker
-                  aria-required={"true"}
-                  format="DD-MM-YYYY"
-                  placeholder="Select Date"
-                  onChange={(value) => {
-                    setDate(moment(value).format("DD-MM-YYYY"));
-                  }}
-                />
-                <TimePicker
-                  aria-required={"true"}
-                  format="HH:mm"
-                  placeholder="Select Time"
-                  onChange={(value) => {
-                    setTime(moment(value).format("HH:mm"));
-                  }}
-                />
+                <div className="form-field">
+                  <label className="field-label">Select Date</label>
+                  <DatePicker
+                    aria-required={"true"}
+                    format="DD-MM-YYYY"
+                    placeholder="DD-MM-YYYY"
+                    className="date-picker"
+                    onChange={(value) => {
+                      if (value) {
+                        setDate(value.format("DD-MM-YYYY"));
+                      }
+                    }}
+                  />
+                </div>
+                <div className="form-field">
+                  <label className="field-label">Select Time (UTC)</label>
+                  <TimePicker
+                    aria-required={"true"}
+                    format="HH:mm"
+                    placeholder="HH:mm (UTC)"
+                    className="time-picker"
+                    onChange={(value) => {
+                      if (value) {
+                        setTime(value.format("HH:mm"));
+                      }
+                    }}
+                  />
+                </div>
 
                 <button
                   className="btn btn-primary"

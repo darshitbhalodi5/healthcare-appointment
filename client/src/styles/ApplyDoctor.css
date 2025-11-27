@@ -1,0 +1,341 @@
+/* Mobile-first Apply Doctor Form Styles */
+
+/* Page Container */
+.apply-doctor-page {
+  padding: 12px;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow-x: hidden;
+}
+
+/* Header Section */
+.apply-doctor-header {
+  text-align: center;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+}
+
+.apply-doctor-header h1 {
+  margin: 0 0 8px 0;
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.apply-doctor-header p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* Form Container */
+.apply-doctor-form {
+  background: white;
+  border-radius: 10px;
+  padding: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Form Section */
+.form-section {
+  padding: 20px 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section:last-of-type {
+  border-bottom: none;
+}
+
+/* Section Header */
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  margin: 0 0 6px 0;
+  color: #1976d2;
+  font-size: 1.15rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-subtitle {
+  margin: 0;
+  color: #666;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+/* Form Items */
+.apply-doctor-form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.apply-doctor-form .ant-form-item-label > label {
+  font-weight: 600;
+  color: #424242;
+  font-size: 0.9rem;
+}
+
+.apply-doctor-form .ant-input,
+.apply-doctor-form .ant-picker {
+  border-radius: 8px;
+  border: 1px solid #d9d9d9;
+  font-size: 0.9rem;
+  padding: 10px 12px;
+}
+
+.apply-doctor-form .ant-input:focus,
+.apply-doctor-form .ant-picker-focused {
+  border-color: #2196f3;
+  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.1);
+}
+
+/* Disabled Inputs */
+.apply-doctor-form .ant-input:disabled {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #e0e0e0;
+}
+
+/* Timings Picker */
+.timings-picker {
+  width: 100%;
+}
+
+.timings-picker .ant-picker-input > input {
+  font-size: 0.9rem;
+}
+
+/* Form Actions */
+.form-actions {
+  padding: 20px 16px;
+  text-align: center;
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 0 0 10px 10px;
+}
+
+.btn-submit-application {
+  background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%);
+  color: white;
+  border: none;
+  padding: 14px 40px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-submit-application:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+}
+
+.btn-submit-application:active {
+  transform: translateY(0);
+}
+
+.btn-submit-application i {
+  font-size: 1rem;
+}
+
+/* Error Messages */
+.apply-doctor-form .ant-form-item-explain-error {
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* Tablet (576px and up) */
+@media screen and (min-width: 576px) {
+  .apply-doctor-page {
+    padding: 16px;
+  }
+
+  .apply-doctor-header {
+    padding: 24px 20px;
+    margin-bottom: 24px;
+  }
+
+  .apply-doctor-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .apply-doctor-header p {
+    font-size: 1rem;
+  }
+
+  .form-section {
+    padding: 24px 20px;
+  }
+
+  .section-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .apply-doctor-form .ant-form-item-label > label {
+    font-size: 0.95rem;
+  }
+
+  .apply-doctor-form .ant-input,
+  .apply-doctor-form .ant-picker {
+    font-size: 0.95rem;
+    padding: 11px 14px;
+  }
+
+  .form-actions {
+    padding: 24px 20px;
+  }
+
+  .btn-submit-application {
+    width: auto;
+    padding: 14px 50px;
+    font-size: 1.05rem;
+  }
+}
+
+/* Desktop (768px and up) */
+@media screen and (min-width: 768px) {
+  .apply-doctor-page {
+    padding: 20px;
+  }
+
+  .apply-doctor-header {
+    padding: 28px 24px;
+    margin-bottom: 28px;
+  }
+
+  .apply-doctor-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .apply-doctor-header p {
+    font-size: 1.05rem;
+  }
+
+  .form-section {
+    padding: 28px 24px;
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+  }
+
+  .section-header h3 {
+    font-size: 1.35rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .apply-doctor-form .ant-form-item {
+    margin-bottom: 20px;
+  }
+
+  .apply-doctor-form .ant-form-item-label > label {
+    font-size: 1rem;
+  }
+
+  .apply-doctor-form .ant-input,
+  .apply-doctor-form .ant-picker {
+    font-size: 1rem;
+    padding: 12px 16px;
+  }
+
+  .form-actions {
+    padding: 28px 24px;
+  }
+
+  .btn-submit-application {
+    padding: 15px 60px;
+    font-size: 1.1rem;
+  }
+
+  .btn-submit-application i {
+    font-size: 1.1rem;
+  }
+}
+
+/* Large Desktop (1024px and up) */
+@media screen and (min-width: 1024px) {
+  .apply-doctor-page {
+    padding: 30px;
+  }
+
+  .apply-doctor-header {
+    padding: 32px 30px;
+    margin-bottom: 32px;
+  }
+
+  .apply-doctor-header h1 {
+    font-size: 2rem;
+  }
+
+  .form-section {
+    padding: 32px 30px;
+  }
+
+  .section-header h3 {
+    font-size: 1.4rem;
+  }
+
+  .apply-doctor-form .ant-form-item {
+    margin-bottom: 24px;
+  }
+}
+
+/* Extra Large Desktop (1440px and up) */
+@media screen and (min-width: 1440px) {
+  .apply-doctor-header {
+    padding: 36px 40px;
+  }
+
+  .form-section {
+    padding: 36px 40px;
+  }
+}
+
+/* Loading State */
+.apply-doctor-form.ant-form-disabled {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* Ant Design Overrides */
+.apply-doctor-form .ant-row {
+  margin-left: -8px !important;
+  margin-right: -8px !important;
+}
+
+.apply-doctor-form .ant-col {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+
+/* Success/Error Messages */
+.ant-message {
+  z-index: 9999;
+}
+
+/* Picker Dropdown */
+.ant-picker-dropdown {
+  z-index: 9999;
+}
