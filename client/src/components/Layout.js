@@ -57,21 +57,17 @@ const Layout = ({ children }) => {
                 const isActive = location.pathname === menu.path;
                 return (
                   <Tooltip title={menu.name} placement="right" key={menu.path}>
-                    <div className={`menu-item ${isActive && "active"}`}>
+                    <Link to={menu.path} className={`menu-item ${isActive && "active"}`}>
                       <i className={menu.icon}></i>
-                      <Link to={menu.path}>
-                        <span className="menu-text">{menu.name}</span>
-                      </Link>
-                    </div>
+                      <span className="menu-text">{menu.name}</span>
+                    </Link>
                   </Tooltip>
                 );
               })}
               <Tooltip title="Logout" placement="right">
-                <div className={`menu-item `} onClick={handleLogout}>
+                <div className={`menu-item`} onClick={handleLogout}>
                   <i className="fa-solid fa-right-from-bracket"></i>
-                  <Link to="/login">
-                    <span className="menu-text">Logout</span>
-                  </Link>
+                  <span className="menu-text">Logout</span>
                 </div>
               </Tooltip>
             </div>
