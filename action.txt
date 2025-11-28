@@ -1,0 +1,38 @@
+## Patient Actions
+- Request OTP for signup
+- Verify OTP
+- Complete registration
+- Log in
+- Fetch own profile data
+- Apply for a doctor account
+- Fetch all notifications
+- Delete all notifications
+- Mark a single notification as read
+- View list of approved doctors
+- Check appointment availability
+- Book appointments
+- View own appointments
+- Subscribe browser to push notifications
+- Upload appointment documents
+- View/download appointment documents
+- Replace own documents before appointment
+
+## Doctor Actions
+- Fetch own profile
+- Update profile (with optional admin approval)
+- Fetch specific doctor info
+- View assigned appointments
+- Approve or reject appointments
+- Upload documents after approval
+- View/download appointment documents
+- Add comments to documents
+- Update appointment notes
+
+## Admin Actions
+- View all users
+- View all doctors
+- Approve or reject doctor applications
+- Approve or reject doctor profile updates
+- Delete doctor accounts
+- Access any appointment documents
+- Delete uploaded documents system-wide
