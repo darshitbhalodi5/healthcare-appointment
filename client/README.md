@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# MedRescue Hospital - Appointment System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, mobile-responsive doctor appointment booking system for MedRescue Hospital. Built with React and designed for seamless patient-doctor interactions.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- **Patient Portal**: Book appointments, upload medical documents, view doctor's instructions
+- **Doctor Portal**: Manage appointments, add prescriptions, provide medical opinions
+- **Admin Portal**: Manage doctors, users, and appointments
+- **Mobile-First Design**: Fully responsive interface optimized for mobile devices
+- **Document Management**: Upload and manage medical reports, prescriptions, and images
+- **Real-time Updates**: Instant appointment status updates and notifications
 
-### `npm start`
+## Technology Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Frontend**: React 18, React Router, Redux Toolkit
+- **UI Framework**: Ant Design (antd)
+- **Styling**: CSS3, Bootstrap 5
+- **Icons**: Font Awesome 6
+- **Date/Time**: Moment.js, Day.js
+- **HTTP Client**: Axios
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Getting Started
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Node.js (v14 or higher)
+- npm or yarn
 
-### `npm run build`
+### Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository
+2. Navigate to the client directory
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Available Scripts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### `npm start`
 
-### `npm run eject`
+Runs the app in development mode on `http://localhost:3052`.
+The page will reload when you make changes.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### `npm run build`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Builds the app for production to the `build` folder.
+Optimizes the build for best performance.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+#### `npm test`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Launches the test runner in interactive watch mode.
 
-## Learn More
+## Project Structure
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+client/
+├── public/           # Static files
+├── src/
+│   ├── components/   # Reusable components
+│   ├── pages/        # Page components
+│   ├── styles/       # CSS files
+│   └── redux/        # Redux store and slices
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Configuration
 
-### Code Splitting
+The app uses a proxy to connect to the backend API server running on `http://localhost:3051`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Browser Support
 
-### Analyzing the Bundle Size
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## License
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+© 2025 MedRescue Hospital. All rights reserved.

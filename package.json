@@ -1,7 +1,7 @@
 {
-  "name": "doctor-appointmnet-system",
+  "name": "medrescue-hospital-system",
   "version": "1.0.0",
-  "description": "",
+  "description": "MedRescue Hospital - Complete Doctor Appointment Management System with Patient Portal, Doctor Portal, and Admin Dashboard",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,9 +10,9 @@
     "client": "npm start --prefix ./client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "keywords": [],
-  "author": "mayurdev",
-  "license": "VIT",
+  "keywords": ["hospital", "medical", "appointment", "healthcare", "doctor", "patient", "medrescue"],
+  "author": "MedRescue Hospital",
+  "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
