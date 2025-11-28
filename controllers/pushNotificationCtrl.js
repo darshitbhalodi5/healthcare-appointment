@@ -45,8 +45,8 @@ const sendPushToUser = async (userId, payload) => {
     const notificationPayload = JSON.stringify({
       title: payload.title || 'MedRescue Hospital',
       body: payload.body || payload.message,
-      icon: '/logo192.png',
-      badge: '/logo192.png',
+      icon: '/logo192svg',
+      badge: '/logo192svg',
       data: {
         url: payload.url || '/notification',
         ...payload

@@ -70,8 +70,8 @@ self.addEventListener('push', (event) => {
   let notificationData = {
     title: 'MedRescue Hospital',
     body: 'You have a new notification',
-    icon: '/logo192.png',
-    badge: '/logo192.png',
+    icon: '/logo192.svg',
+    badge: '/logo192.svg',
     vibrate: [200, 100, 200],
     tag: 'medrescue-notification',
     requireInteraction: false,
@@ -83,8 +83,8 @@ self.addEventListener('push', (event) => {
       notificationData = {
         title: data.title || 'MedRescue Hospital',
         body: data.body || data.message || 'You have a new notification',
-        icon: data.icon || '/logo192.png',
-        badge: '/logo192.png',
+        icon: data.icon || '/logo192.svg',
+        badge: '/logo192.svg',
         vibrate: [200, 100, 200],
         tag: data.tag || 'medrescue-notification',
         data: {
