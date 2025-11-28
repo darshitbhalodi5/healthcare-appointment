@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, Input, DatePicker, message } from "antd";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import PhoneInput from "react-phone-input-2";
@@ -28,7 +28,7 @@ const RegisterNew = () => {
     confirmPassword: "",
   });
   const [otp, setOtp] = useState("");
-  
+
   // Form instances for each step
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
@@ -181,7 +181,6 @@ const RegisterNew = () => {
     });
   };
 
-
   const handleResendOTP = async () => {
     try {
       dispatch(showLoading());
@@ -208,216 +207,269 @@ const RegisterNew = () => {
     <div className="auth-page">
       <Navbar />
       <div className="form-container">
-      {/* Step 1: Basic Details */}
-      {step === 1 && (
-        <Form
-          key="step1"
-          form={form1}
-          layout="vertical"
-          onFinish={handleStep1Submit}
-          className="register-form"
-          initialValues={formData}
-        >
-          <h3 className="text-center">Let's Get Started</h3>
-          <p className="text-center" style={{ color: "#666", marginBottom: "20px" }}>
-            Add Your Personal Details to Continue
-          </p>
+        {/* Step 1: Basic Details */}
+        {step === 1 && (
+          <Form
+            key="step1"
+            form={form1}
+            layout="vertical"
+            onFinish={handleStep1Submit}
+            className="register-form"
+            initialValues={formData}
+          >
+            <h3 className="text-center">Let's Get Started</h3>
+            <p
+              className="text-center"
+              style={{ color: "#666", marginBottom: "20px" }}
+            >
+              Add Your Personal Details to Continue
+            </p>
 
-          <Form.Item label="Name" style={{ marginBottom: 0 }}>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <Form.Item
-                name="firstName"
-                rules={[{ required: true, message: "First name is required" }]}
-                style={{ flex: 1, marginBottom: "24px" }}
-              >
-                <Input placeholder="First Name" />
-              </Form.Item>
+            <Form.Item label="Name" style={{ marginBottom: 0 }}>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <Form.Item
+                  name="firstName"
+                  rules={[
+                    { required: true, message: "First name is required" },
+                  ]}
+                  style={{ flex: 1, marginBottom: "24px" }}
+                >
+                  <Input placeholder="First Name" />
+                </Form.Item>
 
-              <Form.Item
-                name="lastName"
-                rules={[{ required: true, message: "Last name is required" }]}
-                style={{ flex: 1, marginBottom: "24px" }}
+                <Form.Item
+                  name="lastName"
+                  rules={[{ required: true, message: "Last name is required" }]}
+                  style={{ flex: 1, marginBottom: "24px" }}
+                >
+                  <Input placeholder="Last Name" />
+                </Form.Item>
+              </div>
+            </Form.Item>
+
+            <Form.Item
+              label="Address"
+              name="address"
+              rules={[{ required: true, message: "Address is required" }]}
+            >
+              <Input placeholder="Your Address" />
+            </Form.Item>
+
+            <Form.Item
+              label="Date of Birth"
+              name="dateOfBirth"
+              rules={[{ required: true, message: "Date of birth is required" }]}
+            >
+              <DatePicker
+                format="DD/MM/YYYY"
+                style={{ width: "100%" }}
+                placeholder="Your Date of Birth"
+              />
+            </Form.Item>
+
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
+                onClick={handleResetStep1}
               >
-                <Input placeholder="Last Name" />
-              </Form.Item>
+                Reset Form
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ flex: 1 }}
+              >
+                Next
+              </button>
             </div>
-          </Form.Item>
+            <div style={{ textAlign: "center", marginTop: "15px" }}>
+              <span style={{ marginRight: "6px" }}>Already a user?</span>
+              <Link
+                to="/login"
+                style={{ color: "#1976d2", textDecoration: "none" }}
+              >
+                Login
+              </Link>
+            </div>
+          </Form>
+        )}
 
-          <Form.Item
-            label="Address"
-            name="address"
-            rules={[{ required: true, message: "Address is required" }]}
+        {/* Step 2: Account Creation Form */}
+        {step === 2 && (
+          <Form
+            key="step2"
+            form={form2}
+            layout="vertical"
+            onFinish={handleStep2Submit}
+            className="register-form"
+            initialValues={formData}
           >
-            <Input placeholder="Your Address" />
-          </Form.Item>
-
-          <Form.Item
-            label="Date of Birth"
-            name="dateOfBirth"
-            rules={[{ required: true, message: "Date of birth is required" }]}
-          >
-            <DatePicker
-              format="DD/MM/YYYY"
-              style={{ width: "100%" }}
-              placeholder="Your Date of Birth"
-            />
-          </Form.Item>
-
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
-              onClick={handleResetStep1}
+            <h3 className="text-center">Let's Get Started</h3>
+            <p
+              className="text-center"
+              style={{ color: "#666", marginBottom: "20px" }}
             >
-              Reset Form
-            </button>
-            <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
-              Next
-            </button>
-          </div>
-        </Form>
-      )}
+              It's Okay, Now Create User Account.
+            </p>
 
-      {/* Step 2: Account Creation Form */}
-      {step === 2 && (
-        <Form
-          key="step2"
-          form={form2}
-          layout="vertical"
-          onFinish={handleStep2Submit}
-          className="register-form"
-          initialValues={formData}
-        >
-          <h3 className="text-center">Let's Get Started</h3>
-          <p className="text-center" style={{ color: "#666", marginBottom: "20px" }}>
-            It's Okay, Now Create User Account.
-          </p>
-
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              { required: true, message: "Email is required" },
-              { type: "email", message: "Please enter a valid email" },
-            ]}
-          >
-            <Input type="email" placeholder="Email Address" />
-          </Form.Item>
-
-          <Form.Item
-            label="Mobile Number"
-            name="mobileNumber"
-            rules={[{ required: true, message: "Mobile number is required" }]}
-            getValueFromEvent={(value) => value}
-          >
-            <PhoneInput
-              country={"in"}
-              enableSearch={true}
-              placeholder="ex: 0712345678"
-              inputStyle={{ width: "100%", height: "40px" }}
-            />
-          </Form.Item>
-
-          <Form.Item
-            label="Create New Password"
-            name="password"
-            rules={[
-              { required: true, message: "Password is required" },
-              { min: 6, message: "Password must be at least 6 characters" },
-            ]}
-          >
-            <Input.Password placeholder="New Password" />
-          </Form.Item>
-
-          <Form.Item
-            label="Confirm Password"
-            name="confirmPassword"
-            dependencies={["password"]}
-            rules={[
-              { required: true, message: "Please confirm your password" },
-              ({ getFieldValue }) => ({
-                validator(_, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-                  return Promise.reject(new Error("Passwords do not match"));
-                },
-              }),
-            ]}
-          >
-            <Input.Password placeholder="Confirm Password" />
-          </Form.Item>
-
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
-              onClick={handleResetStep2}
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                { required: true, message: "Email is required" },
+                { type: "email", message: "Please enter a valid email" },
+              ]}
             >
-              Reset Form
-            </button>
-            <button type="submit" className="btn btn-primary" style={{ flex: 1 }}>
-              Next
-            </button>
-          </div>
-        </Form>
-      )}
+              <Input type="email" placeholder="Email Address" />
+            </Form.Item>
 
-      {/* Step 3: OTP Verification */}
-      {step === 3 && (
-        <div key="step3" className="register-form">
-          <h3 className="text-center">Verify Your Email</h3>
-          <p className="text-center" style={{ color: "#666", marginBottom: "20px" }}>
-            Enter the OTP sent to <strong>{formData.email}</strong>
-          </p>
-
-          <div style={{ marginBottom: "20px" }}>
-            <label style={{ display: "block", marginBottom: "8px", fontWeight: "500" }}>
-              Enter OTP
-            </label>
-            <Input
-              placeholder="Enter OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-              maxLength={6}
-              style={{
-                fontSize: "1.2rem",
-                textAlign: "center",
-                letterSpacing: "0.5rem",
-                padding: "12px"
-              }}
-            />
-          </div>
-
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
-              onClick={handleResendOTP}
+            <Form.Item
+              label="Mobile Number"
+              name="mobileNumber"
+              rules={[{ required: true, message: "Mobile number is required" }]}
+              getValueFromEvent={(value) => value}
             >
-              Resend OTP
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={{ flex: 1 }}
-              onClick={handleVerifyAndRegister}
-            >
-              Register
-            </button>
-          </div>
+              <PhoneInput
+                country={"in"}
+                enableSearch={true}
+                placeholder="ex: 0712345678"
+                inputStyle={{ width: "100%", height: "40px" }}
+              />
+            </Form.Item>
 
-          <p
-            className="text-center"
-            style={{ marginTop: "20px", color: "#999", fontSize: "0.85rem" }}
-          >
-            Didn't receive the OTP? Check your spam folder or Click <strong>Resend OTP</strong>
-          </p>
-        </div>
-      )}
+            <Form.Item
+              label="Create New Password"
+              name="password"
+              rules={[
+                { required: true, message: "Password is required" },
+                { min: 6, message: "Password must be at least 6 characters" },
+              ]}
+            >
+              <Input.Password placeholder="New Password" />
+            </Form.Item>
+
+            <Form.Item
+              label="Confirm Password"
+              name="confirmPassword"
+              dependencies={["password"]}
+              rules={[
+                { required: true, message: "Please confirm your password" },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue("password") === value) {
+                      return Promise.resolve();
+                    }
+                    return Promise.reject(new Error("Passwords do not match"));
+                  },
+                }),
+              ]}
+            >
+              <Input.Password placeholder="Confirm Password" />
+            </Form.Item>
+
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
+                onClick={handleResetStep2}
+              >
+                Reset Form
+              </button>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                style={{ flex: 1 }}
+              >
+                Next
+              </button>
+            </div>
+            <div style={{ textAlign: "center", marginTop: "15px" }}>
+              <span style={{ marginRight: "6px" }}>Already a user?</span>
+              <Link
+                to="/login"
+                style={{ color: "#1976d2", textDecoration: "none" }}
+              >
+                Login
+              </Link>
+            </div>
+          </Form>
+        )}
+
+        {/* Step 3: OTP Verification */}
+        {step === 3 && (
+          <div key="step3" className="register-form">
+            <h3 className="text-center">Verify Your Email</h3>
+            <p
+              className="text-center"
+              style={{ color: "#666", marginBottom: "20px" }}
+            >
+              Enter the OTP sent to <strong>{formData.email}</strong>
+            </p>
+
+            <div style={{ marginBottom: "20px" }}>
+              <label
+                style={{
+                  display: "block",
+                  marginBottom: "8px",
+                  fontWeight: "500",
+                }}
+              >
+                Enter OTP
+              </label>
+              <Input
+                placeholder="Enter OTP"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value)}
+                maxLength={6}
+                style={{
+                  fontSize: "1.2rem",
+                  textAlign: "center",
+                  letterSpacing: "0.5rem",
+                  padding: "12px",
+                }}
+              />
+            </div>
+
+            <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                style={{ flex: 1, background: "#e3f2fd", color: "#1976d2" }}
+                onClick={handleResendOTP}
+              >
+                Resend OTP
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ flex: 1 }}
+                onClick={handleVerifyAndRegister}
+              >
+                Register
+              </button>
+            </div>
+
+            <p
+              className="text-center"
+              style={{ marginTop: "20px", color: "#999", fontSize: "0.85rem" }}
+            >
+              Didn't receive the OTP? Check your spam folder or Click{" "}
+              <strong>Resend OTP</strong>
+            </p>
+            <div style={{ textAlign: "center", marginTop: "15px" }}>
+              <span style={{ marginRight: "6px" }}>Already a user?</span>
+              <Link
+                to="/login"
+                style={{ color: "#1976d2", textDecoration: "none" }}
+              >
+                Login
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
       <Footer />
     </div>

@@ -16,15 +16,9 @@ const LandingPage = () => {
       <section className="hero-section">
         <div className="hero-overlay"></div>
         <div className="hero-content">
-          <h1 className="hero-title">Skip the queues. Get the care you need.</h1>
+          <h1 className="hero-title">Skip the queues, Get the care you need.</h1>
           <div className="hero-text">
             <p className="hero-subtitle">Not feeling well today? Let us help.</p>
-            <p className="hero-description">
-              Find the right doctor online and book your appointment instantly with MedRescue.
-            </p>
-            <p className="hero-description">
-              Fast, reliable, and completely free.
-            </p>
           </div>
           <Link to="/login" className="btn-appointment">
             Book Appointment

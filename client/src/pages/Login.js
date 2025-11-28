@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Input, message } from "antd";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -53,6 +53,12 @@ const Login = () => {
           <button className="btn btn-primary" type="submit">
             Login
           </button>
+          <div style={{ textAlign: "center", marginTop: "15px" }}>
+            <span style={{ marginRight: "6px" }}>Not a user?</span>
+            <Link to="/register" style={{ color: "#1976d2", textDecoration: "none" }}>
+              Register
+            </Link>
+          </div>
         </Form>
       </div>
       <Footer />
