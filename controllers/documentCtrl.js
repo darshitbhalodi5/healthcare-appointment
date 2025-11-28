@@ -1,8 +1,16 @@
 const appointmentModel = require("../models/appointmentModel");
 const userModel = require("../models/userModels");
+const doctorModel = require("../models/doctorModel");
 const path = require("path");
 const fs = require("fs");
 const moment = require("moment");
+
+// Helper function to check if user is the assigned doctor
+const isAssignedDoctor = async (userId, appointmentDoctorId) => {
+  const doctor = await doctorModel.findOne({ userId: userId });
+  if (!doctor) return false;
+  return doctor._id.toString() === appointmentDoctorId.toString();
+};
 
 // Helper function to determine document category
 const determineCategory = (appointmentDateTime) => {
@@ -47,7 +55,7 @@ const moveFileToCategory = (currentPath, appointmentId, category, filename) => {
 const uploadDocumentController = async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     // Check if file was uploaded
     if (!req.file) {
@@ -84,7 +92,7 @@ const uploadDocumentController = async (req, res) => {
     let uploaderRole;
     if (appointment.userId === userId) {
       uploaderRole = 'patient';
-    } else if (appointment.doctorId === userId && user.isDoctor) {
+    } else if (user.isDoctor && await isAssignedDoctor(userId, appointment.doctorId)) {
       uploaderRole = 'doctor';
     } else {
       fs.unlinkSync(req.file.path);
@@ -153,6 +161,48 @@ const uploadDocumentController = async (req, res) => {
     // Get the newly added document (last one in array)
     const addedDocument = appointment.documents[appointment.documents.length - 1];
 
+    // Send notifications
+    if (uploaderRole === 'patient') {
+      // Patient uploaded document - notify doctor
+      const doctor = await doctorModel.findById(appointment.doctorId);
+      if (doctor) {
+        const doctorUser = await userModel.findById(doctor.userId);
+        if (doctorUser) {
+          const notification = doctorUser.notifcation || [];
+          notification.push({
+            type: "patient-document-uploaded",
+            message: `${user.firstName} ${user.lastName} uploaded a new document for appointment`,
+            data: {
+              appointmentId: appointment._id,
+              patientName: `${user.firstName} ${user.lastName}`,
+              documentType: documentObj.fileType,
+              category: category,
+            },
+            onClickPath: "/doctor/appointments",
+          });
+          await userModel.findByIdAndUpdate(doctorUser._id, { notifcation: notification });
+        }
+      }
+    } else if (uploaderRole === 'doctor') {
+      // Doctor uploaded document - notify patient
+      const patientUser = await userModel.findById(appointment.userId);
+      if (patientUser) {
+        const notification = patientUser.notifcation || [];
+        notification.push({
+          type: "doctor-document-uploaded",
+          message: `Dr. ${user.firstName} ${user.lastName} uploaded a document (prescription/report) for your appointment`,
+          data: {
+            appointmentId: appointment._id,
+            doctorName: `Dr. ${user.firstName} ${user.lastName}`,
+            documentType: documentObj.fileType,
+            category: category,
+          },
+          onClickPath: "/appointments",
+        });
+        await userModel.findByIdAndUpdate(patientUser._id, { notifcation: notification });
+      }
+    }
+
     // Populate uploadedBy field
     const populatedAppointment = await appointmentModel
       .findById(appointmentId)
@@ -185,7 +235,7 @@ const uploadDocumentController = async (req, res) => {
 const getDocumentsController = async (req, res) => {
   try {
     const { appointmentId } = req.params;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     // Find appointment and populate user references
     const appointment = await appointmentModel
@@ -212,7 +262,7 @@ const getDocumentsController = async (req, res) => {
 
     // Check authorization
     const isPatient = appointment.userId === userId;
-    const isDoctor = appointment.doctorId === userId && user.isDoctor;
+    const isDoctor = user.isDoctor && await isAssignedDoctor(userId, appointment.doctorId);
     const isAdmin = user.isAdmin;
 
     if (!isPatient && !isDoctor && !isAdmin) {
@@ -247,7 +297,7 @@ const getDocumentsController = async (req, res) => {
 const downloadDocumentController = async (req, res) => {
   try {
     const { appointmentId, documentId } = req.params;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     // Find appointment
     const appointment = await appointmentModel.findById(appointmentId);
@@ -271,7 +321,7 @@ const downloadDocumentController = async (req, res) => {
 
     // Check authorization
     const isPatient = appointment.userId === userId;
-    const isDoctor = appointment.doctorId === userId && user.isDoctor;
+    const isDoctor = user.isDoctor && await isAssignedDoctor(userId, appointment.doctorId);
     const isAdmin = user.isAdmin;
 
     if (!isPatient && !isDoctor && !isAdmin) {
@@ -320,7 +370,7 @@ const downloadDocumentController = async (req, res) => {
 const replaceDocumentController = async (req, res) => {
   try {
     const { appointmentId, documentId } = req.params;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     // Check if file was uploaded
     if (!req.file) {
@@ -412,6 +462,29 @@ const replaceDocumentController = async (req, res) => {
 
     await appointment.save();
 
+    // Send notification to doctor
+    const patientUser = await userModel.findById(userId);
+    if (patientUser) {
+      const doctor = await doctorModel.findById(appointment.doctorId);
+      if (doctor) {
+        const doctorUser = await userModel.findById(doctor.userId);
+        if (doctorUser) {
+          const notification = doctorUser.notifcation || [];
+          notification.push({
+            type: "patient-document-replaced",
+            message: `${patientUser.firstName} ${patientUser.lastName} replaced a document for appointment`,
+            data: {
+              appointmentId: appointment._id,
+              patientName: `${patientUser.firstName} ${patientUser.lastName}`,
+              documentType: document.fileType,
+            },
+            onClickPath: "/doctor/appointments",
+          });
+          await userModel.findByIdAndUpdate(doctorUser._id, { notifcation: notification });
+        }
+      }
+    }
+
     // Populate and return updated document
     const populatedAppointment = await appointmentModel
       .findById(appointmentId)
@@ -445,7 +518,7 @@ const addDocumentCommentController = async (req, res) => {
   try {
     const { appointmentId, documentId } = req.params;
     const { text } = req.body;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     if (!text || text.trim() === '') {
       return res.status(400).json({
@@ -483,7 +556,7 @@ const addDocumentCommentController = async (req, res) => {
     }
 
     // Check if user is the assigned doctor
-    if (appointment.doctorId !== userId) {
+    if (!await isAssignedDoctor(userId, appointment.doctorId)) {
       return res.status(403).json({
         success: false,
         message: "You can only comment on your assigned appointments",
@@ -513,6 +586,24 @@ const addDocumentCommentController = async (req, res) => {
     // Get the newly added comment
     const addedComment = document.comments[document.comments.length - 1];
 
+    // Send notification to patient
+    const patientUser = await userModel.findById(appointment.userId);
+    if (patientUser) {
+      const notification = patientUser.notifcation || [];
+      notification.push({
+        type: "doctor-comment-added",
+        message: `Dr. ${user.firstName} ${user.lastName} added a comment on your document: "${text.trim().substring(0, 50)}${text.length > 50 ? '...' : ''}"`,
+        data: {
+          appointmentId: appointment._id,
+          documentId: documentId,
+          doctorName: `Dr. ${user.firstName} ${user.lastName}`,
+          comment: text.trim(),
+        },
+        onClickPath: "/appointments",
+      });
+      await userModel.findByIdAndUpdate(patientUser._id, { notifcation: notification });
+    }
+
     // Populate user info
     const populatedAppointment = await appointmentModel
       .findById(appointmentId)
@@ -541,7 +632,7 @@ const updateGeneralNotesController = async (req, res) => {
   try {
     const { appointmentId } = req.params;
     const { notes } = req.body;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     // Find appointment
     const appointment = await appointmentModel.findById(appointmentId);
@@ -572,7 +663,7 @@ const updateGeneralNotesController = async (req, res) => {
     }
 
     // Check if user is the assigned doctor
-    if (appointment.doctorId !== userId) {
+    if (!await isAssignedDoctor(userId, appointment.doctorId)) {
       return res.status(403).json({
         success: false,
         message: "You can only update notes for your assigned appointments",
@@ -582,6 +673,23 @@ const updateGeneralNotesController = async (req, res) => {
     // Update notes
     appointment.generalNotes = notes || '';
     await appointment.save();
+
+    // Send notification to patient
+    const patientUser = await userModel.findById(appointment.userId);
+    if (patientUser) {
+      const notification = patientUser.notifcation || [];
+      notification.push({
+        type: "doctor-notes-updated",
+        message: `Dr. ${user.firstName} ${user.lastName} updated appointment notes`,
+        data: {
+          appointmentId: appointment._id,
+          doctorName: `Dr. ${user.firstName} ${user.lastName}`,
+          notesPreview: notes ? notes.substring(0, 50) + (notes.length > 50 ? '...' : '') : '',
+        },
+        onClickPath: "/appointments",
+      });
+      await userModel.findByIdAndUpdate(patientUser._id, { notifcation: notification });
+    }
 
     res.status(200).json({
       success: true,
@@ -602,7 +710,7 @@ const updateGeneralNotesController = async (req, res) => {
 const deleteDocumentController = async (req, res) => {
   try {
     const { appointmentId, documentId } = req.params;
-    const userId = req.body.userId;
+    const userId = req.userId;
 
     // Find user
     const user = await userModel.findById(userId);

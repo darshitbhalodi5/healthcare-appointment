@@ -211,7 +211,7 @@ const loginController = async (req, res) => {
 
 const authController = async (req, res) => {
   try {
-    const user = await userModel.findById({ _id: req.body.userId });
+    const user = await userModel.findById({ _id: req.userId });
     user.password = undefined;
     if (!user) {
       return res.status(200).send({
@@ -276,7 +276,7 @@ const applyDoctorController = async (req, res) => {
 //notification ctrl
 const getAllNotificationController = async (req, res) => {
   try {
-    const user = await userModel.findOne({ _id: req.body.userId });
+    const user = await userModel.findOne({ _id: req.userId });
     const seennotification = user.seennotification;
     const notifcation = user.notifcation;
     seennotification.push(...notifcation);
@@ -302,7 +302,7 @@ const getAllNotificationController = async (req, res) => {
 // delete notifications
 const deleteAllNotificationController = async (req, res) => {
   try {
-    const user = await userModel.findOne({ _id: req.body.userId });
+    const user = await userModel.findOne({ _id: req.userId });
     user.notifcation = [];
     user.seennotification = [];
     const updatedUser = await user.save();
@@ -411,7 +411,7 @@ const bookingAvailabilityController = async (req, res) => {
 const userAppointmentsController = async (req, res) => {
   try {
     const appointments = await appointmentModel.find({
-      userId: req.body.userId,
+      userId: req.userId,
     });
     res.status(200).send({
       success: true,
