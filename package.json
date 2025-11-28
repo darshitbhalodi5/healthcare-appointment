@@ -10,7 +10,15 @@
     "client": "npm start --prefix ./client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "keywords": ["hospital", "medical", "appointment", "healthcare", "doctor", "patient", "medrescue"],
+  "keywords": [
+    "hospital",
+    "medical",
+    "appointment",
+    "healthcare",
+    "doctor",
+    "patient",
+    "medrescue"
+  ],
   "author": "MedRescue Hospital",
   "license": "MIT",
   "dependencies": {
@@ -25,6 +33,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.11",
-    "nodemon": "^3.0.3"
+    "nodemon": "^3.0.3",
+    "web-push": "^3.6.7"
   }
 }

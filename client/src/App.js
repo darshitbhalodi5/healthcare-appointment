@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import HomePage from "./pages/HomePage";
 import LandingPage from "./pages/LandingPage";
 import Login from "./pages/Login";
@@ -16,8 +17,37 @@ import BookingPage from "./pages/BookingPage";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 import UserProfile from "./pages/UserProfile";
+import { registerServiceWorker } from "./utils/pushNotifications";
+
 function App() {
   const { loading } = useSelector((state) => state.alerts);
+  const { user } = useSelector((state) => state.user);
+
+  // Register service worker when app loads
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      registerServiceWorker().then((registration) => {
+        if (registration) {
+          console.log('Service Worker registered successfully');
+        }
+      });
+    }
+  }, []);
+
+  // Initialize push notifications when user logs in
+  useEffect(() => {
+    if (user) {
+      // Import and initialize push notifications
+      import('./utils/pushNotifications').then(({ initializePushNotifications }) => {
+        initializePushNotifications().then((success) => {
+          if (success) {
+            console.log('Push notifications enabled for user');
+          }
+        });
+      });
+    }
+  }, [user]);
+
   return (
     <>
       <BrowserRouter>

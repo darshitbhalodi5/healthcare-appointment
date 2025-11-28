@@ -5,6 +5,7 @@ const doctorModel = require("../models/doctorModel");
 const appointmentModel = require("../models/appointmentModel");
 const moment = require("moment");
 const { generateOTP, sendOTPEmail } = require("../utils/emailService");
+const { sendPushToUser } = require("./pushNotificationCtrl");
 
 // Step 1: Send OTP to email
 const sendOTPController = async (req, res) => {
@@ -356,6 +357,14 @@ const bookeAppointmnetController = async (req, res) => {
       onCLickPath: "/user/appointments",
     });
     await user.save();
+
+    // Send push notification to doctor
+    await sendPushToUser(req.body.doctorInfo.userId, {
+      title: '📅 New Appointment Request',
+      body: `${req.body.userInfo.name} has requested an appointment`,
+      url: '/doctor-appointments'
+    });
+
     res.status(200).send({
       success: true,
       message: "Appointment Book succesfully",

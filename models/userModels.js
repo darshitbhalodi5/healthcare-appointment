@@ -59,6 +59,10 @@ const userSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  pushSubscription: {
+    type: Object,
+    default: null
+  }
 }, {
   timestamps: true,
 });

@@ -14,6 +14,7 @@ const {
   bookingAvailabilityController,
   userAppointmentsController,
 } = require("../controllers/userCtrl");
+const { subscribePush } = require("../controllers/pushNotificationCtrl");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 //router onject
@@ -72,5 +73,8 @@ router.post(
 
 //Appointments List
 router.get("/user-appointments", authMiddleware, userAppointmentsController);
+
+//Push Notification Subscription
+router.post("/subscribe-push", authMiddleware, subscribePush);
 
 module.exports = router;

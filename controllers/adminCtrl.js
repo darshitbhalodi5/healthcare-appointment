@@ -1,5 +1,6 @@
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModels");
+const { sendPushToUser } = require("./pushNotificationCtrl");
 
 const getAllUsersController = async (req, res) => {
   try {
@@ -74,6 +75,13 @@ const changeAccountStatusController = async (req, res) => {
     user.isDoctor = status === "approved" ? true : false;
     await user.save();
 
+    // Send push notification to doctor
+    await sendPushToUser(doctor.userId, {
+      title: status === "approved" ? '🎉 Doctor Account Approved!' : '❌ Doctor Account Rejected',
+      body: `Your doctor account request has been ${status}`,
+      url: '/notification'
+    });
+
     res.status(201).send({
       success: true,
       message: "Account Status Updated",
@@ -136,6 +144,13 @@ const approveProfileUpdateController = async (req, res) => {
       });
       await user.save();
 
+      // Send push notification
+      await sendPushToUser(doctor.userId, {
+        title: '✅ Profile Update Approved',
+        body: 'Your profile update has been approved by admin',
+        url: '/doctor/profile'
+      });
+
       return res.status(200).send({
         success: true,
         message: "Profile update approved successfully",
@@ -156,6 +171,13 @@ const approveProfileUpdateController = async (req, res) => {
         onClickPath: "/doctor/profile",
       });
       await user.save();
+
+      // Send push notification
+      await sendPushToUser(doctor.userId, {
+        title: '❌ Profile Update Rejected',
+        body: 'Your profile update has been rejected. Current profile remains unchanged.',
+        url: '/doctor/profile'
+      });
 
       return res.status(200).send({
         success: true,

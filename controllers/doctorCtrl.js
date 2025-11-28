@@ -1,6 +1,7 @@
 const appointmentModel = require("../models/appointmentModel");
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModels");
+const { sendPushToUser } = require("./pushNotificationCtrl");
 const getDoctorInfoController = async (req, res) => {
   try {
     const doctor = await doctorModel.findOne({ userId: req.userId });
@@ -150,6 +151,14 @@ const updateStatusController = async (req, res) => {
       onCLickPath: "/doctor-appointments",
     });
     await user.save();
+
+    // Send push notification to patient
+    await sendPushToUser(appointments.userId, {
+      title: '🏥 Appointment Status Update',
+      body: `Your appointment has been ${status}`,
+      url: '/appointments'
+    });
+
     res.status(200).send({
       success: true,
       message: "Appointment Status Updated",
