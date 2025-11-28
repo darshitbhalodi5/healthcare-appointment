@@ -131,8 +131,6 @@ const FileUpload = ({
 
   return (
     <div className="file-upload-container">
-      <h4 className="file-upload-label">{label}</h4>
-
       <Dragger
         multiple
         fileList={fileList}
@@ -142,14 +140,14 @@ const FileUpload = ({
         showUploadList={false}
         disabled={uploading}
         accept=".pdf,.jpg,.jpeg,.png"
-        className="mobile-dragger"
+        className="mobile-dragger compact"
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
         </p>
-        <p className="ant-upload-text">Click or drag files to upload</p>
+        <p className="ant-upload-text">{label}</p>
         <p className="ant-upload-hint">
-          PDF, JPG, PNG • Max 10MB • Up to {maxFiles} files
+          PDF, JPG, PNG • Max 10 MB
         </p>
       </Dragger>
 

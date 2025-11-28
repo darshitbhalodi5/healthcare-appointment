@@ -258,10 +258,18 @@ const DoctorAppointments = () => {
                       </button>
                     </div>
                   ) : (
-                    <div style={{ marginTop: 12, textAlign: 'center' }}>
-                      <small style={{ color: '#1890ff' }}>
-                        <EyeOutlined /> Tap to view details & documents
-                      </small>
+                    <div className="view-documents-wrapper">
+                      <button
+                        type="button"
+                        className="view-documents-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleViewDetails(appointment);
+                        }}
+                      >
+                        <EyeOutlined />
+                        <span>View documents</span>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -287,7 +295,7 @@ const DoctorAppointments = () => {
       <Modal
         title={
           <span>
-            <FileTextOutlined /> Appointment Details & Documents
+            <FileTextOutlined style={{ fontSize: '18px', color: '#1890ff', marginRight: '8px' }}/> Appointment Documents
           </span>
         }
         open={showDetailsModal}
@@ -299,28 +307,6 @@ const DoctorAppointments = () => {
       >
         {selectedAppointment && (
           <div>
-            {/* Appointment Info */}
-            <div className="appointment-info-section-mobile">
-              <h4 className="section-title-mobile">Appointment Information</h4>
-              <div className="appointment-info-grid-mobile">
-                <div className="info-item-mobile">
-                  <strong>ID:</strong> #{selectedAppointment._id.slice(-8)}
-                </div>
-                <div className="info-item-mobile">
-                  <strong>Status:</strong>{' '}
-                  <span className={`status-badge ${selectedAppointment.status}`}>
-                    {selectedAppointment.status}
-                  </span>
-                </div>
-                <div className="info-item-mobile">
-                  <strong>Date:</strong> {moment(selectedAppointment.date).format('DD-MM-YYYY')}
-                </div>
-                <div className="info-item-mobile">
-                  <strong>Time:</strong> {moment(selectedAppointment.time).format('HH:mm')}
-                </div>
-              </div>
-            </div>
-
             <Divider className="modal-divider-mobile">General Notes</Divider>
 
             {/* General Notes */}

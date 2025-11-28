@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
-import { Tabs, Card, Button, Empty, Tag, Input, message, Modal, Spin } from 'antd';
+import { Tabs, Button, Empty, Tag, Input, message } from 'antd';
 import {
   DownloadOutlined,
   FilePdfOutlined,
   FileImageOutlined,
-  UserOutlined,
-  CommentOutlined,
-  ClockCircleOutlined
+  CommentOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
-import moment from 'moment';
 import './DocumentList.css';
 
 const { TabPane } = Tabs;
@@ -24,16 +21,32 @@ const DocumentList = ({
   const [commentText, setCommentText] = useState('');
   const [commentingDocId, setCommentingDocId] = useState(null);
   const [loadingComment, setLoadingComment] = useState(false);
+  const [expandedComments, setExpandedComments] = useState({});
+
+  // Truncate text helper
+  const truncateText = (text, maxLength = 10) => {
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  };
+
+  // Toggle comment expansion
+  const toggleCommentExpansion = (commentId) => {
+    setExpandedComments(prev => ({
+      ...prev,
+      [commentId]: !prev[commentId]
+    }));
+  };
 
   // Filter documents by category
   const preAppointmentDocs = documents.filter(doc => doc.category === 'pre-appointment');
   const postAppointmentDocs = documents.filter(doc => doc.category === 'post-appointment');
 
   // Download document
-  const handleDownload = async (document) => {
+  const handleDownload = async (doc) => {
     try {
       const res = await axios.get(
-        `/api/v1/appointment/${appointmentId}/document/${document._id}/download`,
+        `/api/v1/appointment/${appointmentId}/document/${doc._id}/download`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -44,10 +57,10 @@ const DocumentList = ({
 
       // Create download link
       const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = document.createElement('a');
+      const link = window.document.createElement('a');
       link.href = url;
-      link.setAttribute('download', document.filename);
-      document.body.appendChild(link);
+      link.setAttribute('download', doc.filename);
+      window.document.body.appendChild(link);
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
@@ -98,124 +111,130 @@ const DocumentList = ({
   // Get file icon
   const getFileIcon = (fileType) => {
     if (fileType === 'pdf') {
-      return <FilePdfOutlined style={{ fontSize: '32px', color: '#ff4d4f' }} />;
+      return <FilePdfOutlined style={{ fontSize: '20px', color: '#ff4d4f' }} />;
     }
-    return <FileImageOutlined style={{ fontSize: '32px', color: '#1890ff' }} />;
+    return <FileImageOutlined style={{ fontSize: '20px', color: '#1890ff' }} />;
   };
 
   // Get uploader role badge
   const getUploaderBadge = (uploaderRole) => {
     if (uploaderRole === 'doctor') {
-      return <Tag color="blue">Doctor</Tag>;
+      return <Tag color="blue">Dr.</Tag>;
     }
-    return <Tag color="green">Patient</Tag>;
-  };
-
-  // Format file size
-  const formatFileSize = (bytes) => {
-    if (bytes < 1024) return bytes + ' B';
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB';
-    return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+    return <Tag color="green">Pt.</Tag>;
   };
 
   // Render document card
-  const renderDocumentCard = (document) => (
-    <div key={document._id} className="document-card-mobile">
-      {/* File Header */}
-      <div className="document-header-mobile">
-        <div className="document-icon-mobile">
-          {getFileIcon(document.fileType)}
-        </div>
-        <div className="document-title-mobile">
-          <h4 className="document-filename">{document.filename}</h4>
-          <div className="document-meta">
-            <UserOutlined /> {document.uploadedBy?.firstName} {document.uploadedBy?.lastName}
-            {' '}
+  const renderDocumentCard = (document) => {
+    const uploaderName = `${document.uploadedBy?.firstName || ''} ${document.uploadedBy?.lastName || ''}`.trim();
+    const fileName = document.filename || 'Unknown';
+
+    return (
+      <div key={document._id} className="document-card-mobile compact-view">
+        {/* One-liner: Icon, Filename, Patient Name, Download Button */}
+        <div className="document-one-liner">
+          <div className="document-icon-compact">
+            {getFileIcon(document.fileType)}
+          </div>
+          <div className="document-info-compact">
+            <span className="filename-compact" title={fileName}>
+              {truncateText(fileName, 15)}
+            </span>
+            <span className="separator">•</span>
+            <span className="uploader-name-compact" title={uploaderName}>
+              {truncateText(uploaderName, 12)}
+            </span>
+          </div>
+          <div className="uploader-badge-compact">
             {getUploaderBadge(document.uploaderRole)}
           </div>
-          <div className="document-meta">
-            <ClockCircleOutlined /> {moment(document.uploadedAt).format('MMM DD, HH:mm')} • {formatFileSize(document.fileSize)}
-          </div>
+          <Button
+            type="primary"
+            icon={<DownloadOutlined />}
+            onClick={() => handleDownload(document)}
+            className="document-download-btn-compact"
+            size="small"
+          />
         </div>
+
+        {/* Comments Section - Only show if comments exist */}
+        {document.comments && document.comments.length > 0 && (
+          <div className="document-comments-compact">
+            {document.comments.map((comment) => {
+              const isExpanded = expandedComments[comment._id];
+              const commentText = comment.text || '';
+              const shouldTruncate = commentText.length > 50;
+              const displayText = isExpanded || !shouldTruncate
+                ? commentText
+                : commentText.substring(0, 50);
+
+              return (
+                <div key={comment._id} className="comment-item-compact">
+                  <CommentOutlined className="comment-icon-compact" />
+                  <div className="comment-content-compact">
+                    <span className="comment-text-compact">{displayText}</span>
+                    {shouldTruncate && (
+                      <span
+                        className="comment-show-more"
+                        onClick={() => toggleCommentExpansion(comment._id)}
+                      >
+                        {isExpanded ? ' Show less' : '... Show more'}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Add Comment (Doctor only) */}
+        {userRole === 'doctor' && (
+          <div className="document-comment-form">
+            {commentingDocId === document._id ? (
+              <div className="comment-form-active">
+                <TextArea
+                  rows={3}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Add your comment here..."
+                  className="comment-textarea-mobile"
+                />
+                <div className="comment-form-actions">
+                  <Button
+                    type="primary"
+                    onClick={() => handleAddComment(document._id)}
+                    loading={loadingComment}
+                    block
+                  >
+                    Submit Comment
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setCommentingDocId(null);
+                      setCommentText('');
+                    }}
+                    block
+                  >
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <Button
+                icon={<CommentOutlined />}
+                onClick={() => setCommentingDocId(document._id)}
+                block
+                className="add-comment-btn-mobile"
+              >
+                Add Comment
+              </Button>
+            )}
+          </div>
+        )}
       </div>
-
-      {/* Download Button */}
-      <Button
-        type="primary"
-        icon={<DownloadOutlined />}
-        onClick={() => handleDownload(document)}
-        className="document-download-btn-mobile"
-        block
-      >
-        Download
-      </Button>
-
-      {/* Comments Section */}
-      {document.comments && document.comments.length > 0 && (
-        <div className="document-comments-section">
-          <div className="comments-header">
-            <CommentOutlined /> Comments ({document.comments.length})
-          </div>
-          {document.comments.map((comment) => (
-            <div key={comment._id} className="comment-item">
-              <div className="comment-author">
-                Dr. {comment.userId?.firstName} {comment.userId?.lastName}
-              </div>
-              <div className="comment-text">{comment.text}</div>
-              <div className="comment-time">
-                {moment(comment.createdAt).fromNow()}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Add Comment (Doctor only) */}
-      {userRole === 'doctor' && (
-        <div className="document-comment-form">
-          {commentingDocId === document._id ? (
-            <div className="comment-form-active">
-              <TextArea
-                rows={3}
-                value={commentText}
-                onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Add your comment here..."
-                className="comment-textarea-mobile"
-              />
-              <div className="comment-form-actions">
-                <Button
-                  type="primary"
-                  onClick={() => handleAddComment(document._id)}
-                  loading={loadingComment}
-                  block
-                >
-                  Submit Comment
-                </Button>
-                <Button
-                  onClick={() => {
-                    setCommentingDocId(null);
-                    setCommentText('');
-                  }}
-                  block
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <Button
-              icon={<CommentOutlined />}
-              onClick={() => setCommentingDocId(document._id)}
-              block
-              className="add-comment-btn-mobile"
-            >
-              Add Comment
-            </Button>
-          )}
-        </div>
-      )}
-    </div>
-  );
+    );
+  };
 
   // Render empty state
   const renderEmptyState = (category) => (
