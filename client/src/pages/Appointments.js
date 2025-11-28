@@ -18,6 +18,7 @@ const Appointments = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [appointmentDocuments, setAppointmentDocuments] = useState([]);
   const [loadingDocuments, setLoadingDocuments] = useState(false);
+  const [generalNotes, setGeneralNotes] = useState('');
 
   const getAppointments = async () => {
     try {
@@ -48,6 +49,7 @@ const Appointments = () => {
       );
       if (res.data.success) {
         setAppointmentDocuments(res.data.appointment.documents || []);
+        setGeneralNotes(res.data.appointment.generalNotes || '');
       }
     } catch (error) {
       message.error('Failed to load documents');
@@ -75,6 +77,7 @@ const Appointments = () => {
     setShowDetailsModal(false);
     setSelectedAppointment(null);
     setAppointmentDocuments([]);
+    setGeneralNotes('');
   };
 
   useEffect(() => {
@@ -212,6 +215,16 @@ const Appointments = () => {
       >
         {selectedAppointment && (
           <div>
+            {/* Doctor's General Notes - Only show if notes exist */}
+            {generalNotes && generalNotes.trim() && (
+              <>
+                <Divider className="modal-divider-mobile">Doctor's Instructions</Divider>
+                <div className="patient-notes-view-compact">
+                  <p>{generalNotes}</p>
+                </div>
+              </>
+            )}
+
             <Divider className="modal-divider-mobile">Upload Documents</Divider>
 
             {/* File Upload */}

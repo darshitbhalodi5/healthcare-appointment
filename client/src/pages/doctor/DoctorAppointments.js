@@ -329,14 +329,14 @@ const DoctorAppointments = () => {
               </div>
             )}
 
-            <Divider className="modal-divider-mobile">Upload Prescription / Medical Opinion</Divider>
+            <Divider className="modal-divider-mobile">Upload Prescription</Divider>
 
             {/* File Upload (Doctor) */}
             {selectedAppointment.status === 'approved' && (
               <FileUpload
                 appointmentId={selectedAppointment._id}
                 onUploadSuccess={handleUploadSuccess}
-                label="Upload Prescription, Medical Opinion, or Reports"
+                label="Upload Prescription or Reports"
                 maxFiles={10}
               />
             )}

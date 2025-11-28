@@ -440,6 +440,11 @@
   font-weight: 600;
 }
 
+.modal-divider-mobile:first-child,
+.appointment-details-modal-mobile .ant-modal-body > div > .modal-divider-mobile:first-child {
+  margin-top: 0;
+}
+
 .loading-section-mobile {
   text-align: center;
   padding: 40px 16px;
@@ -473,6 +478,23 @@
 
 .save-notes-btn-mobile:active {
   transform: scale(0.98);
+}
+
+/* Patient Notes View - Compact */
+.patient-notes-view-compact {
+  background: #e8f4fd;
+  border-left: 3px solid #1890ff;
+  padding: 10px 12px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.patient-notes-view-compact p {
+  margin: 0;
+  font-size: 13px;
+  color: #262626;
+  line-height: 1.6;
+  word-wrap: break-word;
 }
 
 /* Tablet and Desktop Modal Adjustments */
@@ -525,6 +547,11 @@
     font-size: 16px;
   }
 
+  .modal-divider-mobile:first-child,
+  .appointment-details-modal-mobile .ant-modal-body > div > .modal-divider-mobile:first-child {
+    margin-top: 0;
+  }
+
   .general-notes-section-mobile {
     margin-bottom: 24px;
   }
@@ -537,6 +564,15 @@
     width: auto;
     min-width: 160px;
     height: 40px;
+    font-size: 14px;
+  }
+
+  .patient-notes-view-compact {
+    padding: 12px 16px;
+    margin-bottom: 20px;
+  }
+
+  .patient-notes-view-compact p {
     font-size: 14px;
   }
 }
