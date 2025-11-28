@@ -48,6 +48,16 @@ const doctorSchema = new mongoose.Schema(
       type: Object,
       required: [true, "wrok timing is required"],
     },
+
+    // Profile Update Approval Fields
+    pendingUpdates: {
+      type: Object,
+      default: null,
+    },
+    hasPendingUpdates: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );

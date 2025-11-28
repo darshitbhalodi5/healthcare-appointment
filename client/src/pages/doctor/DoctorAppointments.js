@@ -2,15 +2,26 @@ import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout";
 import axios from "axios";
 import moment from "moment";
-import { message, Table } from "antd";
+import { message, Table, Modal, Divider, Input, Spin } from "antd";
+import { EyeOutlined, FileTextOutlined } from "@ant-design/icons";
+import FileUpload from "../../components/FileUpload";
+import DocumentList from "../../components/DocumentList";
 import "../../styles/Tables.css";
 import "../../styles/AppointmentCards.css";
+
+const { TextArea } = Input;
 
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
   const [isMobileView, setIsMobileView] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [appointmentDocuments, setAppointmentDocuments] = useState([]);
+  const [loadingDocuments, setLoadingDocuments] = useState(false);
+  const [generalNotes, setGeneralNotes] = useState('');
+  const [savingNotes, setSavingNotes] = useState(false);
 
   const getAppointments = async () => {
     try {
@@ -60,6 +71,77 @@ const DoctorAppointments = () => {
     }
   };
 
+  // Fetch documents for selected appointment
+  const fetchAppointmentDocuments = async (appointmentId) => {
+    setLoadingDocuments(true);
+    try {
+      const res = await axios.get(
+        `/api/v1/appointment/${appointmentId}/documents`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (res.data.success) {
+        setAppointmentDocuments(res.data.appointment.documents || []);
+        setGeneralNotes(res.data.appointment.generalNotes || '');
+      }
+    } catch (error) {
+      message.error('Failed to load documents');
+    } finally {
+      setLoadingDocuments(false);
+    }
+  };
+
+  // Handle view details
+  const handleViewDetails = async (appointment) => {
+    setSelectedAppointment(appointment);
+    setShowDetailsModal(true);
+    await fetchAppointmentDocuments(appointment._id);
+  };
+
+  // Handle upload success
+  const handleUploadSuccess = () => {
+    if (selectedAppointment) {
+      fetchAppointmentDocuments(selectedAppointment._id);
+    }
+  };
+
+  // Handle save general notes
+  const handleSaveNotes = async () => {
+    if (!selectedAppointment) return;
+
+    setSavingNotes(true);
+    try {
+      const res = await axios.put(
+        `/api/v1/appointment/${selectedAppointment._id}/notes`,
+        { notes: generalNotes },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        message.success('Notes saved successfully');
+      }
+    } catch (error) {
+      message.error(error.response?.data?.message || 'Failed to save notes');
+    } finally {
+      setSavingNotes(false);
+    }
+  };
+
+  // Handle close modal
+  const handleCloseModal = () => {
+    setShowDetailsModal(false);
+    setSelectedAppointment(null);
+    setAppointmentDocuments([]);
+    setGeneralNotes('');
+  };
+
   const columns = [
     {
       title: "ID",
@@ -87,24 +169,28 @@ const DoctorAppointments = () => {
       title: "Actions",
       dataIndex: "actions",
       render: (text, record) => (
-        <div className="d-flex">
+        <div className="d-flex gap-2">
           {record.status === "pending" ? (
-            <div className="d-flex">
+            <>
               <button
-                className="btn btn-success"
+                className="btn btn-success btn-sm"
                 onClick={() => handleStatus(record, "approved")}
               >
                 Approve
               </button>
               <button
-                className="btn btn-danger ms-2"
+                className="btn btn-danger btn-sm"
                 onClick={() => handleStatus(record, "reject")}
               >
                 Reject
               </button>
-            </div>
+            </>
           ) : (
-            <span className="no-action">-</span>
+            <EyeOutlined
+              onClick={() => handleViewDetails(record)}
+              style={{ fontSize: '18px', color: '#1890ff', cursor: 'pointer' }}
+              title="View Details & Documents"
+            />
           )}
         </div>
       ),
@@ -122,7 +208,12 @@ const DoctorAppointments = () => {
           <div className="appointments-card-grid">
             {appointments && appointments.length > 0 ? (
               appointments.map((appointment) => (
-                <div className="appointment-card" key={appointment._id}>
+                <div
+                  className="appointment-card"
+                  key={appointment._id}
+                  onClick={() => appointment.status !== "pending" && handleViewDetails(appointment)}
+                  style={{ cursor: appointment.status !== "pending" ? 'pointer' : 'default' }}
+                >
                   <div className="appointment-card-header">
                     <span className="appointment-id">
                       #{appointment._id.slice(-8)}
@@ -145,20 +236,32 @@ const DoctorAppointments = () => {
                       </span>
                     </div>
                   </div>
-                  {appointment.status === "pending" && (
+                  {appointment.status === "pending" ? (
                     <div className="appointment-card-actions">
                       <button
                         className="btn btn-success"
-                        onClick={() => handleStatus(appointment, "approved")}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStatus(appointment, "approved");
+                        }}
                       >
                         <i className="fa-solid fa-check"></i> Approve
                       </button>
                       <button
                         className="btn btn-danger"
-                        onClick={() => handleStatus(appointment, "reject")}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleStatus(appointment, "reject");
+                        }}
                       >
                         <i className="fa-solid fa-times"></i> Reject
                       </button>
+                    </div>
+                  ) : (
+                    <div style={{ marginTop: 12, textAlign: 'center' }}>
+                      <small style={{ color: '#1890ff' }}>
+                        <EyeOutlined /> Tap to view details & documents
+                      </small>
                     </div>
                   )}
                 </div>
@@ -179,6 +282,97 @@ const DoctorAppointments = () => {
           </>
         )}
       </div>
+
+      {/* Appointment Details Modal */}
+      <Modal
+        title={
+          <span>
+            <FileTextOutlined /> Appointment Details & Documents
+          </span>
+        }
+        open={showDetailsModal}
+        onCancel={handleCloseModal}
+        footer={null}
+        width="95%"
+        style={{ maxWidth: 900, top: 20 }}
+        className="appointment-details-modal-mobile"
+      >
+        {selectedAppointment && (
+          <div>
+            {/* Appointment Info */}
+            <div className="appointment-info-section-mobile">
+              <h4 className="section-title-mobile">Appointment Information</h4>
+              <div className="appointment-info-grid-mobile">
+                <div className="info-item-mobile">
+                  <strong>ID:</strong> #{selectedAppointment._id.slice(-8)}
+                </div>
+                <div className="info-item-mobile">
+                  <strong>Status:</strong>{' '}
+                  <span className={`status-badge ${selectedAppointment.status}`}>
+                    {selectedAppointment.status}
+                  </span>
+                </div>
+                <div className="info-item-mobile">
+                  <strong>Date:</strong> {moment(selectedAppointment.date).format('DD-MM-YYYY')}
+                </div>
+                <div className="info-item-mobile">
+                  <strong>Time:</strong> {moment(selectedAppointment.time).format('HH:mm')}
+                </div>
+              </div>
+            </div>
+
+            <Divider className="modal-divider-mobile">General Notes</Divider>
+
+            {/* General Notes */}
+            {selectedAppointment.status === 'approved' && (
+              <div className="general-notes-section-mobile">
+                <TextArea
+                  rows={4}
+                  value={generalNotes}
+                  onChange={(e) => setGeneralNotes(e.target.value)}
+                  placeholder="Add general notes for this appointment (diagnosis, treatment plan, follow-up instructions, etc.)"
+                  className="notes-textarea-mobile"
+                />
+                <button
+                  className="btn btn-primary save-notes-btn-mobile"
+                  onClick={handleSaveNotes}
+                  disabled={savingNotes}
+                >
+                  {savingNotes ? 'Saving...' : 'Save Notes'}
+                </button>
+              </div>
+            )}
+
+            <Divider className="modal-divider-mobile">Upload Prescription / Medical Opinion</Divider>
+
+            {/* File Upload (Doctor) */}
+            {selectedAppointment.status === 'approved' && (
+              <FileUpload
+                appointmentId={selectedAppointment._id}
+                onUploadSuccess={handleUploadSuccess}
+                label="Upload Prescription, Medical Opinion, or Reports"
+                maxFiles={10}
+              />
+            )}
+
+            <Divider className="modal-divider-mobile">Patient Documents</Divider>
+
+            {/* Document List with commenting ability */}
+            {loadingDocuments ? (
+              <div className="loading-section-mobile">
+                <Spin size="large" />
+              </div>
+            ) : (
+              <DocumentList
+                appointmentId={selectedAppointment._id}
+                documents={appointmentDocuments}
+                userRole="doctor"
+                onRefresh={() => fetchAppointmentDocuments(selectedAppointment._id)}
+              />
+            )}
+          </div>
+        )}
+      </Modal>
     </Layout>
   );
 };

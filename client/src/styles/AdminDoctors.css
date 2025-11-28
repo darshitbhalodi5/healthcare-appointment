@@ -51,6 +51,72 @@
   font-size: 0.85rem;
 }
 
+.pending-updates-card {
+  width: 100%;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-top: 12px;
+}
+
+.pending-updates-card h4 {
+  font-size: 0.95rem;
+  margin: 0 0 8px;
+  color: #0d47a1;
+}
+
+.pending-updates-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pending-update-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pending-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.pending-values {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+}
+
+.pending-old {
+  text-decoration: line-through;
+  color: #6b7280;
+}
+
+.pending-arrow {
+  color: #9ca3af;
+}
+
+.pending-new {
+  color: #1d4ed8;
+  font-weight: 600;
+}
+
+.pending-tag {
+  border-radius: 999px;
+  font-size: 0.75rem;
+}
+
+.pending-meta {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
 .status-pill {
   padding: 6px 10px;
   border-radius: 999px;

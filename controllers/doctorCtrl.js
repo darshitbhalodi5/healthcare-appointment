@@ -46,13 +46,14 @@ const updateProfileController = async (req, res) => {
 
     // Handle fields requiring admin approval
     if (adminApproval && Object.keys(adminApproval).length > 0) {
-      // Store pending changes and set status to pending
-      doctor.status = "pending";
-
-      // Store the pending changes for admin review
-      Object.keys(adminApproval).forEach((key) => {
-        doctor[key] = adminApproval[key];
-      });
+      // Store pending changes separately (DO NOT change status to "pending")
+      // Doctor remains "approved" and can continue practicing
+      doctor.pendingUpdates = {
+        ...adminApproval,
+        requestedAt: new Date(),
+        requestedBy: userId,
+      };
+      doctor.hasPendingUpdates = true;
 
       // Notify admin about the profile update request
       const adminUser = await userModel.findOne({ isAdmin: true });
@@ -61,10 +62,11 @@ const updateProfileController = async (req, res) => {
         const notifcation = adminUser.notifcation || [];
         notifcation.push({
           type: "doctor-profile-update-request",
-          message: `Dr. ${doctor.firstName} ${doctor.lastName} has updated their profile and requires approval`,
+          message: `Dr. ${doctor.firstName} ${doctor.lastName} has requested profile updates for review`,
           data: {
             doctorId: doctor._id,
             name: doctor.firstName + " " + doctor.lastName,
+            updates: adminApproval,
             onClickPath: "/admin/docotrs",
           },
         });
@@ -72,8 +74,8 @@ const updateProfileController = async (req, res) => {
       }
 
       updateMessage = updateMessage
-        ? "Profile updated. Changes requiring approval have been submitted for admin review."
-        : "Profile changes submitted for admin approval";
+        ? "Profile updated. Changes requiring approval have been submitted for admin review. You can continue practicing while the update is being reviewed."
+        : "Profile changes submitted for admin approval. You can continue practicing while the update is being reviewed.";
     }
 
     await doctor.save();

@@ -1,0 +1,205 @@
+/* Mobile-First Design for FileUpload Component */
+
+.file-upload-container {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.file-upload-label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #262626;
+}
+
+/* Dragger - Mobile First */
+.mobile-dragger {
+  border: 2px dashed #d9d9d9;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 20px 16px !important;
+  transition: all 0.3s ease;
+}
+
+.mobile-dragger:hover {
+  border-color: #1890ff;
+  background: #f0f5ff;
+}
+
+.mobile-dragger .ant-upload-drag-icon {
+  margin-bottom: 12px;
+}
+
+.mobile-dragger .ant-upload-drag-icon .anticon {
+  font-size: 40px !important;
+  color: #1890ff;
+}
+
+.mobile-dragger .ant-upload-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.mobile-dragger .ant-upload-hint {
+  font-size: 12px;
+  color: #8c8c8c;
+  line-height: 1.5;
+}
+
+/* Upload Progress */
+.upload-progress {
+  margin-top: 16px;
+  padding: 0 4px;
+}
+
+/* File List Container */
+.file-list-container {
+  margin-top: 16px;
+}
+
+.file-list-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #262626;
+}
+
+.file-list {
+  max-height: 300px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* File Item - Mobile Optimized */
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+  min-height: 60px;
+}
+
+.file-item:active {
+  transform: scale(0.98);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.file-item-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+}
+
+.file-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.file-name {
+  font-weight: 500;
+  font-size: 14px;
+  color: #262626;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 4px;
+}
+
+.file-size {
+  font-size: 12px;
+  color: #8c8c8c;
+}
+
+.file-delete-icon {
+  font-size: 18px;
+  color: #ff4d4f;
+  cursor: pointer;
+  padding: 8px;
+  margin: -8px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.file-delete-icon:active {
+  transform: scale(1.1);
+}
+
+/* Upload Button - Mobile Optimized */
+.upload-btn-mobile {
+  width: 100%;
+  margin-top: 12px;
+  height: 44px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.upload-btn-mobile:active {
+  transform: scale(0.98);
+}
+
+.upload-btn-mobile:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Tablet and Desktop Adjustments */
+@media (min-width: 768px) {
+  .mobile-dragger {
+    padding: 30px 24px !important;
+  }
+
+  .mobile-dragger .ant-upload-drag-icon .anticon {
+    font-size: 48px !important;
+  }
+
+  .mobile-dragger .ant-upload-text {
+    font-size: 16px;
+  }
+
+  .mobile-dragger .ant-upload-hint {
+    font-size: 13px;
+  }
+
+  .file-item {
+    padding: 14px 16px;
+  }
+
+  .file-name {
+    font-size: 15px;
+  }
+
+  .upload-btn-mobile {
+    height: 40px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .file-upload-label {
+    font-size: 18px;
+  }
+
+  .file-list {
+    max-height: 250px;
+  }
+}

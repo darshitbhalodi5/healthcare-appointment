@@ -29,3 +29,7 @@ client/build
 client/node_modules
 
 node_modules
+
+# Uploaded files (keep directory structure with .gitkeep)
+uploads/appointments/*
+!uploads/appointments/.gitkeep

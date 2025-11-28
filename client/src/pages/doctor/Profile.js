@@ -29,9 +29,15 @@ const Profile = () => {
 
   // Handle field value change
   const handleFieldChange = (fieldName, value) => {
+    // Convert to number for fee field
+    let processedValue = value;
+    if (fieldName === 'feesPerCunsaltation') {
+      processedValue = value === '' ? '' : Number(value);
+    }
+    
     setEditedValues((prev) => ({
       ...prev,
-      [fieldName]: value,
+      [fieldName]: processedValue,
     }));
   };
 
@@ -166,6 +172,16 @@ const Profile = () => {
                 onChange={(val) => handleFieldChange(field, val)}
                 className="field-input-time"
               />
+            ) : type === "number" ? (
+              <Input
+                type="number"
+                value={currentValue}
+                onChange={(e) => handleFieldChange(field, e.target.value)}
+                placeholder={`Enter ${label.toLowerCase()}`}
+                className="field-input"
+                min={0}
+                step={1}
+              />
             ) : (
               <Input
                 type={type}
@@ -226,7 +242,7 @@ const Profile = () => {
           <div className="profile-fields-grid">
             {renderField("specialization", "text", "Specialization")}
             {renderField("experience", "text", "Experience")}
-            {renderField("feesPerCunsaltation", "number", "Fees Per Consultation")}
+            {renderField("feesPerCunsaltation", "number", "Fee")}
             {renderField("timings", "time-range", "Available Timings (UTC)")}
           </div>
         </div>

@@ -313,3 +313,183 @@
     font-size: 1.6rem;
   }
 }
+
+/* Appointment Details Modal - Mobile First */
+.appointment-details-modal-mobile .ant-modal-body {
+  padding: 16px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.appointment-details-modal-mobile .ant-modal-header {
+  padding: 16px;
+}
+
+.appointment-details-modal-mobile .ant-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.appointment-info-section-mobile {
+  margin-bottom: 20px;
+  padding: 16px;
+  background-color: #f5f5f5;
+  border-radius: 12px;
+}
+
+.section-title-mobile {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #262626;
+}
+
+.appointment-info-grid-mobile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.info-item-mobile {
+  font-size: 14px;
+  color: #262626;
+  padding: 8px 12px;
+  background: #fff;
+  border-radius: 6px;
+}
+
+.info-item-mobile strong {
+  color: #595959;
+  margin-right: 6px;
+}
+
+.doctor-notes-section-mobile {
+  margin-top: 12px;
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+}
+
+.doctor-notes-section-mobile strong {
+  display: block;
+  margin-bottom: 8px;
+  color: #262626;
+  font-size: 14px;
+}
+
+.doctor-notes-section-mobile p {
+  margin: 0;
+  font-size: 14px;
+  color: #595959;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.modal-divider-mobile {
+  margin: 20px 0 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.loading-section-mobile {
+  text-align: center;
+  padding: 40px 16px;
+}
+
+.general-notes-section-mobile {
+  margin-bottom: 20px;
+}
+
+.notes-textarea-mobile {
+  font-size: 14px;
+  border-radius: 8px;
+  resize: vertical;
+  min-height: 100px;
+}
+
+.notes-textarea-mobile:focus {
+  border-color: #1890ff;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+.save-notes-btn-mobile {
+  width: 100%;
+  margin-top: 12px;
+  height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.save-notes-btn-mobile:active {
+  transform: scale(0.98);
+}
+
+/* Tablet and Desktop Modal Adjustments */
+@media (min-width: 768px) {
+  .appointment-details-modal-mobile .ant-modal-body {
+    padding: 24px;
+  }
+
+  .appointment-details-modal-mobile .ant-modal-header {
+    padding: 20px 24px;
+  }
+
+  .appointment-details-modal-mobile .ant-modal-title {
+    font-size: 18px;
+  }
+
+  .appointment-info-section-mobile {
+    padding: 20px;
+  }
+
+  .section-title-mobile {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .appointment-info-grid-mobile {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .info-item-mobile {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .doctor-notes-section-mobile {
+    padding: 14px;
+  }
+
+  .doctor-notes-section-mobile strong {
+    font-size: 15px;
+  }
+
+  .doctor-notes-section-mobile p {
+    font-size: 15px;
+  }
+
+  .modal-divider-mobile {
+    margin: 24px 0 20px 0;
+    font-size: 16px;
+  }
+
+  .general-notes-section-mobile {
+    margin-bottom: 24px;
+  }
+
+  .notes-textarea-mobile {
+    font-size: 15px;
+  }
+
+  .save-notes-btn-mobile {
+    width: auto;
+    min-width: 160px;
+    height: 40px;
+    font-size: 14px;
+  }
+}

@@ -21,6 +21,7 @@ app.use(moragan("dev"));
 app.use("/api/v1/user", require("./routes/userRoutes"));
 app.use("/api/v1/admin", require("./routes/adminRoutes"));
 app.use("/api/v1/doctor", require("./routes/doctorRoutes"));
+app.use("/api/v1/appointment", require("./routes/documentRoutes"));
 
 //port
 const port = process.env.PORT || 3051;
