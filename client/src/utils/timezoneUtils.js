@@ -108,3 +108,72 @@ export const formatTimeDisplay = (time) => {
 export const getTimezoneAbbr = (timezone) => {
   return moment.tz(timezone).format('z');
 };
+
+/**
+ * Format appointment date/time for display in user's timezone
+ * @param {object} appointment - Appointment object with dateTimeUTC field
+ * @returns {object} Formatted date and time for display
+ */
+export const formatAppointmentTime = (appointment) => {
+  // If dateTimeUTC exists, use it (new appointments with timezone support)
+  if (appointment.dateTimeUTC) {
+    const userTimezone = getUserTimezone();
+    const localTime = moment.utc(appointment.dateTimeUTC).tz(userTimezone);
+
+    return {
+      date: localTime.format('DD-MM-YYYY'),
+      time: localTime.format('HH:mm'),
+      displayDate: localTime.format('DD MMM YYYY'),
+      displayTime: localTime.format('h:mm A'),
+      hasTimezone: true,
+    };
+  }
+
+  // Fallback for old appointments without dateTimeUTC
+  return {
+    date: appointment.date,
+    time: appointment.time,
+    displayDate: moment(appointment.date, 'DD-MM-YYYY').format('DD MMM YYYY'),
+    displayTime: moment(appointment.time, 'HH:mm').format('h:mm A'),
+    hasTimezone: false,
+  };
+};
+
+/**
+ * Convert UTC time string (HH:mm) to local timezone time string (HH:mm)
+ * Uses today's date as reference for conversion
+ * @param {string} utcTime - Time in HH:mm format (UTC)
+ * @param {string} timezone - Target timezone
+ * @returns {string} Time in HH:mm format (local timezone)
+ */
+export const utcTimeToLocalTime = (utcTime, timezone) => {
+  // Use today's date as reference
+  const today = moment().format('YYYY-MM-DD');
+  const utcDateTime = moment.utc(`${today} ${utcTime}`, 'YYYY-MM-DD HH:mm');
+  const localDateTime = utcDateTime.tz(timezone);
+  return localDateTime.format('HH:mm');
+};
+
+/**
+ * Convert local timezone time string (HH:mm) to UTC time string (HH:mm)
+ * Uses today's date as reference for conversion
+ * @param {string} localTime - Time in HH:mm format (local timezone)
+ * @param {string} timezone - Source timezone
+ * @returns {string} Time in HH:mm format (UTC)
+ */
+export const localTimeToUTCTime = (localTime, timezone) => {
+  // Use today's date as reference
+  const today = moment().format('YYYY-MM-DD');
+  const localDateTime = moment.tz(`${today} ${localTime}`, 'YYYY-MM-DD HH:mm', timezone);
+  const utcDateTime = localDateTime.utc();
+  return utcDateTime.format('HH:mm');
+};
+
+/**
+ * Get timezone abbreviation for display
+ * @param {string} timezone - Timezone string
+ * @returns {string} Timezone abbreviation like "EST", "PST", "IST"
+ */
+export const getTimezoneDisplayName = (timezone) => {
+  return moment.tz(timezone).format('z');
+};

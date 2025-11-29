@@ -1,19 +1,42 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { getUserTimezone, utcTimeToLocalTime } from "../utils/timezoneUtils";
 import "../styles/DoctorList.css";
 
 const DoctorList = ({ doctor }) => {
   const navigate = useNavigate();
+  const userTimezone = getUserTimezone();
 
-  // Handle timings - check if it's an array or object
-  let timingsDisplay = "N/A";
-  if (doctor.timings) {
-    if (Array.isArray(doctor.timings)) {
-      timingsDisplay = `${doctor.timings[0] || "N/A"} - ${doctor.timings[1] || "N/A"}`;
-    } else if (typeof doctor.timings === "object") {
-      timingsDisplay = `${doctor.timings[0] || doctor.timings.start || "N/A"} - ${doctor.timings[1] || doctor.timings.end || "N/A"}`;
+  // Convert doctor timings from UTC to patient's timezone for display
+  const getDisplayTimings = () => {
+    if (!doctor || !doctor.timings) {
+      return "N/A";
     }
-  }
+    
+    let utcStartTime, utcEndTime;
+    
+    if (Array.isArray(doctor.timings)) {
+      utcStartTime = doctor.timings[0];
+      utcEndTime = doctor.timings[1];
+    } else if (typeof doctor.timings === "object") {
+      utcStartTime = doctor.timings[0] || doctor.timings.start;
+      utcEndTime = doctor.timings[1] || doctor.timings.end;
+    } else {
+      return "N/A";
+    }
+    
+    if (!utcStartTime || !utcEndTime) {
+      return "N/A";
+    }
+    
+    // Convert UTC times to patient's timezone
+    const localStartTime = utcTimeToLocalTime(utcStartTime, userTimezone);
+    const localEndTime = utcTimeToLocalTime(utcEndTime, userTimezone);
+    
+    return `${localStartTime} - ${localEndTime}`;
+  };
+
+  const timingsDisplay = getDisplayTimings();
 
   return (
     <>

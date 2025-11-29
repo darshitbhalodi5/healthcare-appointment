@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout";
 import axios from "axios";
-import moment from "moment";
 import { message, Table, Modal, Divider, Input, Spin, Switch } from "antd";
 import { EyeOutlined, FileTextOutlined, UnorderedListOutlined, GroupOutlined } from "@ant-design/icons";
 import FileUpload from "../../components/FileUpload";
 import DocumentList from "../../components/DocumentList";
 import GroupedAppointments from "../../components/GroupedAppointments";
 import AISummaryPlaceholder from "../../components/AISummaryPlaceholder";
+import { formatAppointmentTime } from "../../utils/timezoneUtils";
 import "../../styles/Tables.css";
 import "../../styles/AppointmentCards.css";
 
@@ -180,12 +180,15 @@ const DoctorAppointments = () => {
     {
       title: "Date & Time",
       dataIndex: "date",
-      render: (text, record) => (
-        <span>
-          {moment(record.date).format("DD-MM-YYYY")} &nbsp;
-          {moment(record.time).format("HH:mm")}
-        </span>
-      ),
+      render: (text, record) => {
+        const formattedTime = formatAppointmentTime(record);
+        return (
+          <span>
+            {formattedTime.date} &nbsp;
+            {formattedTime.time}
+          </span>
+        );
+      },
     },
     {
       title: "Status",
@@ -275,13 +278,13 @@ const DoctorAppointments = () => {
                     <div className="appointment-info-row">
                       <span className="info-label">Date</span>
                       <span className="info-value">
-                        {moment(appointment.date).format("DD-MM-YYYY")}
+                        {formatAppointmentTime(appointment).date}
                       </span>
                     </div>
                     <div className="appointment-info-row">
                       <span className="info-label">Time</span>
                       <span className="info-value">
-                        {moment(appointment.time).format("HH:mm")}
+                        {formatAppointmentTime(appointment).time}
                       </span>
                     </div>
                   </div>
@@ -364,38 +367,40 @@ const DoctorAppointments = () => {
               </>
             )}
 
-            <Divider className="modal-divider-mobile">General Notes</Divider>
-
-            {/* General Notes */}
+            {/* General Notes - Only show for approved appointments */}
             {selectedAppointment.status === 'approved' && (
-              <div className="general-notes-section-mobile">
-                <TextArea
-                  rows={4}
-                  value={generalNotes}
-                  onChange={(e) => setGeneralNotes(e.target.value)}
-                  placeholder="Add general notes for this appointment (diagnosis, treatment plan, follow-up instructions, etc.)"
-                  className="notes-textarea-mobile"
-                />
-                <button
-                  className="btn btn-primary save-notes-btn-mobile"
-                  onClick={handleSaveNotes}
-                  disabled={savingNotes}
-                >
-                  {savingNotes ? 'Saving...' : 'Save Notes'}
-                </button>
-              </div>
+              <>
+                <Divider className="modal-divider-mobile">General Notes</Divider>
+                <div className="general-notes-section-mobile">
+                  <TextArea
+                    rows={4}
+                    value={generalNotes}
+                    onChange={(e) => setGeneralNotes(e.target.value)}
+                    placeholder="Add general notes for this appointment (diagnosis, treatment plan, follow-up instructions, etc.)"
+                    className="notes-textarea-mobile"
+                  />
+                  <button
+                    className="btn btn-primary save-notes-btn-mobile"
+                    onClick={handleSaveNotes}
+                    disabled={savingNotes}
+                  >
+                    {savingNotes ? 'Saving...' : 'Save Notes'}
+                  </button>
+                </div>
+              </>
             )}
 
-            <Divider className="modal-divider-mobile">Upload Prescription</Divider>
-
-            {/* File Upload (Doctor) */}
+            {/* Upload Prescription - Only show for approved appointments */}
             {selectedAppointment.status === 'approved' && (
-              <FileUpload
-                appointmentId={selectedAppointment._id}
-                onUploadSuccess={handleUploadSuccess}
-                label="Upload Prescription or Reports"
-                maxFiles={10}
-              />
+              <>
+                <Divider className="modal-divider-mobile">Upload Prescription</Divider>
+                <FileUpload
+                  appointmentId={selectedAppointment._id}
+                  onUploadSuccess={handleUploadSuccess}
+                  label="Upload Prescription or Reports"
+                  maxFiles={10}
+                />
+              </>
             )}
 
             <Divider className="modal-divider-mobile">Patient Documents</Divider>

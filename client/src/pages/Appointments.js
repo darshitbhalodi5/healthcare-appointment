@@ -7,6 +7,7 @@ import { EyeOutlined, FileTextOutlined, UnorderedListOutlined, GroupOutlined } f
 import FileUpload from "../components/FileUpload";
 import DocumentList from "../components/DocumentList";
 import GroupedAppointments from "../components/GroupedAppointments";
+import { formatAppointmentTime } from "../utils/timezoneUtils";
 import "../styles/Tables.css";
 import "../styles/AppointmentCards.css";
 
@@ -120,12 +121,15 @@ const Appointments = () => {
     {
       title: "Date & Time",
       dataIndex: "date",
-      render: (text, record) => (
-        <span>
-          {moment(record.date).format("DD-MM-YYYY")} &nbsp;
-          {moment(record.time).format("HH:mm")}
-        </span>
-      ),
+      render: (text, record) => {
+        const formattedTime = formatAppointmentTime(record);
+        return (
+          <span>
+            {formattedTime.date} &nbsp;
+            {formattedTime.time}
+          </span>
+        );
+      },
     },
     {
       title: "Status",
@@ -196,13 +200,13 @@ const Appointments = () => {
                     <div className="appointment-info-row">
                       <span className="info-label">Date</span>
                       <span className="info-value">
-                        {moment(appointment.date).format("DD-MM-YYYY")}
+                        {formatAppointmentTime(appointment).date}
                       </span>
                     </div>
                     <div className="appointment-info-row">
                       <span className="info-label">Time</span>
                       <span className="info-value">
-                        {moment(appointment.time).format("HH:mm")}
+                        {formatAppointmentTime(appointment).time}
                       </span>
                     </div>
                   </div>

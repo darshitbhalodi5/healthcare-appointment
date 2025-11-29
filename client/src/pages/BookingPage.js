@@ -8,7 +8,7 @@ import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import FileUpload from "../components/FileUpload";
 import AppointmentCalendar from "../components/AppointmentCalendar";
 import TimeSlotPicker from "../components/TimeSlotPicker";
-import { getUserTimezone, localToUTC } from "../utils/timezoneUtils";
+import { getUserTimezone, localToUTC, utcTimeToLocalTime, getTimezoneDisplayName } from "../utils/timezoneUtils";
 import "../styles/BookingPage.css";
 
 const BookingPage = () => {
@@ -27,6 +27,20 @@ const BookingPage = () => {
   const [createdAppointmentId, setCreatedAppointmentId] = useState(null);
 
   const userTimezone = getUserTimezone();
+  const timezoneDisplay = getTimezoneDisplayName(userTimezone);
+
+  // Convert doctor timings from UTC to patient's timezone
+  const getDisplayTimings = (doctor) => {
+    if (!doctor || !doctor.timings || !Array.isArray(doctor.timings)) {
+      return { start: "N/A", end: "N/A" };
+    }
+    
+    // Doctor timings are stored in UTC, convert to patient's timezone
+    const startTime = utcTimeToLocalTime(doctor.timings[0], userTimezone);
+    const endTime = utcTimeToLocalTime(doctor.timings[1], userTimezone);
+    
+    return { start: startTime, end: endTime };
+  };
 
   // Fetch doctor data
   const getDoctorData = async () => {
@@ -188,9 +202,12 @@ const BookingPage = () => {
               <span className="value">${doctor.feesPerCunsaltation}</span>
             </div>
             <div className="doctor-info-row">
-              <span className="label">Available Timings:</span>
+              <span className="label">Available Timings ({timezoneDisplay}):</span>
               <span className="value">
-                {doctor.timings && doctor.timings[0]} - {doctor.timings && doctor.timings[1]}
+                {(() => {
+                  const displayTimings = getDisplayTimings(doctor);
+                  return `${displayTimings.start} - ${displayTimings.end}`;
+                })()}
               </span>
             </div>
           </div>
@@ -206,7 +223,10 @@ const BookingPage = () => {
             <>
               <TimeSlotPicker
                 selectedDate={selectedDate}
-                doctorTimings={doctor.timings}
+                doctorTimings={(() => {
+                  const displayTimings = getDisplayTimings(doctor);
+                  return [displayTimings.start, displayTimings.end];
+                })()}
                 bookedSlots={bookedSlots}
                 onTimeSelect={handleTimeSelect}
                 selectedTime={selectedTime}

@@ -5,7 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Input, TimePicker, message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/features/alertSlice";
-import moment from "moment";
+import moment from "moment-timezone";
+import { getUserTimezone, utcTimeToLocalTime, localTimeToUTCTime, getTimezoneDisplayName } from "../../utils/timezoneUtils";
 import "../../styles/UserProfile.css";
 
 const Profile = () => {
@@ -16,6 +17,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const params = useParams();
+  const doctorTimezone = getUserTimezone();
+  const timezoneDisplay = getTimezoneDisplayName(doctorTimezone);
 
   // Fields that require admin approval
   const adminApprovalFields = ["specialization", "experience", "feesPerCunsaltation"];
@@ -68,12 +71,17 @@ const Profile = () => {
         }
       });
 
-      // Format timings if present - TimePicker.RangePicker returns moment objects
+      // Format timings if present - Convert from doctor's timezone to UTC
       if (directUpdateFields.timings && directUpdateFields.timings.length === 2) {
-        directUpdateFields.timings = [
-          directUpdateFields.timings[0].format("HH:mm"),
-          directUpdateFields.timings[1].format("HH:mm"),
-        ];
+        // Get times in doctor's timezone (HH:mm format)
+        const localStartTime = directUpdateFields.timings[0].format("HH:mm");
+        const localEndTime = directUpdateFields.timings[1].format("HH:mm");
+        
+        // Convert to UTC before saving
+        const utcStartTime = localTimeToUTCTime(localStartTime, doctorTimezone);
+        const utcEndTime = localTimeToUTCTime(localEndTime, doctorTimezone);
+        
+        directUpdateFields.timings = [utcStartTime, utcEndTime];
       }
 
       const payload = {
@@ -132,7 +140,20 @@ const Profile = () => {
 
   // Get current value (edited or original)
   const getCurrentValue = (field) => {
-    return editedValues[field] !== undefined ? editedValues[field] : doctor[field];
+    if (editedValues[field] !== undefined) {
+      return editedValues[field];
+    }
+    
+    // For timings, convert from UTC to doctor's timezone for display
+    if (field === 'timings' && doctor[field]) {
+      if (Array.isArray(doctor[field]) && doctor[field].length === 2) {
+        const localStartTime = utcTimeToLocalTime(doctor[field][0], doctorTimezone);
+        const localEndTime = utcTimeToLocalTime(doctor[field][1], doctorTimezone);
+        return [localStartTime, localEndTime];
+      }
+    }
+    
+    return doctor[field];
   };
 
   // Render field based on type
@@ -163,10 +184,8 @@ const Profile = () => {
               <TimePicker.RangePicker
                 format="HH:mm"
                 value={
-                  currentValue && currentValue.length === 2
+                  currentValue && Array.isArray(currentValue) && currentValue.length === 2
                     ? [moment(currentValue[0], "HH:mm"), moment(currentValue[1], "HH:mm")]
-                    : doctor.timings
-                    ? [moment(doctor.timings[0], "HH:mm"), moment(doctor.timings[1], "HH:mm")]
                     : null
                 }
                 onChange={(val) => handleFieldChange(field, val)}
@@ -243,7 +262,7 @@ const Profile = () => {
             {renderField("specialization", "text", "Specialization")}
             {renderField("experience", "text", "Experience")}
             {renderField("feesPerCunsaltation", "number", "Fee")}
-            {renderField("timings", "time-range", "Available Timings (UTC)")}
+            {renderField("timings", "time-range", `Available Timings (${timezoneDisplay})`)}
           </div>
         </div>
 

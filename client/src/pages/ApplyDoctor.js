@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import axios from "axios";
-import moment from "moment";
+import { getUserTimezone, localTimeToUTCTime, getTimezoneDisplayName } from "../utils/timezoneUtils";
 import "../styles/ApplyDoctor.css";
 
 const ApplyDoctor = () => {
@@ -13,6 +13,8 @@ const ApplyDoctor = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const doctorTimezone = getUserTimezone();
+  const timezoneDisplay = getTimezoneDisplayName(doctorTimezone);
 
   // Set initial values from user data
   const initialValues = {
@@ -29,13 +31,19 @@ const ApplyDoctor = () => {
     try {
       dispatch(showLoading());
 
-      // Format timings properly - TimePicker.RangePicker already returns moment objects
-      const formattedTimings = values.timings && values.timings.length === 2
-        ? [
-            values.timings[0].format("HH:mm"),
-            values.timings[1].format("HH:mm"),
-          ]
-        : [];
+      // Convert timings from doctor's timezone to UTC before saving
+      let formattedTimings = [];
+      if (values.timings && values.timings.length === 2) {
+        // Get times in doctor's timezone (HH:mm format)
+        const localStartTime = values.timings[0].format("HH:mm");
+        const localEndTime = values.timings[1].format("HH:mm");
+        
+        // Convert to UTC
+        const utcStartTime = localTimeToUTCTime(localStartTime, doctorTimezone);
+        const utcEndTime = localTimeToUTCTime(localEndTime, doctorTimezone);
+        
+        formattedTimings = [utcStartTime, utcEndTime];
+      }
 
       const res = await axios.post(
         "/api/v1/user/apply-doctor",
@@ -173,13 +181,13 @@ const ApplyDoctor = () => {
               </Col>
               <Col xs={24} sm={12} lg={8}>
                 <Form.Item
-                  label="Available Timings (UTC)"
+                  label={`Available Timings (${timezoneDisplay})`}
                   name="timings"
                   rules={[{ required: true, message: "Timings are required" }]}
                 >
                   <TimePicker.RangePicker
                     format="HH:mm"
-                    placeholder={["Start Time (UTC)", "End Time (UTC)"]}
+                    placeholder={[`Start Time (${timezoneDisplay})`, `End Time (${timezoneDisplay})`]}
                     className="timings-picker"
                   />
                 </Form.Item>

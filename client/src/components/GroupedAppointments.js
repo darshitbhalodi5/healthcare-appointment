@@ -11,6 +11,7 @@ import {
 } from '@ant-design/icons';
 import moment from 'moment';
 import AISummaryPlaceholder from './AISummaryPlaceholder';
+import { formatAppointmentTime } from '../utils/timezoneUtils';
 import './GroupedAppointments.css';
 
 const { Panel } = Collapse;
@@ -131,7 +132,7 @@ const GroupedAppointments = ({ groupedData, userRole, onViewDetails }) => {
                       <div className="appointment-date">
                         <CalendarOutlined />
                         <span>
-                          {moment(appointment.date, 'DD-MM-YYYY').format('DD MMM YYYY')}
+                          {formatAppointmentTime(appointment).displayDate}
                         </span>
                       </div>
                       <Tag color={getStatusColor(appointment.status)} className="status-tag">
