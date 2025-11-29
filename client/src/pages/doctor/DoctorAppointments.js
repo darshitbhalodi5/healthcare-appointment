@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout";
 import axios from "axios";
 import moment from "moment";
-import { message, Table, Modal, Divider, Input, Spin } from "antd";
-import { EyeOutlined, FileTextOutlined } from "@ant-design/icons";
+import { message, Table, Modal, Divider, Input, Spin, Switch } from "antd";
+import { EyeOutlined, FileTextOutlined, UnorderedListOutlined, GroupOutlined } from "@ant-design/icons";
 import FileUpload from "../../components/FileUpload";
 import DocumentList from "../../components/DocumentList";
+import GroupedAppointments from "../../components/GroupedAppointments";
 import "../../styles/Tables.css";
 import "../../styles/AppointmentCards.css";
 
@@ -13,6 +14,8 @@ const { TextArea } = Input;
 
 const DoctorAppointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const [groupedAppointments, setGroupedAppointments] = useState([]);
+  const [viewMode, setViewMode] = useState('list'); // 'list' or 'grouped'
   const [isMobileView, setIsMobileView] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
@@ -25,13 +28,28 @@ const DoctorAppointments = () => {
 
   const getAppointments = async () => {
     try {
-      const res = await axios.get("/api/v1/doctor//doctor-appointments", {
+      const res = await axios.get("/api/v1/doctor/doctor-appointments", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       if (res.data.success) {
         setAppointments(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getGroupedAppointments = async () => {
+    try {
+      const res = await axios.get("/api/v1/doctor/doctor-grouped-appointments", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (res.data.success) {
+        setGroupedAppointments(res.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -48,6 +66,7 @@ const DoctorAppointments = () => {
 
   useEffect(() => {
     getAppointments();
+    getGroupedAppointments();
   }, []);
 
   const handleStatus = async (record, status) => {
@@ -202,9 +221,23 @@ const DoctorAppointments = () => {
       <div className="appointments-container">
         <div className="appointments-header">
           <h1>Appointments List</h1>
+          <div className="view-toggle">
+            <UnorderedListOutlined />
+            <Switch
+              checked={viewMode === 'grouped'}
+              onChange={(checked) => setViewMode(checked ? 'grouped' : 'list')}
+            />
+            <GroupOutlined />
+          </div>
         </div>
 
-        {isMobileView ? (
+        {viewMode === 'grouped' ? (
+          <GroupedAppointments
+            groupedData={groupedAppointments}
+            userRole="doctor"
+            onViewDetails={handleViewDetails}
+          />
+        ) : isMobileView ? (
           <div className="appointments-card-grid">
             {appointments && appointments.length > 0 ? (
               appointments.map((appointment) => (
@@ -223,6 +256,12 @@ const DoctorAppointments = () => {
                     </span>
                   </div>
                   <div className="appointment-card-body">
+                    <div className="appointment-info-row">
+                      <span className="info-label">Patient</span>
+                      <span className="info-value">
+                        {appointment.patientName || 'Not assigned'}
+                      </span>
+                    </div>
                     <div className="appointment-info-row">
                       <span className="info-label">Date</span>
                       <span className="info-value">

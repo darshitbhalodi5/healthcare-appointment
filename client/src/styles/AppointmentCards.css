@@ -576,3 +576,60 @@
     font-size: 14px;
   }
 }
+
+/* View Toggle Styles - Mobile First */
+.appointments-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.appointments-header h1 {
+  text-align: left;
+  width: 100%;
+}
+
+.view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 4px;
+  border-radius: 25px;
+  width: 100%;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.view-toggle .anticon {
+  color: white;
+  font-size: 16px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.view-toggle .anticon-unordered-list,
+.view-toggle .anticon-group {
+  padding: 6px;
+}
+
+/* Tablet and Up */
+@media (min-width: 768px) {
+  .appointments-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .appointments-header h1 {
+    text-align: center;
+    width: auto;
+  }
+
+  .view-toggle {
+    width: auto;
+    justify-content: flex-end;
+  }
+}

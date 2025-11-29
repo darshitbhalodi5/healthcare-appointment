@@ -5,6 +5,7 @@ const {
   getDoctorByIdController,
   doctorAppointmentsController,
   updateStatusController,
+  doctorGroupedAppointmentsController,
 } = require("../controllers/doctorCtrl");
 const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
@@ -23,6 +24,13 @@ router.get(
   "/doctor-appointments",
   authMiddleware,
   doctorAppointmentsController
+);
+
+//GET Grouped Appointments (by patient)
+router.get(
+  "/doctor-grouped-appointments",
+  authMiddleware,
+  doctorGroupedAppointmentsController
 );
 
 //POST Update Status

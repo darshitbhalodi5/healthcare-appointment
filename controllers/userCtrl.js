@@ -422,10 +422,34 @@ const userAppointmentsController = async (req, res) => {
     const appointments = await appointmentModel.find({
       userId: req.userId,
     });
+
+    // Fetch doctor names for all appointments
+    const doctorIds = [...new Set(appointments.map(a => a.doctorId).filter(Boolean))];
+    console.log('Doctor IDs from appointments:', doctorIds);
+
+    const doctors = await doctorModel.find({ _id: { $in: doctorIds } });
+    console.log('Doctors found:', doctors.length);
+
+    const doctorMap = {};
+    doctors.forEach(doctor => {
+      const key = doctor._id.toString();
+      const name = `Dr. ${doctor.firstName} ${doctor.lastName}`;
+      doctorMap[key] = name;
+      console.log(`Mapped: ${key} -> ${name}`);
+    });
+
+    // Add doctor name to each appointment
+    const appointmentsWithDoctorNames = appointments.map(appointment => {
+      const appt = appointment.toObject();
+      appt.doctorName = doctorMap[appointment.doctorId] || 'Not assigned';
+      console.log(`Appointment ${appt._id}: doctorId=${appointment.doctorId}, doctorName=${appt.doctorName}`);
+      return appt;
+    });
+
     res.status(200).send({
       success: true,
       message: "Users Appointments Fetch SUccessfully",
-      data: appointments,
+      data: appointmentsWithDoctorNames,
     });
   } catch (error) {
     console.log(error);
@@ -433,6 +457,120 @@ const userAppointmentsController = async (req, res) => {
       success: false,
       error,
       message: "Error In User Appointments",
+    });
+  }
+};
+
+// Get appointments grouped by doctor
+const userGroupedAppointmentsController = async (req, res) => {
+  try {
+    // Get all appointments for this user
+    const appointments = await appointmentModel
+      .find({ userId: req.userId })
+      .populate('documents.uploadedBy', 'firstName lastName email')
+      .sort({ createdAt: -1 });
+
+    // Get unique doctor IDs
+    const doctorIds = [...new Set(appointments.map(a => a.doctorId).filter(Boolean))];
+
+    // Fetch all doctors
+    const doctors = await doctorModel.find({ _id: { $in: doctorIds } });
+
+    // Create a map of doctorId -> doctor info
+    const doctorMap = {};
+    doctors.forEach(doctor => {
+      doctorMap[doctor._id.toString()] = doctor;
+    });
+
+    // Group appointments by doctor
+    const groupedByDoctor = {};
+
+    appointments.forEach(appointment => {
+      // Skip if no doctorId
+      if (!appointment.doctorId) {
+        return;
+      }
+
+      const doctorId = appointment.doctorId;
+      const doctor = doctorMap[doctorId];
+
+      // Skip if doctor not found
+      if (!doctor) {
+        return;
+      }
+
+      if (!groupedByDoctor[doctorId]) {
+        groupedByDoctor[doctorId] = {
+          doctor: {
+            _id: doctor._id,
+            firstName: doctor.firstName,
+            lastName: doctor.lastName,
+            email: doctor.email,
+            specialization: doctor.specialization,
+            phone: doctor.phone,
+          },
+          appointments: [],
+          statistics: {
+            totalAppointments: 0,
+            completedAppointments: 0,
+            upcomingAppointments: 0,
+            totalDocuments: 0,
+            lastVisit: null,
+            firstVisit: null,
+          },
+        };
+      }
+
+      groupedByDoctor[doctorId].appointments.push(appointment);
+      groupedByDoctor[doctorId].statistics.totalAppointments++;
+
+      // Update statistics
+      if (appointment.status === 'completed') {
+        groupedByDoctor[doctorId].statistics.completedAppointments++;
+      }
+      if (appointment.status === 'approved' || appointment.status === 'pending') {
+        groupedByDoctor[doctorId].statistics.upcomingAppointments++;
+      }
+
+      groupedByDoctor[doctorId].statistics.totalDocuments += appointment.documents?.length || 0;
+
+      // Track first and last visit dates
+      const appointmentDate = appointment.createdAt;
+      if (!groupedByDoctor[doctorId].statistics.firstVisit ||
+          appointmentDate < groupedByDoctor[doctorId].statistics.firstVisit) {
+        groupedByDoctor[doctorId].statistics.firstVisit = appointmentDate;
+      }
+      if (!groupedByDoctor[doctorId].statistics.lastVisit ||
+          appointmentDate > groupedByDoctor[doctorId].statistics.lastVisit) {
+        groupedByDoctor[doctorId].statistics.lastVisit = appointmentDate;
+      }
+    });
+
+    // Convert to array and sort by last visit
+    const groupedArray = Object.values(groupedByDoctor).sort((a, b) => {
+      return new Date(b.statistics.lastVisit) - new Date(a.statistics.lastVisit);
+    });
+
+    // Debug logging
+    console.log('=== PATIENT GROUPED APPOINTMENTS DEBUG ===');
+    console.log('Total appointments found:', appointments.length);
+    console.log('Number of doctor groups:', groupedArray.length);
+    console.log('Groups:', groupedArray.map(g => ({
+      doctor: `Dr. ${g.doctor.firstName} ${g.doctor.lastName}`,
+      appointmentCount: g.appointments.length
+    })));
+
+    res.status(200).send({
+      success: true,
+      message: "Grouped appointments fetched successfully",
+      data: groupedArray,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error in fetching grouped appointments",
     });
   }
 };
@@ -484,4 +622,5 @@ module.exports = {
   bookeAppointmnetController,
   bookingAvailabilityController,
   userAppointmentsController,
+  userGroupedAppointmentsController,
 };

@@ -2,15 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Layout from "./../components/Layout";
 import moment from "moment";
-import { Table, Modal, Divider, message, Spin } from "antd";
-import { EyeOutlined, FileTextOutlined } from "@ant-design/icons";
+import { Table, Modal, Divider, message, Spin, Switch } from "antd";
+import { EyeOutlined, FileTextOutlined, UnorderedListOutlined, GroupOutlined } from "@ant-design/icons";
 import FileUpload from "../components/FileUpload";
 import DocumentList from "../components/DocumentList";
+import GroupedAppointments from "../components/GroupedAppointments";
 import "../styles/Tables.css";
 import "../styles/AppointmentCards.css";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
+  const [groupedAppointments, setGroupedAppointments] = useState([]);
+  const [viewMode, setViewMode] = useState('list'); // 'list' or 'grouped'
   const [isMobileView, setIsMobileView] = useState(() =>
     typeof window !== "undefined" ? window.innerWidth < 768 : false
   );
@@ -29,6 +32,21 @@ const Appointments = () => {
       });
       if (res.data.success) {
         setAppointments(res.data.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getGroupedAppointments = async () => {
+    try {
+      const res = await axios.get("/api/v1/user/user-grouped-appointments", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+      if (res.data.success) {
+        setGroupedAppointments(res.data.data);
       }
     } catch (error) {
       console.log(error);
@@ -90,6 +108,7 @@ const Appointments = () => {
 
   useEffect(() => {
     getAppointments();
+    getGroupedAppointments();
   }, []);
 
   const columns = [
@@ -133,9 +152,23 @@ const Appointments = () => {
       <div className="appointments-container">
         <div className="appointments-header">
           <h1>My Appointments</h1>
+          <div className="view-toggle">
+            <UnorderedListOutlined />
+            <Switch
+              checked={viewMode === 'grouped'}
+              onChange={(checked) => setViewMode(checked ? 'grouped' : 'list')}
+            />
+            <GroupOutlined />
+          </div>
         </div>
 
-        {isMobileView ? (
+        {viewMode === 'grouped' ? (
+          <GroupedAppointments
+            groupedData={groupedAppointments}
+            userRole="patient"
+            onViewDetails={handleViewDetails}
+          />
+        ) : isMobileView ? (
           <div className="appointments-card-grid">
             {appointments && appointments.length > 0 ? (
               appointments.map((appointment) => (
@@ -154,6 +187,12 @@ const Appointments = () => {
                     </span>
                   </div>
                   <div className="appointment-card-body">
+                    <div className="appointment-info-row">
+                      <span className="info-label">Doctor</span>
+                      <span className="info-value">
+                        {appointment.doctorName || 'Not assigned'}
+                      </span>
+                    </div>
                     <div className="appointment-info-row">
                       <span className="info-label">Date</span>
                       <span className="info-value">

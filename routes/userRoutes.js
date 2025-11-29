@@ -13,6 +13,7 @@ const {
   bookeAppointmnetController,
   bookingAvailabilityController,
   userAppointmentsController,
+  userGroupedAppointmentsController,
 } = require("../controllers/userCtrl");
 const { subscribePush } = require("../controllers/pushNotificationCtrl");
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -73,6 +74,9 @@ router.post(
 
 //Appointments List
 router.get("/user-appointments", authMiddleware, userAppointmentsController);
+
+//Grouped Appointments List (by doctor)
+router.get("/user-grouped-appointments", authMiddleware, userGroupedAppointmentsController);
 
 //Push Notification Subscription
 router.post("/subscribe-push", authMiddleware, subscribePush);
