@@ -14,11 +14,35 @@
 
 /* Dragger - Mobile First - Compact Version */
 .mobile-dragger {
-  border: 2px dashed #d9d9d9;
-  border-radius: 6px;
-  background: #fafafa;
+  border: 2px dashed #d9d9d9 !important;
+  border-radius: 8px !important;
+  background: #fafafa !important;
   padding: 16px 12px !important;
   transition: all 0.3s ease;
+  position: relative !important;
+}
+
+.mobile-dragger::before,
+.mobile-dragger::after {
+  display: none !important;
+}
+
+.mobile-dragger .ant-upload {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.mobile-dragger .ant-upload-btn {
+  padding: 0 !important;
+}
+
+.mobile-dragger .ant-upload-btn::before,
+.mobile-dragger .ant-upload-btn::after {
+  display: none !important;
+}
+
+.mobile-dragger .ant-upload-drag-container {
+  background: transparent !important;
 }
 
 .mobile-dragger.compact {

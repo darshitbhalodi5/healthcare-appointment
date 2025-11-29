@@ -345,11 +345,17 @@ const getAllDocotrsController = async (req, res) => {
 //BOOK APPOINTMENT
 const bookeAppointmnetController = async (req, res) => {
   try {
-    req.body.date = moment(req.body.date, "DD-MM-YYYY").toISOString();
-    req.body.time = moment(req.body.time, "HH:mm").toISOString();
+    const { date, time, dateTimeUTC } = req.body;
+
+    // Convert dateTimeUTC string to Date object
+    const utcDateTime = new Date(dateTimeUTC);
+
+    req.body.dateTimeUTC = utcDateTime;
     req.body.status = "pending";
+
     const newAppointment = new appointmentModel(req.body);
     await newAppointment.save();
+
     const user = await userModel.findOne({ _id: req.body.doctorInfo.userId });
     user.notifcation.push({
       type: "New-appointment-request",
@@ -367,7 +373,8 @@ const bookeAppointmnetController = async (req, res) => {
 
     res.status(200).send({
       success: true,
-      message: "Appointment Book succesfully",
+      message: "Appointment booked successfully",
+      data: newAppointment,
     });
   } catch (error) {
     console.log(error);
@@ -379,7 +386,44 @@ const bookeAppointmnetController = async (req, res) => {
   }
 };
 
-// booking bookingAvailabilityController
+// Get booked slots for a specific date and doctor
+const getBookedSlotsController = async (req, res) => {
+  try {
+    const { doctorId, date } = req.body;
+
+    // Parse the date (DD-MM-YYYY)
+    const [day, month, year] = date.split('-');
+    const startOfDay = new Date(Date.UTC(year, month - 1, day, 0, 0, 0));
+    const endOfDay = new Date(Date.UTC(year, month - 1, day, 23, 59, 59));
+
+    // Find all appointments for this doctor on this date
+    const appointments = await appointmentModel.find({
+      doctorId,
+      dateTimeUTC: {
+        $gte: startOfDay,
+        $lte: endOfDay,
+      },
+      status: { $in: ['pending', 'approved'] }, // Only consider pending, approved appointments
+    });
+
+    // Extract the time slots that are booked
+    const bookedSlots = appointments.map(apt => apt.time);
+
+    res.status(200).send({
+      success: true,
+      bookedSlots,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      error,
+      message: "Error fetching booked slots",
+    });
+  }
+};
+
+// booking bookingAvailabilityController (deprecated - keeping for backward compatibility)
 const bookingAvailabilityController = async (req, res) => {
   try {
     const date = moment(req.body.date, "DD-MM-YY").toISOString();
@@ -621,6 +665,7 @@ module.exports = {
   getAllDocotrsController,
   bookeAppointmnetController,
   bookingAvailabilityController,
+  getBookedSlotsController,
   userAppointmentsController,
   userGroupedAppointmentsController,
 };

@@ -19,8 +19,11 @@
 
 .header-content {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
 }
 
 .user-avatar {

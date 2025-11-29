@@ -12,6 +12,7 @@ const {
   getAllDocotrsController,
   bookeAppointmnetController,
   bookingAvailabilityController,
+  getBookedSlotsController,
   userAppointmentsController,
   userGroupedAppointmentsController,
 } = require("../controllers/userCtrl");
@@ -70,6 +71,13 @@ router.post(
   "/booking-availbility",
   authMiddleware,
   bookingAvailabilityController
+);
+
+//Get Booked Slots
+router.post(
+  "/get-booked-slots",
+  authMiddleware,
+  getBookedSlotsController
 );
 
 //Appointments List

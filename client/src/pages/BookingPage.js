@@ -2,26 +2,34 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { DatePicker, message, TimePicker, Modal } from "antd";
-import moment from "moment";
+import { message, Modal, Spin } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import FileUpload from "../components/FileUpload";
+import AppointmentCalendar from "../components/AppointmentCalendar";
+import TimeSlotPicker from "../components/TimeSlotPicker";
+import { getUserTimezone, localToUTC } from "../utils/timezoneUtils";
 import "../styles/BookingPage.css";
 
 const BookingPage = () => {
   const { user } = useSelector((state) => state.user);
   const params = useParams();
   const navigate = useNavigate();
-  const [doctors, setDoctors] = useState([]);
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState();
-  const [isAvailable, setIsAvailable] = useState(false);
+  const dispatch = useDispatch();
+
+  const [doctor, setDoctor] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [showTimeSlots, setShowTimeSlots] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
   const [createdAppointmentId, setCreatedAppointmentId] = useState(null);
-  const dispatch = useDispatch();
-  // login user data
-  const getUserData = async () => {
+
+  const userTimezone = getUserTimezone();
+
+  // Fetch doctor data
+  const getDoctorData = async () => {
     try {
       const res = await axios.post(
         "/api/v1/doctor/getDoctorById",
@@ -33,55 +41,79 @@ const BookingPage = () => {
         }
       );
       if (res.data.success) {
-        setDoctors(res.data.data);
+        setDoctor(res.data.data);
       }
     } catch (error) {
       console.log(error);
+      message.error("Error loading doctor details");
     }
   };
-  // ============ handle availiblity
-  const handleAvailability = async () => {
+
+  // Fetch booked slots for selected date
+  const fetchBookedSlots = async (date) => {
     try {
-      dispatch(showLoading());
+      setLoadingSlots(true);
       const res = await axios.post(
-        "/api/v1/user/booking-availbility",
-        { doctorId: params.doctorId, date, time },
+        "/api/v1/user/get-booked-slots",
+        { doctorId: params.doctorId, date },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      dispatch(hideLoading());
       if (res.data.success) {
-        setIsAvailable(true);
-        console.log(isAvailable);
-        message.success(res.data.message);
-      } else {
-        message.error(res.data.message);
+        setBookedSlots(res.data.bookedSlots);
       }
     } catch (error) {
-      dispatch(hideLoading());
       console.log(error);
+      message.error("Error loading available slots");
+    } finally {
+      setLoadingSlots(false);
     }
   };
-  // =============== booking func
+
+  // Handle date selection
+  const handleDateSelect = (date) => {
+    setSelectedDate(date);
+    setSelectedTime("");
+    setShowTimeSlots(true);
+    fetchBookedSlots(date);
+  };
+
+  // Handle time selection
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+  };
+
+  // Handle back from time slots
+  const handleBackToCalendar = () => {
+    setShowTimeSlots(false);
+    setSelectedTime("");
+  };
+
+  // Book appointment
   const handleBooking = async () => {
+    if (!selectedDate || !selectedTime) {
+      return message.error("Please select both date and time");
+    }
+
     try {
-      setIsAvailable(true);
-      if (!date && !time) {
-        return alert("Date & Time Required");
-      }
       dispatch(showLoading());
+
+      // Convert local datetime to UTC
+      const dateTimeUTC = localToUTC(selectedDate, selectedTime, userTimezone);
+
       const res = await axios.post(
         "/api/v1/user/book-appointment",
         {
           doctorId: params.doctorId,
           userId: user._id,
-          doctorInfo: doctors,
+          doctorInfo: doctor,
           userInfo: user,
-          date: date,
-          time: time,
+          date: selectedDate,
+          time: selectedTime,
+          dateTimeUTC: dateTimeUTC.toISOString(),
         },
         {
           headers: {
@@ -89,7 +121,9 @@ const BookingPage = () => {
           },
         }
       );
+
       dispatch(hideLoading());
+
       if (res.data.success) {
         message.success(res.data.message);
 
@@ -102,92 +136,95 @@ const BookingPage = () => {
     } catch (error) {
       dispatch(hideLoading());
       console.log(error);
+      message.error(error.response?.data?.message || "Error booking appointment");
     }
   };
 
   // Handle file upload success
   const handleUploadSuccess = () => {
-    message.success('Document uploaded successfully');
+    message.success("Document uploaded successfully");
   };
 
   // Handle skip upload and go to appointments
   const handleSkipUpload = () => {
     setShowUploadModal(false);
-    navigate('/appointments');
+    navigate("/appointments");
   };
 
   // Handle done with upload
   const handleDoneWithUpload = () => {
     setShowUploadModal(false);
-    navigate('/appointments');
+    navigate("/appointments");
   };
 
   useEffect(() => {
-    getUserData();
+    getDoctorData();
     //eslint-disable-next-line
   }, []);
+
+  if (!doctor) {
+    return (
+      <Layout>
+        <div className="booking-container">
+          <div className="loading-section">
+            <Spin size="large" />
+            <p>Loading doctor details...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
       <div className="booking-container">
-        <div className="booking-info">
-          <h3>Book Appointment</h3>
-          {doctors && (
-            <div>
-              <div className="doctor-details">
-                <h4>
-                  <span>Doctor:</span> Dr. {doctors.firstName} {doctors.lastName}
-                </h4>
-                <h4>
-                  <span>Fees:</span> ${doctors.feesPerCunsaltation}
-                </h4>
-                <h4>
-                  <span>Available Timings (UTC):</span>{" "}
-                  {doctors.timings && doctors.timings[0]} -{" "}
-                  {doctors.timings && doctors.timings[1]}
-                </h4>
-              </div>
-              <div className="booking-form-wrapper">
-                <div className="form-field">
-                  <label className="field-label">Select Date</label>
-                  <DatePicker
-                    aria-required={"true"}
-                    format="DD-MM-YYYY"
-                    placeholder="DD-MM-YYYY"
-                    className="date-picker"
-                    onChange={(value) => {
-                      if (value) {
-                        setDate(value.format("DD-MM-YYYY"));
-                      }
-                    }}
-                  />
-                </div>
-                <div className="form-field">
-                  <label className="field-label">Select Time (UTC)</label>
-                  <TimePicker
-                    aria-required={"true"}
-                    format="HH:mm"
-                    placeholder="HH:mm (UTC)"
-                    className="time-picker"
-                    onChange={(value) => {
-                      if (value) {
-                        setTime(value.format("HH:mm"));
-                      }
-                    }}
-                  />
-                </div>
-
-                <button
-                  className="btn btn-primary"
-                  onClick={handleAvailability}
-                >
-                  Check Availability
-                </button>
-
-                <button className="btn btn-dark" onClick={handleBooking}>
-                  Book Now
-                </button>
-              </div>
+        <div className="booking-header">
+          <h2>Book Appointment</h2>
+          <div className="doctor-card">
+            <h3>Dr. {doctor.firstName} {doctor.lastName}</h3>
+            <p className="specialization">{doctor.specialization}</p>
+            <div className="doctor-info-row">
+              <span className="label">Fees:</span>
+              <span className="value">${doctor.feesPerCunsaltation}</span>
             </div>
+            <div className="doctor-info-row">
+              <span className="label">Available Timings:</span>
+              <span className="value">
+                {doctor.timings && doctor.timings[0]} - {doctor.timings && doctor.timings[1]}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="booking-content">
+          {!showTimeSlots ? (
+            <AppointmentCalendar
+              onDateSelect={handleDateSelect}
+              selectedDate={selectedDate}
+            />
+          ) : (
+            <>
+              <TimeSlotPicker
+                selectedDate={selectedDate}
+                doctorTimings={doctor.timings}
+                bookedSlots={bookedSlots}
+                onTimeSelect={handleTimeSelect}
+                selectedTime={selectedTime}
+                onBack={handleBackToCalendar}
+                loading={loadingSlots}
+              />
+
+              {selectedTime && (
+                <div className="booking-actions">
+                  <button
+                    className="btn btn-primary btn-book-now"
+                    onClick={handleBooking}
+                  >
+                    Book Now
+                  </button>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

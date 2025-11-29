@@ -1,357 +1,252 @@
-/* Mobile-first responsive styles for Booking Page */
+/* Mobile-first design for Booking Page */
 
-/* Base styles for mobile (default) */
 .booking-container {
-    width: 100%;
-    padding: 10px;
-    margin: 0;
+  padding: 16px;
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.booking-info {
-    background: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+.booking-header {
+  margin-bottom: 20px;
 }
 
-.booking-info h3 {
-    color: #2196f3;
-    margin-bottom: 12px;
-    font-size: 1.3rem;
-    border-bottom: 2px solid #2196f3;
-    padding-bottom: 8px;
-    font-weight: 700;
+.booking-header h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #262626;
+  margin: 0 0 16px 0;
 }
 
-.booking-info h4 {
-    margin-bottom: 10px;
-    color: #333;
-    font-size: 1rem;
-    line-height: 1.6;
+.doctor-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e8e8e8;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.booking-form-wrapper {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.doctor-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1890ff;
+  margin: 0 0 4px 0;
 }
 
-.booking-form-wrapper .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.doctor-card .specialization {
+  font-size: 14px;
+  color: #8c8c8c;
+  margin: 0 0 12px 0;
 }
 
-.booking-form-wrapper .field-label {
-    font-weight: 600;
-    color: #424242;
-    font-size: 0.95rem;
+.doctor-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #f0f0f0;
+  font-size: 14px;
 }
 
-.booking-form-wrapper .date-picker,
-.booking-form-wrapper .time-picker {
-    width: 100%;
-    font-size: 0.9rem;
-    border-radius: 8px;
+.doctor-info-row:first-of-type {
+  border-top: none;
 }
 
-.booking-form-wrapper .ant-picker,
-.booking-form-wrapper .ant-picker-time-panel {
-    width: 100%;
-    font-size: 0.9rem;
+.doctor-info-row .label {
+  color: #595959;
+  font-weight: 500;
 }
 
-.booking-form-wrapper .btn {
-    width: 100%;
-    margin-top: 10px;
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: 500;
-    border-radius: 6px;
+.doctor-info-row .value {
+  color: #262626;
+  font-weight: 600;
 }
 
-.booking-form-wrapper .btn-primary {
-    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-    border-color: #2196f3;
-    color: white;
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+.booking-content {
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.booking-form-wrapper .btn-primary:hover {
-    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-    border-color: #1976d2;
-    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
-    transform: translateY(-2px);
+.booking-actions {
+  margin-top: 20px;
+  padding: 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.booking-form-wrapper .btn-dark {
-    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-    border-color: #2196f3;
-    color: white;
-    box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
+.btn-book-now {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px rgba(24, 144, 255, 0.3);
 }
 
-.booking-form-wrapper .btn-dark:hover {
-    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-    border-color: #1976d2;
-    box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
-    transform: translateY(-2px);
+.btn-book-now:hover {
+  background: linear-gradient(135deg, #096dd9 0%, #0050b3 100%);
+  box-shadow: 0 6px 16px rgba(24, 144, 255, 0.4);
+  transform: translateY(-2px);
 }
 
-/* Doctor details section */
-.doctor-details {
-    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 15px;
+.btn-book-now:active {
+  transform: translateY(0);
 }
 
-.doctor-details h4 {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.loading-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  gap: 16px;
 }
 
-.doctor-details h4 span {
-    color: #2196f3;
-    font-weight: 600;
+.loading-section p {
+  color: #8c8c8c;
+  font-size: 14px;
+  margin: 0;
 }
 
-/* Small tablets (576px and up) */
-@media screen and (min-width: 576px) {
-    .booking-container {
-        padding: 15px;
-    }
-
-    .booking-info {
-        padding: 20px;
-    }
-
-    .booking-info h3 {
-        font-size: 1.4rem;
-        margin-bottom: 15px;
-    }
-
-    .booking-info h4 {
-        font-size: 1.05rem;
-    }
-
-    .booking-form-wrapper {
-        gap: 18px;
-    }
-
-    .booking-form-wrapper .ant-picker {
-        font-size: 1rem;
-    }
-
-    .doctor-details {
-        padding: 18px;
-    }
+/* Modal styles */
+.upload-modal-mobile .modal-description-mobile {
+  font-size: 14px;
+  color: #595959;
+  line-height: 1.6;
+  margin-bottom: 20px;
 }
 
-/* Tablets (768px and up) */
-@media screen and (min-width: 768px) {
-    .booking-container {
-        padding: 20px;
-    }
-
-    .booking-info {
-        padding: 25px;
-    }
-
-    .booking-info h3 {
-        font-size: 1.5rem;
-        margin-bottom: 18px;
-    }
-
-    .booking-info h4 {
-        font-size: 1.1rem;
-        margin-bottom: 12px;
-    }
-
-    .booking-form-wrapper {
-        width: 60%;
-        gap: 20px;
-    }
-
-    .booking-form-wrapper .btn {
-        width: auto;
-        min-width: 180px;
-        padding: 12px 24px;
-    }
-
-    .doctor-details {
-        padding: 20px;
-    }
-
-    .doctor-details h4 {
-        flex-direction: row;
-        align-items: center;
-        gap: 10px;
-    }
+.upload-modal-mobile .modal-note-mobile {
+  margin-top: 16px;
+  padding: 12px;
+  background: #f0f5ff;
+  border-radius: 8px;
+  border-left: 3px solid #1890ff;
 }
 
-/* Desktop (1024px and up) */
-@media screen and (min-width: 1024px) {
-    .booking-container {
-        padding: 25px;
-    }
-
-    .booking-info {
-        padding: 30px;
-    }
-
-    .booking-info h3 {
-        font-size: 1.75rem;
-    }
-
-    .booking-info h4 {
-        font-size: 1.2rem;
-    }
-
-    .booking-form-wrapper {
-        width: 50%;
-    }
-
-    .doctor-details {
-        padding: 25px;
-    }
+.upload-modal-mobile .modal-note-mobile small {
+  font-size: 13px;
+  color: #595959;
+  line-height: 1.5;
 }
 
-/* Large desktop (1440px and up) */
-@media screen and (min-width: 1440px) {
-    .booking-info h3 {
-        font-size: 2rem;
-    }
-
-    .booking-info h4 {
-        font-size: 1.3rem;
-    }
+.upload-modal-mobile .modal-footer-actions-mobile {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
 }
 
-/* Modal Mobile-First Styles */
-.upload-modal-mobile .ant-modal-body {
-    padding: 16px;
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+.upload-modal-mobile .modal-footer-actions-mobile .btn {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-.upload-modal-mobile .ant-modal-header {
-    padding: 16px;
+.upload-modal-mobile .modal-footer-actions-mobile .btn-secondary {
+  background: #f5f5f5;
+  color: #595959;
 }
 
-.upload-modal-mobile .ant-modal-title {
-    font-size: 16px;
-    font-weight: 600;
+.upload-modal-mobile .modal-footer-actions-mobile .btn-secondary:hover {
+  background: #e8e8e8;
 }
 
-.modal-description-mobile {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #595959;
-    margin-bottom: 20px;
+.upload-modal-mobile .modal-footer-actions-mobile .btn-primary {
+  background: #1890ff;
+  color: white;
 }
 
-.modal-note-mobile {
-    margin-top: 16px;
-    padding: 12px;
-    background-color: #f0f2f5;
-    border-radius: 8px;
+.upload-modal-mobile .modal-footer-actions-mobile .btn-primary:hover {
+  background: #096dd9;
 }
 
-.modal-note-mobile small {
-    font-size: 13px;
-    color: #595959;
-    line-height: 1.5;
-    display: block;
-}
-
-.modal-footer-actions-mobile {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 20px;
-    padding-top: 16px;
-    border-top: 1px solid #e8e8e8;
-}
-
-.modal-footer-actions-mobile .btn {
-    width: 100%;
-    height: 44px;
-    font-size: 15px;
-    font-weight: 600;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.modal-footer-actions-mobile .btn:active {
-    transform: scale(0.98);
-}
-
-.modal-footer-actions-mobile .btn-secondary {
-    background: #f5f5f5;
-    color: #262626;
-    border: 1px solid #d9d9d9;
-}
-
-.modal-footer-actions-mobile .btn-secondary:hover {
-    background: #e8e8e8;
-    border-color: #bfbfbf;
-}
-
-.modal-footer-actions-mobile .btn-primary {
-    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
-    color: white;
-    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
-}
-
-.modal-footer-actions-mobile .btn-primary:hover {
-    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
-    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
-}
-
-/* Tablet and Desktop Modal Adjustments */
+/* Tablet and larger screens */
 @media (min-width: 768px) {
-    .upload-modal-mobile .ant-modal-body {
-        padding: 24px;
-    }
+  .booking-container {
+    padding: 24px;
+    max-width: 600px;
+  }
 
-    .upload-modal-mobile .ant-modal-header {
-        padding: 20px 24px;
-    }
+  .booking-header h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+  }
 
-    .upload-modal-mobile .ant-modal-title {
-        font-size: 18px;
-    }
+  .doctor-card {
+    padding: 20px;
+  }
 
-    .modal-description-mobile {
-        font-size: 15px;
-        margin-bottom: 24px;
-    }
+  .doctor-card h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
 
-    .modal-footer-actions-mobile {
-        flex-direction: row;
-        justify-content: flex-end;
-        gap: 12px;
-    }
+  .doctor-card .specialization {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
 
-    .modal-footer-actions-mobile .btn {
-        width: auto;
-        min-width: 140px;
-        height: 40px;
-        font-size: 14px;
-    }
+  .doctor-info-row {
+    padding: 10px 0;
+    font-size: 15px;
+  }
 
-    .modal-note-mobile {
-        padding: 14px;
-    }
+  .booking-content {
+    margin-top: 24px;
+  }
 
-    .modal-note-mobile small {
-        font-size: 14px;
-    }
+  .booking-actions {
+    margin-top: 24px;
+    padding: 20px;
+  }
+
+  .btn-book-now {
+    padding: 16px;
+    font-size: 17px;
+  }
+
+  .upload-modal-mobile .modal-description-mobile {
+    font-size: 15px;
+  }
+
+  .upload-modal-mobile .modal-note-mobile small {
+    font-size: 14px;
+  }
+
+  .upload-modal-mobile .modal-footer-actions-mobile .btn {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .booking-container {
+    max-width: 700px;
+  }
+
+  .booking-header h2 {
+    font-size: 28px;
+  }
+
+  .doctor-card h3 {
+    font-size: 22px;
+  }
 }

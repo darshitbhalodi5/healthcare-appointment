@@ -264,16 +264,17 @@ const Appointments = () => {
               </>
             )}
 
-            <Divider className="modal-divider-mobile">Upload Documents</Divider>
-
-            {/* File Upload */}
+            {/* File Upload - Only show if appointment is not rejected */}
             {selectedAppointment.status !== 'reject' && (
-              <FileUpload
-                appointmentId={selectedAppointment._id}
-                onUploadSuccess={handleUploadSuccess}
-                label="Add More Documents"
-                maxFiles={10}
-              />
+              <>
+                <Divider className="modal-divider-mobile">Upload Documents</Divider>
+                <FileUpload
+                  appointmentId={selectedAppointment._id}
+                  onUploadSuccess={handleUploadSuccess}
+                  label="Add More Documents"
+                  maxFiles={10}
+                />
+              </>
             )}
 
             <Divider className="modal-divider-mobile">My Documents</Divider>

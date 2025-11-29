@@ -31,6 +31,11 @@ const appointmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // UTC datetime for accurate timezone conversion
+    dateTimeUTC: {
+      type: Date,
+      required: true,
+    },
 
     // Document Management Fields
     documents: [{

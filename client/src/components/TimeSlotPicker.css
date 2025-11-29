@@ -1,0 +1,308 @@
+/* Mobile-first design for Time Slot Picker */
+
+.time-slot-picker {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.time-slot-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.back-button {
+  background: #f5f5f5;
+  border: none;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  color: #595959;
+  flex-shrink: 0;
+}
+
+.back-button:hover {
+  background: #e8e8e8;
+}
+
+.back-button:active {
+  transform: scale(0.95);
+}
+
+.time-slot-title {
+  flex: 1;
+}
+
+.time-slot-title h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  color: #262626;
+}
+
+.selected-date-display {
+  font-size: 13px;
+  color: #8c8c8c;
+  margin: 0;
+}
+
+.timezone-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: #f0f5ff;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #1890ff;
+  margin-bottom: 12px;
+}
+
+.duration-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #595959;
+  margin-bottom: 16px;
+}
+
+.time-slots-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  gap: 16px;
+}
+
+.loading-container p {
+  color: #8c8c8c;
+  font-size: 14px;
+  margin: 0;
+}
+
+.no-slots {
+  text-align: center;
+  padding: 40px 20px;
+  color: #8c8c8c;
+}
+
+.no-slots p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* Hour Block */
+.hour-block {
+  width: 100%;
+}
+
+.hour-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: white;
+  border: 2px solid #d9d9d9;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 15px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.hour-button:hover:not(.disabled) {
+  border-color: #1890ff;
+  background: #f0f5ff;
+}
+
+.hour-button:active:not(.disabled) {
+  transform: scale(0.98);
+}
+
+.hour-button.expanded {
+  border-color: #1890ff;
+  background: #f0f5ff;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.hour-button.disabled {
+  background: #f5f5f5;
+  border-color: #f0f0f0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.hour-time {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.availability-badge {
+  font-size: 12px;
+  padding: 4px 10px;
+  background: #e6f7ff;
+  color: #1890ff;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.no-slots-badge {
+  background: #fff1f0;
+  color: #ff4d4f;
+}
+
+/* 10-minute slots */
+.ten-min-slots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  padding: 12px;
+  background: #fafafa;
+  border: 2px solid #1890ff;
+  border-top: none;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.time-slot-button {
+  padding: 12px 8px;
+  background: white;
+  border: 2px solid #d9d9d9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  color: #262626;
+  text-align: center;
+}
+
+.time-slot-button:hover:not(.disabled):not(.selected) {
+  border-color: #1890ff;
+  background: #e6f4ff;
+  transform: translateY(-2px);
+}
+
+.time-slot-button:active:not(.disabled) {
+  transform: translateY(0);
+}
+
+.time-slot-button.selected {
+  background: #1890ff;
+  border-color: #1890ff;
+  color: white;
+  font-weight: 600;
+}
+
+.time-slot-button.disabled {
+  background: #f5f5f5;
+  border-color: #f0f0f0;
+  color: #bfbfbf;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Tablet and larger screens */
+@media (min-width: 768px) {
+  .time-slot-picker {
+    padding: 20px;
+    max-width: 500px;
+  }
+
+  .time-slot-header {
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .back-button {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .time-slot-title h3 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+
+  .selected-date-display {
+    font-size: 14px;
+  }
+
+  .timezone-info {
+    padding: 12px 16px;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .duration-info {
+    padding: 10px 16px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  .time-slots-container {
+    gap: 10px;
+    max-height: 60vh;
+  }
+
+  .hour-button {
+    padding: 16px 20px;
+    font-size: 16px;
+  }
+
+  .ten-min-slots {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 16px;
+  }
+
+  .time-slot-button {
+    padding: 14px 10px;
+    font-size: 15px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .time-slot-picker {
+    padding: 24px;
+  }
+
+  .time-slots-container {
+    gap: 12px;
+  }
+
+  .ten-min-slots {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
