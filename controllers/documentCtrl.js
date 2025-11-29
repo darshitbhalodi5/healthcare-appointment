@@ -352,12 +352,25 @@ const downloadDocumentController = async (req, res) => {
     // Check if running behind nginx (production)
     const isProduction = process.env.NODE_ENV === 'production' || req.headers['x-forwarded-proto'];
 
+    console.log('Document download:', {
+      isProduction,
+      filepath: document.filepath,
+      mimeType: document.mimeType,
+      filename: document.filename
+    });
+
     if (isProduction) {
       // Use nginx X-Accel-Redirect for faster file serving
       // Convert absolute path to internal nginx path
       const uploadsDir = path.join(__dirname, '..', 'uploads');
       const relativePath = path.relative(uploadsDir, document.filepath);
       const internalPath = `/internal/uploads/${relativePath.replace(/\\/g, '/')}`;
+
+      console.log('X-Accel-Redirect:', {
+        uploadsDir,
+        relativePath,
+        internalPath
+      });
 
       // Set headers for inline viewing
       res.setHeader('Content-Type', document.mimeType);
