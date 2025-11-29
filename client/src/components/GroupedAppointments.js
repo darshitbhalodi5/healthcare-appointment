@@ -10,6 +10,7 @@ import {
   DownOutlined,
 } from '@ant-design/icons';
 import moment from 'moment';
+import AISummaryPlaceholder from './AISummaryPlaceholder';
 import './GroupedAppointments.css';
 
 const { Panel } = Collapse;
@@ -115,6 +116,9 @@ const GroupedAppointments = ({ groupedData, userRole, onViewDetails }) => {
               }
               className="group-panel"
             >
+              {/* AI Summary Placeholder - shown for patients with 1+ approved appointments */}
+              {stats.showAISummary && <AISummaryPlaceholder compact={true} />}
+
               {/* Appointments List */}
               <div className="appointments-list">
                 {group.appointments.map((appointment) => (

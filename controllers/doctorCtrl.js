@@ -260,6 +260,7 @@ const doctorGroupedAppointmentsController = async (req, res) => {
             totalDocuments: 0,
             lastVisit: null,
             firstVisit: null,
+            showAISummary: false,
           },
         };
       }
@@ -276,6 +277,11 @@ const doctorGroupedAppointmentsController = async (req, res) => {
       }
 
       groupedByPatient[patientId].statistics.totalDocuments += appointment.documents?.length || 0;
+
+      // Set flag to show AI summary if patient has 1+ approved appointments
+      if (appointment.status === 'approved') {
+        groupedByPatient[patientId].statistics.showAISummary = true;
+      }
 
       // Track first and last visit dates
       const appointmentDate = appointment.createdAt;

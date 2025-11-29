@@ -7,6 +7,7 @@ import { EyeOutlined, FileTextOutlined, UnorderedListOutlined, GroupOutlined } f
 import FileUpload from "../../components/FileUpload";
 import DocumentList from "../../components/DocumentList";
 import GroupedAppointments from "../../components/GroupedAppointments";
+import AISummaryPlaceholder from "../../components/AISummaryPlaceholder";
 import "../../styles/Tables.css";
 import "../../styles/AppointmentCards.css";
 
@@ -25,6 +26,7 @@ const DoctorAppointments = () => {
   const [loadingDocuments, setLoadingDocuments] = useState(false);
   const [generalNotes, setGeneralNotes] = useState('');
   const [savingNotes, setSavingNotes] = useState(false);
+  const [showAISummary, setShowAISummary] = useState(false);
 
   const getAppointments = async () => {
     try {
@@ -117,6 +119,13 @@ const DoctorAppointments = () => {
   const handleViewDetails = async (appointment) => {
     setSelectedAppointment(appointment);
     setShowDetailsModal(true);
+
+    // Check if patient has approved appointments to show AI summary
+    const patientApprovedAppointments = appointments.filter(
+      appt => appt.userId === appointment.userId && appt.status === 'approved'
+    );
+    setShowAISummary(patientApprovedAppointments.length >= 1);
+
     await fetchAppointmentDocuments(appointment._id);
   };
 
@@ -159,6 +168,7 @@ const DoctorAppointments = () => {
     setSelectedAppointment(null);
     setAppointmentDocuments([]);
     setGeneralNotes('');
+    setShowAISummary(false);
   };
 
   const columns = [
@@ -346,6 +356,14 @@ const DoctorAppointments = () => {
       >
         {selectedAppointment && (
           <div>
+            {/* AI Summary Placeholder - shown for patients with 1+ approved appointments */}
+            {showAISummary && (
+              <>
+                <AISummaryPlaceholder />
+                <Divider className="modal-divider-mobile" />
+              </>
+            )}
+
             <Divider className="modal-divider-mobile">General Notes</Divider>
 
             {/* General Notes */}
