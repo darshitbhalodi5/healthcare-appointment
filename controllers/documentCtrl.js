@@ -349,13 +349,32 @@ const downloadDocumentController = async (req, res) => {
       });
     }
 
-    // Set headers for file download
-    res.setHeader('Content-Type', document.mimeType);
-    res.setHeader('Content-Disposition', `attachment; filename="${document.filename}"`);
+    // Check if running behind nginx (production)
+    const isProduction = process.env.NODE_ENV === 'production' || req.headers['x-forwarded-proto'];
 
-    // Stream file
-    const fileStream = fs.createReadStream(document.filepath);
-    fileStream.pipe(res);
+    if (isProduction) {
+      // Use nginx X-Accel-Redirect for faster file serving
+      // Convert absolute path to internal nginx path
+      const uploadsDir = path.join(__dirname, '..', 'uploads');
+      const relativePath = path.relative(uploadsDir, document.filepath);
+      const internalPath = `/internal/uploads/${relativePath.replace(/\\/g, '/')}`;
+
+      // Set headers for inline viewing
+      res.setHeader('Content-Type', document.mimeType);
+      res.setHeader('Content-Disposition', `inline; filename="${document.filename}"`);
+      res.setHeader('X-Accel-Redirect', internalPath);
+      res.setHeader('X-Accel-Buffering', 'no');  // Disable buffering for faster response
+
+      // Send empty response - nginx will serve the file
+      res.end();
+    } else {
+      // Development: Stream file directly through Node.js
+      res.setHeader('Content-Type', document.mimeType);
+      res.setHeader('Content-Disposition', `inline; filename="${document.filename}"`);
+
+      const fileStream = fs.createReadStream(document.filepath);
+      fileStream.pipe(res);
+    }
   } catch (error) {
     console.error("Download error:", error);
     res.status(500).json({

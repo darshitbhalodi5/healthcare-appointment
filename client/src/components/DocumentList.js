@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Tabs, Button, Empty, Tag, Input, message } from 'antd';
 import {
-  DownloadOutlined,
+  EyeOutlined,
   FilePdfOutlined,
   FileImageOutlined,
   CommentOutlined
@@ -42,32 +42,42 @@ const DocumentList = ({
   const preAppointmentDocs = documents.filter(doc => doc.category === 'pre-appointment');
   const postAppointmentDocs = documents.filter(doc => doc.category === 'post-appointment');
 
-  // Download document
+  // View document in browser
   const handleDownload = async (doc) => {
+    // Open window immediately (must be during user click to avoid popup blocker)
+    const viewWindow = window.open('about:blank', '_blank');
+
+    if (!viewWindow) {
+      message.error('Please allow popups for this site');
+      return;
+    }
+
     try {
-      const res = await axios.get(
-        `/api/v1/appointment/${appointmentId}/document/${doc._id}/download`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-          responseType: 'blob',
-        }
-      );
+      const token = localStorage.getItem('token');
+      const url = `/api/v1/appointment/${appointmentId}/document/${doc._id}/download`;
 
-      // Create download link
-      const url = window.URL.createObjectURL(new Blob([res.data]));
-      const link = window.document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', doc.filename);
-      window.document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
+      // Fetch the document with authorization
+      // Backend uses nginx X-Accel-Redirect for fast file serving in production
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: 'blob',
+      });
 
-      message.success('Document downloaded successfully');
+      // Create blob URL with proper MIME type from response
+      const blob = new Blob([res.data], { type: res.headers['content-type'] || doc.mimeType });
+      const blobUrl = window.URL.createObjectURL(blob);
+
+      // Navigate the opened window to the blob URL
+      viewWindow.location.href = blobUrl;
+
+      // Clean up blob URL after a delay
+      setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
     } catch (error) {
-      message.error(error.response?.data?.message || 'Failed to download document');
+      console.error('Document view error:', error);
+      viewWindow.close();
+      message.error(error.response?.data?.message || 'Failed to open document');
     }
   };
 
@@ -150,10 +160,11 @@ const DocumentList = ({
           </div>
           <Button
             type="primary"
-            icon={<DownloadOutlined />}
+            icon={<EyeOutlined />}
             onClick={() => handleDownload(document)}
             className="document-download-btn-compact"
             size="small"
+            title="View document"
           />
         </div>
 
