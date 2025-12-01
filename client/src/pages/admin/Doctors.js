@@ -278,7 +278,7 @@ const Doctors = () => {
                     <p>
                       <strong>Fees:</strong>{" "}
                       {doctor.feesPerCunsaltation
-                        ? `$${doctor.feesPerCunsaltation}`
+                        ? `₹${doctor.feesPerCunsaltation}`
                         : "N/A"}
                     </p>
                   </div>

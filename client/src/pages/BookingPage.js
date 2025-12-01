@@ -199,7 +199,7 @@ const BookingPage = () => {
             <p className="specialization">{doctor.specialization}</p>
             <div className="doctor-info-row">
               <span className="label">Fees:</span>
-              <span className="value">${doctor.feesPerCunsaltation}</span>
+              <span className="value">₹{doctor.feesPerCunsaltation}</span>
             </div>
             <div className="doctor-info-row">
               <span className="label">Available Timings ({timezoneDisplay}):</span>

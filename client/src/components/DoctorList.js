@@ -58,7 +58,7 @@ const DoctorList = ({ doctor }) => {
           </div>
           <div className="info-item">
             <span className="info-label">Fees</span>
-            <span className="info-value">${doctor.feesPerCunsaltation}</span>
+            <span className="info-value">₹{doctor.feesPerCunsaltation}</span>
           </div>
           <div className="info-item">
             <span className="info-label">Timings</span>

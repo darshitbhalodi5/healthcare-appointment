@@ -172,7 +172,7 @@ const ApplyDoctor = () => {
               </Col>
               <Col xs={24} sm={12} lg={8}>
                 <Form.Item
-                  label="Consultation Fee ($)"
+                  label="Consultation Fee (₹)"
                   name="feesPerCunsaltation"
                   rules={[{ required: true, message: "Fee is required" }]}
                 >
