@@ -66,6 +66,11 @@ const Layout = ({ children }) => {
       icon: "fa-solid fa-list",
     },
     {
+      name: "Patients",
+      path: "/doctor-patients",
+      icon: "fa-solid fa-user-group",
+    },
+    {
       name: "Notifications",
       path: "/notification",
       icon: "fa-solid fa-bell",

@@ -1,0 +1,92 @@
+.patients-list-container {
+  margin-top: 8px;
+}
+
+.patients-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.patient-row-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #64b5f6;
+  background-color: #fdfefe;
+  box-shadow: 0 2px 6px rgba(33, 150, 243, 0.12);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.patient-row-card:hover {
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.2);
+  transform: translateY(-1px);
+  background-color: #f5fbff;
+}
+
+.patient-row-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.patient-avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #7e57c2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7e57c2;
+  font-size: 16px;
+  background-color: #f3e5f5;
+  flex-shrink: 0;
+}
+
+.patient-main-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.patient-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1f2933;
+}
+
+.patient-sub-info {
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.patient-row-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.patient-chevron {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+@media (min-width: 768px) {
+  .patient-row-card {
+    padding: 14px 18px;
+  }
+
+  .patient-name {
+    font-size: 1rem;
+  }
+
+  .patient-sub-info {
+    font-size: 0.85rem;
+  }
+}
+
+

@@ -4,6 +4,15 @@
   padding: 10px;
 }
 
+/* Extra spacing between patient groups on Doctor Patients page */
+.patients-grouped-wrapper .group-panel {
+  margin-bottom: 16px;
+}
+
+.patients-grouped-wrapper .group-panel:last-child {
+  margin-bottom: 8px;
+}
+
 .grouped-collapse {
   background: transparent;
 }

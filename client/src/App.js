@@ -13,6 +13,7 @@ import NotificationPage from "./pages/NotificationPage";
 import Users from "./pages/admin/Users";
 import Doctors from "./pages/admin/Doctors";
 import Profile from "./pages/doctor/Profile";
+import DoctorPatients from "./pages/doctor/DoctorPatients";
 import BookingPage from "./pages/BookingPage";
 import Appointments from "./pages/Appointments";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
@@ -138,6 +139,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <DoctorAppointments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/doctor-patients"
+              element={
+                <ProtectedRoute>
+                  <DoctorPatients />
                 </ProtectedRoute>
               }
             />

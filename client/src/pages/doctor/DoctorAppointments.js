@@ -3,6 +3,7 @@ import Layout from "./../../components/Layout";
 import axios from "axios";
 import { message, Table, Modal, Divider, Input, Spin, Switch } from "antd";
 import { EyeOutlined, FileTextOutlined, UnorderedListOutlined, GroupOutlined } from "@ant-design/icons";
+import { useLocation } from "react-router-dom";
 import FileUpload from "../../components/FileUpload";
 import DocumentList from "../../components/DocumentList";
 import GroupedAppointments from "../../components/GroupedAppointments";
@@ -27,6 +28,10 @@ const DoctorAppointments = () => {
   const [generalNotes, setGeneralNotes] = useState('');
   const [savingNotes, setSavingNotes] = useState(false);
   const [showAISummary, setShowAISummary] = useState(false);
+  const [patientIdFilter, setPatientIdFilter] = useState(null);
+  const [pendingAppointmentId, setPendingAppointmentId] = useState(null);
+
+  const location = useLocation();
 
   const getAppointments = async () => {
     try {
@@ -70,6 +75,41 @@ const DoctorAppointments = () => {
     getAppointments();
     getGroupedAppointments();
   }, []);
+
+  // Read query params to optionally force grouped view and filter by patient
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const view = params.get("view");
+    const patientId = params.get("patientId");
+    const appointmentId = params.get("appointmentId");
+
+    if (view === "grouped") {
+      setViewMode("grouped");
+    }
+
+    if (patientId) {
+      setPatientIdFilter(patientId);
+    }
+
+    if (appointmentId) {
+      setPendingAppointmentId(appointmentId);
+    }
+  }, [location.search]);
+
+  // Once appointments are loaded, if we have a pending appointment id, open its details
+  useEffect(() => {
+    if (!pendingAppointmentId || !appointments || appointments.length === 0) return;
+
+    const targetAppointment = appointments.find(
+      (appt) => appt._id === pendingAppointmentId
+    );
+
+    if (targetAppointment) {
+      handleViewDetails(targetAppointment);
+      setPendingAppointmentId(null);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pendingAppointmentId, appointments]);
 
   const handleStatus = async (record, status) => {
     try {
@@ -229,6 +269,18 @@ const DoctorAppointments = () => {
     },
   ];
 
+  const groupedDataToShow =
+    patientIdFilter && groupedAppointments && groupedAppointments.length
+      ? groupedAppointments.filter((group) => {
+          const patient = group.patient || {};
+          return (
+            patient._id === patientIdFilter ||
+            patient.userId === patientIdFilter ||
+            patient.id === patientIdFilter
+          );
+        })
+      : groupedAppointments;
+
   return (
     <Layout>
       <div className="appointments-container">
@@ -246,7 +298,7 @@ const DoctorAppointments = () => {
 
         {viewMode === 'grouped' ? (
           <GroupedAppointments
-            groupedData={groupedAppointments}
+            groupedData={groupedDataToShow}
             userRole="doctor"
             onViewDetails={handleViewDetails}
           />
