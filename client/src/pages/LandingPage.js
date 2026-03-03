@@ -20,6 +20,23 @@ const LandingPage = () => {
           <div className="hero-text">
             <p className="hero-subtitle">Not feeling well today? Let us help.</p>
           </div>
+
+          <div className="doctor-profile-card">
+            <h2 className="doctor-name">Dr. Maitrey Patel</h2>
+            <p className="doctor-qualification">MD DrNB Gastroenterology</p>
+            <p className="doctor-role">
+              Consultant Gastroenterologist, Endoscopist and Hepatologist
+            </p>
+            <div className="doctor-contact">
+              <a href="tel:7760378269" className="doctor-contact-item">
+                +91 77603 78269
+              </a>
+              <a href="mailto:ptlmaitrey@gmail.com" className="doctor-contact-item">
+                ptlmaitrey@gmail.com
+              </a>
+            </div>
+          </div>
+
           <Link to="/login" className="btn-appointment">
             Book Appointment
           </Link>

@@ -87,6 +87,59 @@
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
 }
 
+.doctor-profile-card {
+  width: 100%;
+  max-width: 560px;
+  margin: 10px auto 8px;
+  padding: 16px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  text-align: left;
+}
+
+.doctor-name {
+  margin: 0;
+  color: #0b2f66;
+  font-size: 1.25rem;
+  line-height: 1.25;
+  font-weight: 700;
+}
+
+.doctor-qualification {
+  margin: 5px 0 8px;
+  color: #116c84;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.doctor-role {
+  margin: 0 0 10px;
+  color: #1b2f4b;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.doctor-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.doctor-contact-item {
+  color: #0d4e8f;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  word-break: break-word;
+}
+
+.doctor-contact-item:hover {
+  text-decoration: underline;
+}
+
 .hero-description {
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.9);
@@ -131,6 +184,10 @@
   .hero-subtitle {
     font-size: 1rem;
   }
+
+  .doctor-profile-card {
+    padding: 18px 16px;
+  }
 }
 
 /* ========== LARGE PHONES (480px and up) ========== */
@@ -146,6 +203,14 @@
 
   .hero-subtitle {
     font-size: 1.05rem;
+  }
+
+  .doctor-name {
+    font-size: 1.4rem;
+  }
+
+  .doctor-role {
+    font-size: 0.95rem;
   }
 
   .hero-description {
@@ -183,6 +248,23 @@
     margin-bottom: 12px;
   }
 
+  .doctor-profile-card {
+    margin: 12px auto 10px;
+    padding: 20px 18px;
+  }
+
+  .doctor-name {
+    font-size: 1.55rem;
+  }
+
+  .doctor-qualification {
+    font-size: 1rem;
+  }
+
+  .doctor-role {
+    font-size: 1rem;
+  }
+
   .hero-description {
     font-size: 1rem;
     margin: 8px 0;
@@ -209,6 +291,18 @@
   .hero-subtitle {
     font-size: 1.25rem;
     margin-bottom: 15px;
+  }
+
+  .doctor-profile-card {
+    padding: 22px 20px;
+  }
+
+  .doctor-name {
+    font-size: 1.7rem;
+  }
+
+  .doctor-role {
+    font-size: 1.05rem;
   }
 
   .hero-description {
